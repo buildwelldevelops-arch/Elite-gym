@@ -4,7 +4,7 @@ import { gymDetails } from '../data/gymData';
 
 export default function Hero({ onOpenTrialModal, onNavigateToQuiz }) {
   return (
-    <section id="hero" className="relative pt-28 sm:pt-36 pb-16 sm:pb-24 overflow-hidden bg-gradient-to-b from-purple-50/70 via-white to-purple-50/30">
+    <section id="hero" className="relative pt-8 sm:pt-14 pb-16 sm:pb-20 overflow-hidden bg-gradient-to-b from-purple-50/70 via-white to-purple-50/30">
       
       {/* Delicate ambient purple accents */}
       <div className="absolute top-12 left-1/2 -translate-x-1/2 w-[700px] h-[380px] bg-purple-200/40 rounded-full blur-[100px] pointer-events-none -z-10" />
