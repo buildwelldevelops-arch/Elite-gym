@@ -164,7 +164,7 @@ export default function Sidebar({ isOpen, onClose, onOpenTrialModal, onNavigateT
 
           {/* Location snippet */}
           <div className="text-[11px] text-slate-500 text-center font-medium">
-            📍 Tili Rd, Poddar Colony, Sagar
+            📍 Sagar, Madhya Pradesh
           </div>
 
         </div>

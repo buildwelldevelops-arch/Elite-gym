@@ -12,10 +12,13 @@ import PricingPlans from './components/PricingPlans';
 import LocationAndContact from './components/LocationAndContact';
 import Footer from './components/Footer';
 import TrialModal from './components/TrialModal';
+import AdminPanel from './components/AdminPanel';
 
 export default function App() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isTrialModalOpen, setIsTrialModalOpen] = useState(false);
+  const [isAdminOpen, setIsAdminOpen] = useState(false);
+  const [gymSettings, setGymSettings] = useState(null);
 
   const handleOpenTrialModal = () => {
     setIsTrialModalOpen(true);
@@ -89,10 +92,11 @@ export default function App() {
           />
         </main>
 
-        {/* Footer */}
+        {/* Footer with Admin Panel Access */}
         <Footer 
           onOpenTrialModal={handleOpenTrialModal} 
           onNavigateToQuiz={handleNavigateToQuiz} 
+          onOpenAdmin={() => setIsAdminOpen(true)}
         />
 
       </div>
@@ -101,6 +105,14 @@ export default function App() {
       <TrialModal 
         isOpen={isTrialModalOpen} 
         onClose={handleCloseTrialModal} 
+      />
+
+      {/* Admin Panel Portal Modal */}
+      <AdminPanel
+        isOpen={isAdminOpen}
+        onClose={() => setIsAdminOpen(false)}
+        currentSettings={gymSettings}
+        onUpdateSettings={(newSettings) => setGymSettings(newSettings)}
       />
     </div>
   );

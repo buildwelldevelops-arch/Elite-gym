@@ -1,8 +1,8 @@
 import React from 'react';
-import { Dumbbell, MapPin, Clock, Phone, Mail, MessageSquare, Star, Heart, ExternalLink } from 'lucide-react';
+import { Dumbbell, MapPin, Clock, Phone, Mail, MessageSquare, Star, Heart, ExternalLink, Shield } from 'lucide-react';
 import { gymDetails } from '../data/gymData';
 
-export default function Footer({ onOpenTrialModal, onNavigateToQuiz }) {
+export default function Footer({ onOpenTrialModal, onNavigateToQuiz, onOpenAdmin }) {
   return (
     <footer className="pt-16 pb-28 border-t border-purple-900 bg-[#250d44] text-purple-200 text-xs sm:text-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -128,9 +128,19 @@ export default function Footer({ onOpenTrialModal, onNavigateToQuiz }) {
           <p>
             © {new Date().getFullYear()} Elite Gym Sagar. All rights reserved.
           </p>
-          <p className="flex items-center gap-1 font-medium">
-            Elite Gym • Sagar, Madhya Pradesh 470001
-          </p>
+          <div className="flex flex-wrap items-center gap-4">
+            <p className="flex items-center gap-1 font-medium">
+              Elite Gym • Sagar, Madhya Pradesh 470001
+            </p>
+            <button
+              onClick={onOpenAdmin}
+              className="text-purple-200 hover:text-white transition-all flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-purple-900/70 hover:bg-purple-800 border border-purple-700/70 text-xs font-semibold cursor-pointer shadow-sm hover:border-purple-500"
+              title="Admin Portal - Manage Batches, Inquiries, Settings & GitHub Sync"
+            >
+              <Shield className="w-3.5 h-3.5 text-purple-400" />
+              <span>Admin Portal</span>
+            </button>
+          </div>
         </div>
 
       </div>
