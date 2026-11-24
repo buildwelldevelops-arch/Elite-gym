@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { 
   Dumbbell, Home, Sparkles, Clock, Star, CreditCard, 
-  MapPin, MessageSquare, ShieldCheck, ChevronRight, X, Phone, Shield
+  MapPin, MessageSquare, ShieldCheck, ChevronRight, X, Phone, Shield, Tag
 } from 'lucide-react';
 import { gymDetails } from '../data/gymData';
 import { getGymBatchStatus } from '../utils/timeHelper';
@@ -19,6 +19,7 @@ export default function Sidebar({ isOpen, onClose, onOpenTrialModal, onNavigateT
 
   const navItems = [
     { id: 'hero', name: 'Home / Overview', icon: Home, href: '#hero' },
+    { id: 'offers', name: 'Special Offers', icon: Tag, href: '#offers', badge: 'Active Deals' },
     { id: 'quiz', name: 'Routine Finder', icon: Sparkles, href: '#quiz', highlight: true },
     { id: 'timings', name: 'Timings & Shifts', icon: Clock, href: '#timings', badge: '6-10 AM | 5-10 PM' },
     { id: 'facilities', name: 'Equipment & AC Floor', icon: Dumbbell, href: '#facilities' },

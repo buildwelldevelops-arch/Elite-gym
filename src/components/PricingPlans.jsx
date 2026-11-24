@@ -3,8 +3,9 @@ import { Check, Star, Zap, Shield, Sparkles, MessageCircle, GraduationCap } from
 import { gymDetails } from '../data/gymData';
 import { supabase } from '../lib/supabase';
 
-export default function PricingPlans({ onOpenTrialModal }) {
+export default function PricingPlans({ onOpenTrialModal, offers }) {
   const { pricingPlans } = gymDetails;
+  const activeOffer = (offers || []).find(o => o.is_active !== false);
 
   const handleSelectPlan = async (plan) => {
     try {
@@ -42,6 +43,32 @@ export default function PricingPlans({ onOpenTrialModal }) {
             Full access to both Morning (6–10 AM) & Evening (5–10 PM) shifts with zero hidden registration fees.
           </p>
         </div>
+
+        {/* Active Special Offer Callout Banner */}
+        {activeOffer && (
+          <div className="max-w-3xl mx-auto mb-10 p-3.5 sm:p-4 rounded-2xl bg-gradient-to-r from-purple-900 via-purple-800 to-purple-950 text-white shadow-purple-sm flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
+            <div className="flex items-center gap-2.5">
+              <span className="p-1.5 rounded-lg bg-purple-700 text-amber-300 shrink-0">
+                <Sparkles className="w-4 h-4" />
+              </span>
+              <div className="text-center sm:text-left">
+                <span className="font-extrabold text-amber-300 mr-2">{activeOffer.discount_tag}</span>
+                <span className="font-bold text-white">{activeOffer.title}</span>
+                {activeOffer.promo_code && (
+                  <span className="ml-2 font-mono text-[10px] bg-purple-950/80 px-2 py-0.5 rounded text-purple-200 border border-purple-700">
+                    CODE: {activeOffer.promo_code}
+                  </span>
+                )}
+              </div>
+            </div>
+            <a
+              href="#offers"
+              className="px-3.5 py-1.5 rounded-xl bg-white text-purple-950 font-bold hover:bg-purple-100 transition-colors shrink-0 shadow-sm"
+            >
+              View Offers & Codes
+            </a>
+          </div>
+        )}
 
         {/* Pricing Cards Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-stretch">

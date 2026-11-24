@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Dumbbell, Wind, Sparkles, Activity, ShieldCheck, Heart, Zap, Award } from 'lucide-react';
 import { gymDetails } from '../data/gymData';
 
-export default function FacilitiesAndEquipment() {
+export default function FacilitiesAndEquipment({ photos }) {
   const [activeTab, setActiveTab] = useState('all');
 
   const facilityCategories = [
@@ -12,7 +12,7 @@ export default function FacilitiesAndEquipment() {
     { id: 'hygiene', name: 'Cleanliness & AC Floor' }
   ];
 
-  const equipmentItems = [
+  const defaultEquipmentItems = [
     {
       id: 1,
       category: 'strength',
@@ -69,9 +69,21 @@ export default function FacilitiesAndEquipment() {
     }
   ];
 
+  const items = (photos && photos.length > 0)
+    ? photos.map(p => ({
+        id: p.id,
+        category: p.category === 'facility' ? 'hygiene' : (p.category || 'strength'),
+        title: p.title,
+        specs: p.specs || 'Commercial grade fitness setup',
+        highlight: p.highlight || 'Maintained daily for member safety and peak performance.',
+        image: p.image_url || p.image,
+        tag: p.tag || 'Elite Feature'
+      }))
+    : defaultEquipmentItems;
+
   const filteredItems = activeTab === 'all'
-    ? equipmentItems
-    : equipmentItems.filter(item => item.category === activeTab);
+    ? items
+    : items.filter(item => item.category === activeTab);
 
   return (
     <section id="facilities" className="py-16 sm:py-24 relative overflow-hidden bg-white">
