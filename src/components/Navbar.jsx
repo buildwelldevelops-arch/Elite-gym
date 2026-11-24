@@ -3,9 +3,13 @@ import { Menu, Dumbbell, ShieldCheck, Sparkles, MapPin, Phone } from 'lucide-rea
 import { gymDetails } from '../data/gymData';
 import { getGymBatchStatus } from '../utils/timeHelper';
 
-export default function Navbar({ onOpenSidebar, onOpenTrialModal, onNavigateToQuiz }) {
+export default function Navbar({ onOpenSidebar, onOpenTrialModal, onNavigateToQuiz, settings }) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [status, setStatus] = useState(getGymBatchStatus());
+
+  const gymName = settings?.gymName || 'ELITE';
+  const morningBatch = settings?.morningBatch || '6:00 AM – 10:00 AM';
+  const eveningBatch = settings?.eveningBatch || '5:00 PM – 10:00 PM';
 
   useEffect(() => {
     const handleScroll = () => {

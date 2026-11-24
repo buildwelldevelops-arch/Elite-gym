@@ -3,16 +3,24 @@ import { Check, Star, Zap, Shield, Sparkles, MessageCircle, GraduationCap } from
 import { gymDetails } from '../data/gymData';
 import { supabase } from '../lib/supabase';
 
-export default function PricingPlans({ onOpenTrialModal, offers }) {
+export default function PricingPlans({ onOpenTrialModal, offers, settings }) {
   const { pricingPlans } = gymDetails;
   const activeOffer = (offers || []).find(o => o.is_active !== false);
 
+  const getPlanPrice = (plan) => {
+    if (plan.id === 'monthly' && settings?.monthlyPrice) return settings.monthlyPrice;
+    if (plan.id === 'quarterly' && settings?.quarterlyPrice) return settings.quarterlyPrice;
+    if (plan.id === 'annual' && settings?.annualPrice) return settings.annualPrice;
+    return plan.price;
+  };
+
   const handleSelectPlan = async (plan) => {
+    const finalPrice = getPlanPrice(plan);
     try {
       await supabase.from('membership_leads').insert([
         {
           plan_name: plan.name,
-          plan_price: plan.price,
+          plan_price: finalPrice,
           source: 'pricing_cards'
         }
       ]);
@@ -20,10 +28,11 @@ export default function PricingPlans({ onOpenTrialModal, offers }) {
       console.warn('Supabase lead record error:', err);
     }
 
+    const whatsappNum = settings?.whatsapp || gymDetails.contact.whatsapp;
     const text = encodeURIComponent(
-      `Hello Elite Gym Sagar! I am interested in joining the "${plan.name}" (₹${plan.price}) at your Tili Road branch. Please share admission details and current offers.`
+      `Hello Elite Gym Sagar! I am interested in joining the "${plan.name}" (₹${finalPrice}) at your Tili Road branch. Please share admission details and current offers.`
     );
-    window.open(`https://wa.me/${gymDetails.contact.whatsapp}?text=${text}`, '_blank');
+    window.open(`https://wa.me/${whatsappNum}?text=${text}`, '_blank');
   };
 
   return (
@@ -100,7 +109,7 @@ export default function PricingPlans({ onOpenTrialModal, offers }) {
                   <div className="flex items-baseline gap-1">
                     <span className={`text-sm font-semibold ${plan.popular ? 'text-purple-200' : 'text-slate-500'}`}>₹</span>
                     <span className={`text-4xl sm:text-5xl font-black font-heading tracking-tight ${plan.popular ? 'text-white' : 'text-slate-900'}`}>
-                      {plan.price}
+                      {getPlanPrice(plan)}
                     </span>
                     <span className={`text-xs font-medium ${plan.popular ? 'text-purple-200' : 'text-slate-500'}`}>/{plan.period}</span>
                   </div>

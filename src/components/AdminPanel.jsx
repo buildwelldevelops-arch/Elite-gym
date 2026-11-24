@@ -4,10 +4,46 @@ import {
   Users, Dumbbell, Star, CreditCard, MapPin, GitBranch, 
   ExternalLink, Download, RefreshCw, Save, Trash2, Check,
   AlertCircle, Eye, EyeOff, Tag, Camera, Image, Plus, Edit3,
-  Percent, Sparkles, ChevronRight, ToggleLeft, ToggleRight
+  Percent, Sparkles, ChevronRight, ToggleLeft, ToggleRight,
+  Upload, FolderOpen, ArrowRight
 } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import { gymDetails } from '../data/gymData';
+
+// Client-side image processor: reads local device file and resizes to optimal crisp JPEG
+const processImageFile = (file) => {
+  return new Promise((resolve, reject) => {
+    if (!file) return resolve(null);
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = (e) => {
+      const img = new window.Image();
+      img.src = e.target.result;
+      img.onload = () => {
+        const canvas = document.createElement('canvas');
+        let width = img.width;
+        let height = img.height;
+        const maxDimension = 1200;
+        if (width > maxDimension || height > maxDimension) {
+          if (width > height) {
+            height = Math.round((height * maxDimension) / width);
+            width = maxDimension;
+          } else {
+            width = Math.round((width * maxDimension) / height);
+            height = maxDimension;
+          }
+        }
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, width, height);
+        resolve(canvas.toDataURL('image/jpeg', 0.88));
+      };
+      img.onerror = () => resolve(e.target.result);
+    };
+    reader.onerror = (err) => reject(err);
+  });
+};
 
 export default function AdminPanel({ 
   isOpen, 
@@ -37,6 +73,7 @@ export default function AdminPanel({
   const [photos, setPhotos] = useState(gymPhotos || []);
   const [loadingData, setLoadingData] = useState(false);
   const [saveSuccess, setSaveSuccess] = useState(false);
+  const [successMessage, setSuccessMessage] = useState('');
 
   // Offers State
   const [isAddingOffer, setIsAddingOffer] = useState(false);
@@ -54,6 +91,7 @@ export default function AdminPanel({
   const [editingPhotoId, setEditingPhotoId] = useState(null);
   const [editingPhotoUrl, setEditingPhotoUrl] = useState('');
   const [photoFilter, setPhotoFilter] = useState('all');
+  const [selectedFileName, setSelectedFileName] = useState('');
   const [photoForm, setPhotoForm] = useState({
     title: '',
     category: 'equipment',
@@ -130,6 +168,34 @@ export default function AdminPanel({
     annualPrice: currentSettings?.annualPrice || '8,999'
   });
 
+  // Sync formData whenever currentSettings changes
+  useEffect(() => {
+    if (currentSettings) {
+      setFormData({
+        gymName: currentSettings.gymName || gymDetails.name,
+        morningBatch: currentSettings.morningBatch || '6:00 AM – 10:00 AM',
+        eveningBatch: currentSettings.eveningBatch || '5:00 PM – 10:00 PM',
+        sundayTimings: currentSettings.sundayTimings || '7:00 AM – 10:00 AM',
+        phone: currentSettings.phone || gymDetails.contact.phone,
+        whatsapp: currentSettings.whatsapp || gymDetails.contact.whatsapp,
+        address: currentSettings.address || gymDetails.address.full,
+        announcement: currentSettings.announcement || 'Welcome to Elite Gym Sagar! Dual batches open daily.',
+        monthlyPrice: currentSettings.monthlyPrice || '1,199',
+        quarterlyPrice: currentSettings.quarterlyPrice || '2,999',
+        annualPrice: currentSettings.annualPrice || '8,999'
+      });
+    }
+  }, [currentSettings]);
+
+  const triggerSuccess = (msg) => {
+    setSuccessMessage(msg || 'Saved successfully! Website updated live.');
+    setSaveSuccess(true);
+    setTimeout(() => {
+      setSaveSuccess(false);
+      setSuccessMessage('');
+    }, 3500);
+  };
+
   const handlePinSubmit = (e) => {
     e.preventDefault();
     if (pinInput === 'admin123' || pinInput === 'elite2026') {
@@ -166,13 +232,14 @@ export default function AdminPanel({
   const fetchAdminData = async () => {
     setLoadingData(true);
     try {
-      const [inqRes, passRes, quizRes, revRes, offersRes, photosRes] = await Promise.all([
+      const [inqRes, passRes, quizRes, revRes, offersRes, photosRes, settingsRes] = await Promise.all([
         supabase.from('inquiries').select('*').order('created_at', { ascending: false }).limit(50),
         supabase.from('trial_passes').select('*').order('created_at', { ascending: false }).limit(50),
         supabase.from('quiz_submissions').select('*').order('created_at', { ascending: false }).limit(50),
         supabase.from('member_reviews').select('*').order('created_at', { ascending: false }).limit(50),
         supabase.from('gym_offers').select('*').order('display_order', { ascending: true }),
-        supabase.from('gym_photos').select('*').order('display_order', { ascending: true })
+        supabase.from('gym_photos').select('*').order('display_order', { ascending: true }),
+        supabase.from('gym_settings').select('*').eq('id', 'default').single()
       ]);
 
       if (inqRes.data) setInquiries(inqRes.data);
@@ -187,6 +254,23 @@ export default function AdminPanel({
         setPhotos(photosRes.data);
         if (onUpdatePhotos) onUpdatePhotos(photosRes.data);
       }
+      if (settingsRes.data) {
+        const dbSettings = {
+          gymName: settingsRes.data.gym_name,
+          morningBatch: settingsRes.data.morning_batch,
+          eveningBatch: settingsRes.data.evening_batch,
+          sundayTimings: settingsRes.data.sunday_timings,
+          phone: settingsRes.data.phone,
+          whatsapp: settingsRes.data.whatsapp,
+          address: settingsRes.data.address,
+          announcement: settingsRes.data.announcement,
+          monthlyPrice: settingsRes.data.monthly_price,
+          quarterlyPrice: settingsRes.data.quarterly_price,
+          annualPrice: settingsRes.data.annual_price
+        };
+        setFormData(dbSettings);
+        if (onUpdateSettings) onUpdateSettings(dbSettings);
+      }
     } catch (err) {
       console.warn('Error fetching admin data:', err);
     } finally {
@@ -194,8 +278,18 @@ export default function AdminPanel({
     }
   };
 
+  // --- SETTINGS MANAGEMENT HANDLERS ---
   const handleSaveSettings = async (e) => {
     e.preventDefault();
+
+    // 1. Immediately update website state live
+    if (onUpdateSettings) {
+      onUpdateSettings(formData);
+    }
+    localStorage.setItem('elite_gym_settings', JSON.stringify(formData));
+    triggerSuccess('Gym operational details updated live on website & saved!');
+
+    // 2. Persist in Supabase in background
     try {
       await supabase.from('gym_settings').upsert({
         id: 'default',
@@ -212,28 +306,27 @@ export default function AdminPanel({
         annual_price: formData.annualPrice,
         updated_at: new Date().toISOString()
       });
-
-      if (onUpdateSettings) {
-        onUpdateSettings(formData);
-      }
-      setSaveSuccess(true);
-      setTimeout(() => setSaveSuccess(false), 3000);
     } catch (err) {
-      console.error('Save settings error:', err);
+      console.warn('Background Supabase settings save error:', err);
     }
   };
 
   // --- OFFERS MANAGEMENT HANDLERS ---
   const handleToggleOfferActive = async (offerId, currentActive) => {
     const updated = !currentActive;
+    const nextOffers = offers.map(o => o.id === offerId ? { ...o, is_active: updated } : o);
+    
+    // 1. Live website update
+    setOffers(nextOffers);
+    if (onUpdateOffers) onUpdateOffers(nextOffers);
+    localStorage.setItem('elite_gym_offers', JSON.stringify(nextOffers));
+    triggerSuccess(`Offer ${updated ? 'activated' : 'paused'} on website!`);
+
+    // 2. Background sync
     try {
       await supabase.from('gym_offers').update({ is_active: updated }).eq('id', offerId);
-      const nextOffers = offers.map(o => o.id === offerId ? { ...o, is_active: updated } : o);
-      setOffers(nextOffers);
-      if (onUpdateOffers) onUpdateOffers(nextOffers);
-      localStorage.setItem('elite_gym_offers', JSON.stringify(nextOffers));
     } catch (err) {
-      console.error('Toggle offer error:', err);
+      console.warn('Background toggle offer error:', err);
     }
   };
 
@@ -249,62 +342,107 @@ export default function AdminPanel({
       title: offerForm.title,
       discount_tag: offerForm.discount_tag,
       description: offerForm.description || 'Exclusive membership discount for Sagar athletes.',
-      promo_code: offerForm.promo_code.toUpperCase() || 'ELITE2026',
+      promo_code: (offerForm.promo_code || 'ELITE2026').toUpperCase(),
       badge: offerForm.badge || 'Special Offer',
       valid_until: offerForm.valid_until || 'Limited Time',
       is_active: true,
       display_order: offers.length + 1
     };
 
+    // 1. Live website update
+    const nextOffers = [newOffer, ...offers];
+    setOffers(nextOffers);
+    if (onUpdateOffers) onUpdateOffers(nextOffers);
+    localStorage.setItem('elite_gym_offers', JSON.stringify(nextOffers));
+    setOfferForm({
+      title: '',
+      discount_tag: '',
+      description: '',
+      promo_code: '',
+      badge: 'Special Offer',
+      valid_until: 'Limited Time'
+    });
+    setIsAddingOffer(false);
+    triggerSuccess('New offer published live on website!');
+
+    // 2. Background sync
     try {
       await supabase.from('gym_offers').insert([newOffer]);
-      const nextOffers = [newOffer, ...offers];
-      setOffers(nextOffers);
-      if (onUpdateOffers) onUpdateOffers(nextOffers);
-      localStorage.setItem('elite_gym_offers', JSON.stringify(nextOffers));
-      setOfferForm({
-        title: '',
-        discount_tag: '',
-        description: '',
-        promo_code: '',
-        badge: 'Special Offer',
-        valid_until: 'Limited Time'
-      });
-      setIsAddingOffer(false);
-      setSaveSuccess(true);
-      setTimeout(() => setSaveSuccess(false), 3000);
     } catch (err) {
-      console.error('Create offer error:', err);
-      // Fallback state update
-      const nextOffers = [newOffer, ...offers];
-      setOffers(nextOffers);
-      if (onUpdateOffers) onUpdateOffers(nextOffers);
-      localStorage.setItem('elite_gym_offers', JSON.stringify(nextOffers));
-      setIsAddingOffer(false);
+      console.warn('Background create offer error:', err);
     }
   };
 
   const handleDeleteOffer = async (offerId) => {
-    if (!window.confirm('Are you sure you want to delete this offer from the website?')) return;
+    if (!window.confirm('Delete this offer from the website?')) return;
+    const nextOffers = offers.filter(o => o.id !== offerId);
+    
+    // 1. Live website update
+    setOffers(nextOffers);
+    if (onUpdateOffers) onUpdateOffers(nextOffers);
+    localStorage.setItem('elite_gym_offers', JSON.stringify(nextOffers));
+    triggerSuccess('Offer removed from website!');
+
+    // 2. Background sync
     try {
       await supabase.from('gym_offers').delete().eq('id', offerId);
-      const nextOffers = offers.filter(o => o.id !== offerId);
-      setOffers(nextOffers);
-      if (onUpdateOffers) onUpdateOffers(nextOffers);
-      localStorage.setItem('elite_gym_offers', JSON.stringify(nextOffers));
     } catch (err) {
-      console.error('Delete offer error:', err);
-      const nextOffers = offers.filter(o => o.id !== offerId);
-      setOffers(nextOffers);
-      if (onUpdateOffers) onUpdateOffers(nextOffers);
+      console.warn('Background delete offer error:', err);
     }
   };
 
-  // --- PHOTOS MANAGEMENT HANDLERS ---
+  // --- PHOTOS MANAGEMENT HANDLERS (Files, Folders & Presets) ---
+  const handlePhotoFileUpload = async (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setSelectedFileName(file.name);
+    try {
+      const dataUrl = await processImageFile(file);
+      if (dataUrl) {
+        setPhotoForm(prev => ({
+          ...prev,
+          image_url: dataUrl,
+          title: prev.title || file.name.replace(/\.[^/.]+$/, '').replace(/[-_]/g, ' ')
+        }));
+      }
+    } catch (err) {
+      console.error('Error processing image file:', err);
+      alert('Could not read image file. Please try another image.');
+    }
+  };
+
+  const handleQuickReplacePhotoFile = async (photoId, e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    try {
+      const dataUrl = await processImageFile(file);
+      if (!dataUrl) return;
+
+      const nextPhotos = photos.map(p => p.id === photoId ? { ...p, image_url: dataUrl } : p);
+      
+      // 1. Live update immediately
+      setPhotos(nextPhotos);
+      if (onUpdatePhotos) onUpdatePhotos(nextPhotos);
+      localStorage.setItem('elite_gym_photos', JSON.stringify(nextPhotos));
+      triggerSuccess('Photo replaced with your chosen file & updated live on website!');
+
+      // 2. Background sync
+      try {
+        await supabase.from('gym_photos').update({ image_url: dataUrl }).eq('id', photoId);
+      } catch (err) {
+        console.warn('Background photo replace error:', err);
+      }
+    } catch (err) {
+      console.error('Error replacing photo:', err);
+    }
+  };
+
   const handleCreatePhoto = async (e) => {
     e.preventDefault();
     if (!photoForm.title || !photoForm.image_url) {
-      alert('Please provide a Title and an Image URL');
+      alert('Please provide a title and choose a photo from files or enter a URL.');
       return;
     }
 
@@ -319,63 +457,66 @@ export default function AdminPanel({
       display_order: photos.length + 1
     };
 
+    // 1. Live update immediately
+    const nextPhotos = [...photos, newPhoto];
+    setPhotos(nextPhotos);
+    if (onUpdatePhotos) onUpdatePhotos(nextPhotos);
+    localStorage.setItem('elite_gym_photos', JSON.stringify(nextPhotos));
+    setPhotoForm({
+      title: '',
+      category: 'equipment',
+      image_url: '',
+      tag: 'Heavy Lifts',
+      specs: 'Commercial grade equipment',
+      highlight: 'Daily sanitized and smooth biomechanics.'
+    });
+    setSelectedFileName('');
+    setIsAddingPhoto(false);
+    triggerSuccess('New photo added to website gallery!');
+
+    // 2. Background sync
     try {
       await supabase.from('gym_photos').insert([newPhoto]);
-      const nextPhotos = [...photos, newPhoto];
-      setPhotos(nextPhotos);
-      if (onUpdatePhotos) onUpdatePhotos(nextPhotos);
-      localStorage.setItem('elite_gym_photos', JSON.stringify(nextPhotos));
-      setPhotoForm({
-        title: '',
-        category: 'equipment',
-        image_url: '',
-        tag: 'Heavy Lifts',
-        specs: 'Commercial grade equipment',
-        highlight: 'Daily sanitized and smooth biomechanics.'
-      });
-      setIsAddingPhoto(false);
-      setSaveSuccess(true);
-      setTimeout(() => setSaveSuccess(false), 3000);
     } catch (err) {
-      console.error('Create photo error:', err);
-      const nextPhotos = [...photos, newPhoto];
-      setPhotos(nextPhotos);
-      if (onUpdatePhotos) onUpdatePhotos(nextPhotos);
-      localStorage.setItem('elite_gym_photos', JSON.stringify(nextPhotos));
-      setIsAddingPhoto(false);
+      console.warn('Background create photo error:', err);
     }
   };
 
   const handleSavePhotoUrl = async (photoId) => {
     if (!editingPhotoUrl) return;
+    const nextPhotos = photos.map(p => p.id === photoId ? { ...p, image_url: editingPhotoUrl } : p);
+    
+    // 1. Live update
+    setPhotos(nextPhotos);
+    if (onUpdatePhotos) onUpdatePhotos(nextPhotos);
+    localStorage.setItem('elite_gym_photos', JSON.stringify(nextPhotos));
+    setEditingPhotoId(null);
+    setEditingPhotoUrl('');
+    triggerSuccess('Photo URL updated on website!');
+
+    // 2. Background sync
     try {
       await supabase.from('gym_photos').update({ image_url: editingPhotoUrl }).eq('id', photoId);
-      const nextPhotos = photos.map(p => p.id === photoId ? { ...p, image_url: editingPhotoUrl } : p);
-      setPhotos(nextPhotos);
-      if (onUpdatePhotos) onUpdatePhotos(nextPhotos);
-      localStorage.setItem('elite_gym_photos', JSON.stringify(nextPhotos));
-      setEditingPhotoId(null);
-      setEditingPhotoUrl('');
-      setSaveSuccess(true);
-      setTimeout(() => setSaveSuccess(false), 3000);
     } catch (err) {
-      console.error('Update photo error:', err);
+      console.warn('Background photo URL error:', err);
     }
   };
 
   const handleDeletePhoto = async (photoId) => {
     if (!window.confirm('Delete this photo from the gym gallery?')) return;
+    const nextPhotos = photos.filter(p => p.id !== photoId);
+    
+    // 1. Live update
+    setPhotos(nextPhotos);
+    if (onUpdatePhotos) onUpdatePhotos(nextPhotos);
+    localStorage.setItem('elite_gym_photos', JSON.stringify(nextPhotos));
+    triggerSuccess('Photo deleted from gallery!');
+
+    // 2. Background sync
     try {
       await supabase.from('gym_photos').delete().eq('id', photoId);
-      const nextPhotos = photos.filter(p => p.id !== photoId);
-      setPhotos(nextPhotos);
-      if (onUpdatePhotos) onUpdatePhotos(nextPhotos);
-      localStorage.setItem('elite_gym_photos', JSON.stringify(nextPhotos));
     } catch (err) {
-      console.error('Delete photo error:', err);
-      const nextPhotos = photos.filter(p => p.id !== photoId);
-      setPhotos(nextPhotos);
-      if (onUpdatePhotos) onUpdatePhotos(nextPhotos);
+      console.warn('Background delete photo error:', err);
     }
   };
 
@@ -383,6 +524,7 @@ export default function AdminPanel({
     try {
       await supabase.from('trial_passes').update({ status: 'used' }).eq('id', passId);
       setTrialPasses(prev => prev.map(p => p.id === passId ? { ...p, status: 'used' } : p));
+      triggerSuccess('Member pass checked in!');
     } catch (err) {
       console.error('Error updating pass:', err);
     }
@@ -392,6 +534,7 @@ export default function AdminPanel({
     try {
       await supabase.from('member_reviews').update({ approved: !currentApproved }).eq('id', reviewId);
       setReviews(prev => prev.map(r => r.id === reviewId ? { ...r, approved: !currentApproved } : r));
+      triggerSuccess('Review approval updated!');
     } catch (err) {
       console.error('Error updating review:', err);
     }
@@ -440,7 +583,7 @@ export default function AdminPanel({
                 </span>
               </div>
               <p className="text-xs text-purple-200">
-                Manage website content, special offers, equipment photos, inquiries & GitHub
+                100% Autonomous Control • All changes apply directly to the website without opening Supabase
               </p>
             </div>
           </div>
@@ -463,6 +606,17 @@ export default function AdminPanel({
             </button>
           </div>
         </div>
+
+        {/* Global Live Update Toast */}
+        {saveSuccess && (
+          <div className="bg-emerald-600 text-white px-4 py-2.5 text-xs font-bold flex items-center justify-between shadow-md shrink-0 animate-fadeIn">
+            <div className="flex items-center gap-2">
+              <CheckCircle className="w-4 h-4 shrink-0" />
+              <span>{successMessage || 'Website updated live in real-time!'}</span>
+            </div>
+            <span className="text-[10px] font-normal opacity-80">Synced to device & cloud</span>
+          </div>
+        )}
 
         {/* Body Content */}
         {!isAuthenticated ? (
@@ -529,7 +683,7 @@ export default function AdminPanel({
                 <span>Gym Settings & Shifts</span>
               </button>
 
-              {/* NEW: Special Offers Tab */}
+              {/* Special Offers Tab */}
               <button
                 onClick={() => setActiveTab('offers')}
                 className={`w-full px-3.5 py-2.5 rounded-xl text-xs sm:text-sm font-bold flex items-center justify-between transition-colors whitespace-nowrap cursor-pointer ${
@@ -547,7 +701,7 @@ export default function AdminPanel({
                 </span>
               </button>
 
-              {/* NEW: Photos & Media Tab */}
+              {/* Photos & Media Tab */}
               <button
                 onClick={() => setActiveTab('photos')}
                 className={`w-full px-3.5 py-2.5 rounded-xl text-xs sm:text-sm font-bold flex items-center justify-between transition-colors whitespace-nowrap cursor-pointer ${
@@ -669,7 +823,7 @@ export default function AdminPanel({
                         Gym Operational Details & Content Editor
                       </h4>
                       <p className="text-xs text-slate-500">
-                        Update batch timings, phone numbers, addresses, and membership pricing live.
+                        Updates here reflect immediately on the website home page and persist automatically.
                       </p>
                     </div>
 
@@ -682,13 +836,6 @@ export default function AdminPanel({
                       <span>Export JSON Config</span>
                     </button>
                   </div>
-
-                  {saveSuccess && (
-                    <div className="p-3.5 rounded-xl bg-emerald-50 border border-emerald-200 flex items-center gap-2 text-xs font-bold text-emerald-800 animate-fadeIn">
-                      <CheckCircle className="w-4 h-4 text-emerald-600" />
-                      <span>Changes saved successfully and synchronized with website!</span>
-                    </div>
-                  )}
 
                   <form onSubmit={handleSaveSettings} className="space-y-4">
                     
@@ -704,7 +851,7 @@ export default function AdminPanel({
                       </div>
 
                       <div>
-                        <label className="block text-xs font-bold text-slate-700 mb-1">Phone Number</label>
+                        <label className="block text-xs font-bold text-slate-700 mb-1">Phone Number (Front Desk)</label>
                         <input
                           type="text"
                           value={formData.phone}
@@ -745,8 +892,9 @@ export default function AdminPanel({
                           type="text"
                           value={formData.monthlyPrice}
                           onChange={(e) => setFormData({ ...formData, monthlyPrice: e.target.value })}
-                          className="w-full px-3.5 py-2 rounded-xl bg-white border border-slate-200 text-slate-900 text-sm focus:outline-none focus:border-purple-600"
+                          className="w-full px-3.5 py-2 rounded-xl bg-white border border-slate-200 text-slate-900 text-sm font-bold text-purple-900 focus:outline-none focus:border-purple-600"
                         />
+                        <span className="text-[11px] text-slate-400">Appears on Monthly Card</span>
                       </div>
 
                       <div>
@@ -755,8 +903,9 @@ export default function AdminPanel({
                           type="text"
                           value={formData.quarterlyPrice}
                           onChange={(e) => setFormData({ ...formData, quarterlyPrice: e.target.value })}
-                          className="w-full px-3.5 py-2 rounded-xl bg-white border border-slate-200 text-slate-900 text-sm focus:outline-none focus:border-purple-600"
+                          className="w-full px-3.5 py-2 rounded-xl bg-white border border-slate-200 text-slate-900 text-sm font-bold text-purple-900 focus:outline-none focus:border-purple-600"
                         />
+                        <span className="text-[11px] text-slate-400">Appears on 3-Month Card</span>
                       </div>
 
                       <div>
@@ -765,8 +914,9 @@ export default function AdminPanel({
                           type="text"
                           value={formData.annualPrice}
                           onChange={(e) => setFormData({ ...formData, annualPrice: e.target.value })}
-                          className="w-full px-3.5 py-2 rounded-xl bg-white border border-slate-200 text-slate-900 text-sm focus:outline-none focus:border-purple-600"
+                          className="w-full px-3.5 py-2 rounded-xl bg-white border border-slate-200 text-slate-900 text-sm font-bold text-purple-900 focus:outline-none focus:border-purple-600"
                         />
+                        <span className="text-[11px] text-slate-400">Appears on Annual Card</span>
                       </div>
                     </div>
 
@@ -777,9 +927,9 @@ export default function AdminPanel({
                           type="text"
                           value={formData.whatsapp}
                           onChange={(e) => setFormData({ ...formData, whatsapp: e.target.value })}
-                          className="w-full px-3.5 py-2 rounded-xl bg-white border border-slate-200 text-slate-900 text-sm focus:outline-none focus:border-purple-600"
+                          className="w-full px-3.5 py-2.5 rounded-xl bg-white border border-slate-200 text-slate-900 text-sm focus:outline-none focus:border-purple-600"
                         />
-                        <span className="text-[11px] text-slate-400">Include country code without +, e.g. 919826000000</span>
+                        <span className="text-[11px] text-slate-400">Country code without +, e.g. 919826000000</span>
                       </div>
 
                       <div>
@@ -788,7 +938,7 @@ export default function AdminPanel({
                           type="text"
                           value={formData.sundayTimings}
                           onChange={(e) => setFormData({ ...formData, sundayTimings: e.target.value })}
-                          className="w-full px-3.5 py-2 rounded-xl bg-white border border-slate-200 text-slate-900 text-sm focus:outline-none focus:border-purple-600"
+                          className="w-full px-3.5 py-2.5 rounded-xl bg-white border border-slate-200 text-slate-900 text-sm focus:outline-none focus:border-purple-600"
                         />
                       </div>
                     </div>
@@ -809,6 +959,7 @@ export default function AdminPanel({
                         type="text"
                         value={formData.announcement}
                         onChange={(e) => setFormData({ ...formData, announcement: e.target.value })}
+                        placeholder="Leave empty to hide, or enter custom alert message"
                         className="w-full px-3.5 py-2 rounded-xl bg-white border border-slate-200 text-slate-900 text-sm focus:outline-none focus:border-purple-600"
                       />
                     </div>
@@ -816,10 +967,10 @@ export default function AdminPanel({
                     <div className="pt-2">
                       <button
                         type="submit"
-                        className="px-6 py-2.5 rounded-xl bg-purple-700 hover:bg-purple-800 text-white font-bold text-xs shadow-purple-sm transition-all flex items-center gap-2 cursor-pointer"
+                        className="px-6 py-3 rounded-xl bg-purple-700 hover:bg-purple-800 text-white font-bold text-xs shadow-purple-sm transition-all flex items-center gap-2 cursor-pointer"
                       >
                         <Save className="w-4 h-4" />
-                        <span>Save & Sync to Supabase</span>
+                        <span>Update Website Now</span>
                       </button>
                     </div>
 
@@ -836,7 +987,7 @@ export default function AdminPanel({
                         Special Offers & Discount Coupons
                       </h4>
                       <p className="text-xs text-slate-500">
-                        Create and manage deals visible to visitors on the website with direct WhatsApp redemption.
+                        Create, pause or delete promotions. All active offers appear immediately on the homepage.
                       </p>
                     </div>
 
@@ -848,13 +999,6 @@ export default function AdminPanel({
                       <span>{isAddingOffer ? 'Cancel' : 'Add New Offer'}</span>
                     </button>
                   </div>
-
-                  {saveSuccess && (
-                    <div className="p-3.5 rounded-xl bg-emerald-50 border border-emerald-200 flex items-center gap-2 text-xs font-bold text-emerald-800 animate-fadeIn">
-                      <CheckCircle className="w-4 h-4 text-emerald-600" />
-                      <span>Offers synchronized successfully!</span>
-                    </div>
-                  )}
 
                   {/* Add Offer Form Modal / Collapsible */}
                   {isAddingOffer && (
@@ -1055,7 +1199,7 @@ export default function AdminPanel({
                 </div>
               )}
 
-              {/* TAB 3: Photos & Gallery */}
+              {/* TAB 3: Photos & Gallery (With Files & Folders Picker) */}
               {activeTab === 'photos' && (
                 <div className="space-y-6 max-w-4xl">
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-200">
@@ -1064,7 +1208,7 @@ export default function AdminPanel({
                         Gym Floor & Equipment Photo Manager
                       </h4>
                       <p className="text-xs text-slate-500">
-                        Change existing equipment and facility photos, add new machines, or select from curated gym presets.
+                        Choose photos directly from your files/folders or device. Changes reflect immediately on the website.
                       </p>
                     </div>
 
@@ -1077,30 +1221,54 @@ export default function AdminPanel({
                     </button>
                   </div>
 
-                  {saveSuccess && (
-                    <div className="p-3.5 rounded-xl bg-emerald-50 border border-emerald-200 flex items-center gap-2 text-xs font-bold text-emerald-800 animate-fadeIn">
-                      <CheckCircle className="w-4 h-4 text-emerald-600" />
-                      <span>Photos synchronized successfully with the website!</span>
-                    </div>
-                  )}
-
                   {/* Add Photo Collapsible Form */}
                   {isAddingPhoto && (
                     <form onSubmit={handleCreatePhoto} className="p-5 rounded-2xl bg-purple-50/60 border border-purple-200 shadow-sm space-y-4 animate-fadeIn">
                       <div className="flex items-center justify-between">
                         <h5 className="text-sm font-bold text-purple-950 flex items-center gap-1.5">
                           <Camera className="w-4 h-4 text-purple-700" />
-                          <span>Add New Photo to Gallery</span>
+                          <span>Add New Photo to Website</span>
                         </h5>
-                        <span className="text-[11px] text-purple-700 font-semibold">Live in Equipment Section</span>
+                        <span className="text-[11px] text-purple-700 font-semibold">Immediate Live Display</span>
+                      </div>
+
+                      {/* Prominent File Chooser from Device / Folders */}
+                      <div>
+                        <label className="block text-xs font-bold text-slate-700 mb-1.5">
+                          📁 Select Photo from Files & Folders (Computer / Mobile)
+                        </label>
+                        <div className="relative p-6 rounded-2xl border-2 border-dashed border-purple-300 hover:border-purple-600 bg-white hover:bg-purple-50/60 text-center transition-all cursor-pointer group shadow-sm">
+                          <input
+                            type="file"
+                            accept="image/*"
+                            onChange={handlePhotoFileUpload}
+                            className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
+                          />
+                          <div className="flex flex-col items-center justify-center gap-2">
+                            <div className="w-12 h-12 rounded-2xl bg-purple-100 text-purple-800 flex items-center justify-center shadow-sm group-hover:bg-purple-700 group-hover:text-white transition-all">
+                              <FolderOpen className="w-6 h-6" />
+                            </div>
+                            <span className="text-xs sm:text-sm font-bold text-purple-950 font-heading">
+                              Click to Browse Files & Folders
+                            </span>
+                            <span className="text-[11px] text-slate-500 max-w-sm">
+                              Select any gym picture from your hard drive, phone storage, or downloads folder
+                            </span>
+                            {selectedFileName && (
+                              <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 font-semibold text-xs mt-1">
+                                <Check className="w-3.5 h-3.5" /> File Selected: {selectedFileName}
+                              </span>
+                            )}
+                          </div>
+                        </div>
                       </div>
 
                       {/* Photo Presets for Quick Selection */}
-                      <div>
-                        <label className="block text-xs font-bold text-slate-700 mb-1.5">
-                          ⚡ 1-Click High-Res Presets (Or paste custom URL below):
+                      <div className="pt-1">
+                        <label className="block text-xs font-bold text-slate-600 mb-1.5">
+                          Or select from 1-Click High-Res Presets:
                         </label>
-                        <div className="flex flex-wrap gap-2">
+                        <div className="flex flex-wrap gap-1.5">
                           {PHOTO_PRESETS.map((preset, idx) => (
                             <button
                               key={idx}
@@ -1113,6 +1281,7 @@ export default function AdminPanel({
                                   category: preset.category,
                                   tag: preset.tag
                                 });
+                                setSelectedFileName(preset.name);
                               }}
                               className="px-2.5 py-1 rounded-lg bg-white border border-purple-200 text-purple-900 text-[11px] font-semibold hover:bg-purple-100 transition-colors cursor-pointer"
                             >
@@ -1149,27 +1318,18 @@ export default function AdminPanel({
                         </div>
                       </div>
 
-                      <div>
-                        <label className="block text-xs font-bold text-slate-700 mb-1">Direct Image URL *</label>
-                        <input
-                          type="url"
-                          required
-                          placeholder="https://images.unsplash.com/... or your custom image link"
-                          value={photoForm.image_url}
-                          onChange={(e) => setPhotoForm({ ...photoForm, image_url: e.target.value })}
-                          className="w-full px-3.5 py-2 rounded-xl bg-white border border-slate-200 text-slate-900 text-xs font-mono focus:outline-none focus:border-purple-600"
-                        />
-                      </div>
-
                       {photoForm.image_url && (
-                        <div className="flex items-center gap-3 p-2 bg-white rounded-xl border border-purple-100">
+                        <div className="flex items-center gap-3 p-3 bg-white rounded-2xl border border-purple-200 shadow-sm">
                           <img 
                             src={photoForm.image_url} 
                             alt="Preview" 
-                            className="w-16 h-12 object-cover rounded-lg border border-slate-200"
+                            className="w-20 h-16 object-cover rounded-xl border border-purple-100 shadow-sm"
                             onError={(e) => { e.target.style.display = 'none'; }}
                           />
-                          <span className="text-xs text-slate-600 font-medium">Image preview loaded</span>
+                          <div>
+                            <span className="text-xs font-bold text-purple-900 block">Image Ready for Display</span>
+                            <span className="text-[11px] text-slate-500">Will be shown in the Equipment & Facilities section</span>
+                          </div>
                         </div>
                       )}
 
@@ -1202,11 +1362,14 @@ export default function AdminPanel({
                           type="submit"
                           className="px-5 py-2 rounded-xl bg-purple-700 hover:bg-purple-800 text-white font-bold text-xs shadow-purple-sm transition-all cursor-pointer"
                         >
-                          Add Photo to Gallery
+                          Add Photo to Website Now
                         </button>
                         <button
                           type="button"
-                          onClick={() => setIsAddingPhoto(false)}
+                          onClick={() => {
+                            setIsAddingPhoto(false);
+                            setSelectedFileName('');
+                          }}
                           className="px-4 py-2 rounded-xl bg-slate-200 text-slate-700 text-xs font-semibold hover:bg-slate-300"
                         >
                           Cancel
@@ -1237,7 +1400,7 @@ export default function AdminPanel({
                     ))}
                   </div>
 
-                  {/* Photos Grid */}
+                  {/* Photos Grid with File/Folder Chooser on Every Card */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                     {filteredPhotos.map((photo) => (
                       <div 
@@ -1245,7 +1408,7 @@ export default function AdminPanel({
                         className="rounded-2xl bg-white border border-purple-100 hover:border-purple-300 p-3 shadow-sm flex flex-col justify-between group transition-all"
                       >
                         <div>
-                          <div className="relative h-36 rounded-xl overflow-hidden bg-slate-100 mb-2.5">
+                          <div className="relative h-40 rounded-xl overflow-hidden bg-slate-100 mb-2.5">
                             <img
                               src={photo.image_url}
                               alt={photo.title}
@@ -1266,13 +1429,27 @@ export default function AdminPanel({
                           </p>
                         </div>
 
-                        {/* Inline Change Photo URL */}
-                        <div className="pt-2 mt-2 border-t border-slate-100">
+                        {/* File Chooser & Edit Buttons */}
+                        <div className="pt-2.5 mt-2.5 border-t border-slate-100 space-y-2">
+                          
+                          {/* Option 1: Native Choose from Files & Folders */}
+                          <label className="w-full py-2 px-3 rounded-xl bg-purple-50 hover:bg-purple-100 border border-purple-200 text-purple-950 text-xs font-bold flex items-center justify-center gap-1.5 transition-colors cursor-pointer shadow-sm">
+                            <FolderOpen className="w-3.5 h-3.5 text-purple-700 shrink-0" />
+                            <span>📁 Pick from Files & Folders</span>
+                            <input
+                              type="file"
+                              accept="image/*"
+                              className="hidden"
+                              onChange={(e) => handleQuickReplacePhotoFile(photo.id, e)}
+                            />
+                          </label>
+
+                          {/* Option 2: Edit URL manually / Delete */}
                           {editingPhotoId === photo.id ? (
-                            <div className="space-y-1.5">
+                            <div className="space-y-1.5 pt-1">
                               <input
                                 type="url"
-                                placeholder="Paste new image URL..."
+                                placeholder="Paste custom image URL..."
                                 value={editingPhotoUrl}
                                 onChange={(e) => setEditingPhotoUrl(e.target.value)}
                                 className="w-full px-2.5 py-1 text-[11px] rounded-lg bg-slate-50 border border-slate-200 text-slate-900 focus:outline-none focus:border-purple-600 font-mono"
@@ -1281,9 +1458,9 @@ export default function AdminPanel({
                                 <button
                                   type="button"
                                   onClick={() => handleSavePhotoUrl(photo.id)}
-                                  className="px-2.5 py-1 rounded-md bg-purple-700 text-white text-[10px] font-bold hover:bg-purple-800"
+                                  className="px-2.5 py-1 rounded-md bg-purple-700 text-white text-[10px] font-bold hover:bg-purple-800 cursor-pointer"
                                 >
-                                  Save Photo
+                                  Save URL
                                 </button>
                                 <button
                                   type="button"
@@ -1291,24 +1468,24 @@ export default function AdminPanel({
                                     setEditingPhotoId(null);
                                     setEditingPhotoUrl('');
                                   }}
-                                  className="px-2 py-1 rounded-md bg-slate-200 text-slate-700 text-[10px]"
+                                  className="px-2 py-1 rounded-md bg-slate-200 text-slate-700 text-[10px] cursor-pointer"
                                 >
                                   Cancel
                                 </button>
                               </div>
                             </div>
                           ) : (
-                            <div className="flex items-center justify-between gap-1">
+                            <div className="flex items-center justify-between gap-1 text-[11px] text-slate-500 pt-0.5">
                               <button
                                 type="button"
                                 onClick={() => {
                                   setEditingPhotoId(photo.id);
                                   setEditingPhotoUrl(photo.image_url);
                                 }}
-                                className="text-[11px] font-bold text-purple-700 hover:text-purple-900 flex items-center gap-1 cursor-pointer"
+                                className="text-[11px] font-semibold text-slate-600 hover:text-purple-700 flex items-center gap-1 cursor-pointer"
                               >
                                 <Edit3 className="w-3 h-3" />
-                                <span>Change Photo</span>
+                                <span>Paste URL</span>
                               </button>
 
                               <button
@@ -1321,6 +1498,7 @@ export default function AdminPanel({
                               </button>
                             </div>
                           )}
+
                         </div>
                       </div>
                     ))}
@@ -1686,7 +1864,7 @@ export default function AdminPanel({
                       <p><span className="text-slate-500"># 1. Stage modified files</span></p>
                       <p>git add .</p>
                       <p><span className="text-slate-500"># 2. Commit with descriptive message</span></p>
-                      <p>git commit -m "update: gym timings, photos and offers"</p>
+                      <p>git commit -m "update: gym content and photos"</p>
                       <p><span className="text-slate-500"># 3. Push directly to GitHub</span></p>
                       <p>git push origin main</p>
                     </div>

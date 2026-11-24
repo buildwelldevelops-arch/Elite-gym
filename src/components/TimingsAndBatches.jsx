@@ -3,9 +3,13 @@ import { Clock, Sun, Moon, CheckCircle2, Flame, Users, Calendar, ArrowRight, Shi
 import { gymDetails } from '../data/gymData';
 import { getGymBatchStatus } from '../utils/timeHelper';
 
-export default function TimingsAndBatches({ onOpenTrialModal }) {
+export default function TimingsAndBatches({ onOpenTrialModal, settings }) {
   const [liveStatus, setLiveStatus] = useState(getGymBatchStatus());
   const [simulatedHour, setSimulatedHour] = useState(null);
+
+  const morningBatch = settings?.morningBatch || '6:00 AM – 10:00 AM';
+  const eveningBatch = settings?.eveningBatch || '5:00 PM – 10:00 PM';
+  const sundayTimings = settings?.sundayTimings || '7:00 AM – 10:00 AM';
 
   useEffect(() => {
     setLiveStatus(getGymBatchStatus(simulatedHour));
@@ -101,7 +105,7 @@ export default function TimingsAndBatches({ onOpenTrialModal }) {
               {batches[0].name}
             </span>
             <h3 className="text-3xl sm:text-4xl font-black text-slate-900 font-heading mt-1 mb-2">
-              6:00 AM – 10:00 AM
+              {morningBatch}
             </h3>
             <p className="text-sm text-slate-600 mb-6">
               {batches[0].highlight}
@@ -149,7 +153,7 @@ export default function TimingsAndBatches({ onOpenTrialModal }) {
               {batches[1].name}
             </span>
             <h3 className="text-3xl sm:text-4xl font-black text-white font-heading mt-1 mb-2">
-              5:00 PM – 10:00 PM
+              {eveningBatch}
             </h3>
             <p className="text-sm text-purple-100 mb-6">
               {batches[1].highlight}
@@ -191,7 +195,7 @@ export default function TimingsAndBatches({ onOpenTrialModal }) {
               <Calendar className="w-5 h-5" />
             </div>
             <div>
-              <h4 className="text-sm font-bold text-slate-900">{gymDetails.timings.sunday}</h4>
+              <h4 className="text-sm font-bold text-slate-900">Sunday: {sundayTimings} (Active recovery & open floor)</h4>
               <p className="text-xs text-slate-600">Dual batch membership allows you to attend either Morning or Evening on any weekday.</p>
             </div>
           </div>

@@ -3,12 +3,18 @@ import { MapPin, Phone, MessageSquare, Clock, Navigation, CheckCircle, Send, Spa
 import { gymDetails } from '../data/gymData';
 import { supabase } from '../lib/supabase';
 
-export default function LocationAndContact({ onOpenTrialModal }) {
+export default function LocationAndContact({ onOpenTrialModal, settings }) {
   const [submitted, setSubmitted] = useState(false);
+  const address = settings?.address || gymDetails.address.full;
+  const phone = settings?.phone || gymDetails.contact.phone;
+  const whatsapp = settings?.whatsapp || gymDetails.contact.whatsapp;
+  const morningBatch = settings?.morningBatch || '6–10 AM';
+  const eveningBatch = settings?.eveningBatch || '5–10 PM';
+
   const [formData, setFormData] = useState({
     name: '',
     phone: '',
-    batch: 'Evening Batch (5:00 PM – 10:00 PM)',
+    batch: `Evening Batch (${eveningBatch})`,
     goal: 'Build Muscle & Strength'
   });
 
@@ -37,7 +43,7 @@ export default function LocationAndContact({ onOpenTrialModal }) {
       `🎯 Goal: ${formData.goal}\n\n` +
       `Looking forward to visiting your gym at Tili Road!`
     );
-    window.open(`https://wa.me/${gymDetails.contact.whatsapp}?text=${text}`, '_blank');
+    window.open(`https://wa.me/${whatsapp}?text=${text}`, '_blank');
   };
 
   return (
@@ -75,10 +81,10 @@ export default function LocationAndContact({ onOpenTrialModal }) {
                     Official Gym Location
                   </span>
                   <h3 className="text-xl sm:text-2xl font-black text-slate-900 font-heading mt-0.5">
-                    Elite Gym
+                    {settings?.gymName || 'Elite Gym'}
                   </h3>
                   <p className="text-sm sm:text-base text-slate-700 mt-1 font-medium leading-relaxed">
-                    Tili Rd, in front of Rozgar Office, State Bank Colony, Poddar Colony, Sagar, Madhya Pradesh 470001
+                    {address}
                   </p>
                 </div>
               </div>
@@ -95,11 +101,11 @@ export default function LocationAndContact({ onOpenTrialModal }) {
                 </div>
                 <div className="flex items-center gap-2.5 p-3 rounded-xl bg-white border border-purple-100 shadow-sm">
                   <Clock className="w-4 h-4 text-amber-600 shrink-0" />
-                  <span>Morning: 6–10 AM | Evening: 5–10 PM</span>
+                  <span>Morning: {morningBatch} | Evening: {eveningBatch}</span>
                 </div>
                 <div className="flex items-center gap-2.5 p-3 rounded-xl bg-white border border-purple-100 shadow-sm">
                   <Phone className="w-4 h-4 text-purple-700 shrink-0" />
-                  <span>Front Desk: +91 98260 XXXXX</span>
+                  <span>Front Desk: {phone}</span>
                 </div>
               </div>
 
@@ -116,7 +122,7 @@ export default function LocationAndContact({ onOpenTrialModal }) {
                 </a>
                 
                 <a
-                  href={`https://wa.me/${gymDetails.contact.whatsapp}?text=Hi%20Elite%20Gym%20Sagar,%20I%20am%20coming%20for%20a%20visit%20at%20Tili%20Road.`}
+                  href={`https://wa.me/${whatsapp}?text=Hi%20Elite%20Gym%20Sagar,%20I%20am%20coming%20for%20a%20visit%20at%20Tili%20Road.`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="px-5 py-3 rounded-2xl bg-white hover:bg-purple-50 border border-purple-200 text-purple-900 font-bold text-xs sm:text-sm inline-flex items-center gap-2 transition-all cursor-pointer shadow-sm"

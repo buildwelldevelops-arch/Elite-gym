@@ -2,7 +2,14 @@ import React from 'react';
 import { Dumbbell, MapPin, Clock, Phone, Mail, MessageSquare, Star, Heart, ExternalLink, Shield } from 'lucide-react';
 import { gymDetails } from '../data/gymData';
 
-export default function Footer({ onOpenTrialModal, onNavigateToQuiz, onOpenAdmin }) {
+export default function Footer({ onOpenTrialModal, onNavigateToQuiz, onOpenAdmin, settings }) {
+  const morningBatch = settings?.morningBatch || '6:00 AM – 10:00 AM';
+  const eveningBatch = settings?.eveningBatch || '5:00 PM – 10:00 PM';
+  const sundayTimings = settings?.sundayTimings || '7:00 AM – 10:00 AM';
+  const address = settings?.address || 'Tili Rd, in front of Rozgar Office, State Bank Colony, Poddar Colony, Sagar, MP 470001';
+  const phone = settings?.phone || gymDetails.contact.phone;
+  const whatsapp = settings?.whatsapp || gymDetails.contact.whatsapp;
+  const gymName = settings?.gymName || 'ELITE GYM';
   return (
     <footer className="pt-16 pb-28 border-t border-purple-900 bg-[#250d44] text-purple-200 text-xs sm:text-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -81,15 +88,15 @@ export default function Footer({ onOpenTrialModal, onNavigateToQuiz, onOpenAdmin
             <div className="space-y-2.5 text-xs text-purple-100">
               <div className="p-3 rounded-xl bg-purple-900/60 border border-purple-800">
                 <span className="font-bold text-purple-200 block">Morning Shift:</span>
-                <span className="text-white font-bold">6:00 AM – 10:00 AM</span>
+                <span className="text-white font-bold">{morningBatch}</span>
                 <span className="text-[10px] text-purple-300 block mt-0.5">Monday to Saturday</span>
               </div>
               <div className="p-3 rounded-xl bg-purple-900/60 border border-purple-800">
                 <span className="font-bold text-purple-200 block">Evening Shift:</span>
-                <span className="text-white font-bold">5:00 PM – 10:00 PM</span>
+                <span className="text-white font-bold">{eveningBatch}</span>
                 <span className="text-[10px] text-purple-300 block mt-0.5">Monday to Saturday</span>
               </div>
-              <p className="text-[11px] text-purple-300">Sunday: 7:00 AM – 10:00 AM</p>
+              <p className="text-[11px] text-purple-300">Sunday: {sundayTimings}</p>
             </div>
           </div>
 
@@ -101,16 +108,16 @@ export default function Footer({ onOpenTrialModal, onNavigateToQuiz, onOpenAdmin
             <div className="space-y-2 text-xs text-purple-200">
               <div className="flex items-start gap-2">
                 <MapPin className="w-4 h-4 text-purple-300 shrink-0 mt-0.5" />
-                <span>Tili Rd, in front of Rozgar Office, State Bank Colony, Poddar Colony, Sagar, MP 470001</span>
+                <span>{address}</span>
               </div>
               <div className="flex items-center gap-2">
                 <Phone className="w-4 h-4 text-purple-300 shrink-0" />
-                <span>+91 98260 XXXXX</span>
+                <span>{phone}</span>
               </div>
               <div className="flex items-center gap-2">
                 <MessageSquare className="w-4 h-4 text-emerald-400 shrink-0" />
                 <a 
-                  href={`https://wa.me/${gymDetails.contact.whatsapp}`}
+                  href={`https://wa.me/${whatsapp}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="hover:underline text-emerald-400 font-bold"

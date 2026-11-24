@@ -2,7 +2,11 @@ import React from 'react';
 import { Star, ShieldCheck, Dumbbell, Sparkles, Clock, MapPin, ArrowRight, CheckCircle2, ChevronRight } from 'lucide-react';
 import { gymDetails } from '../data/gymData';
 
-export default function Hero({ onOpenTrialModal, onNavigateToQuiz }) {
+export default function Hero({ onOpenTrialModal, onNavigateToQuiz, settings }) {
+  const morningBatch = settings?.morningBatch || '6:00 AM – 10:00 AM';
+  const eveningBatch = settings?.eveningBatch || '5:00 PM – 10:00 PM';
+  const announcement = settings?.announcement;
+  const gymName = settings?.gymName || gymDetails.name;
   return (
     <section id="hero" className="relative pt-8 sm:pt-14 pb-16 sm:pb-20 overflow-hidden bg-gradient-to-b from-purple-50/70 via-white to-purple-50/30">
       
@@ -13,6 +17,14 @@ export default function Hero({ onOpenTrialModal, onNavigateToQuiz }) {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-4xl mx-auto space-y-6">
           
+          {/* Optional Live Announcement from Admin */}
+          {announcement && (
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-purple-100/90 text-purple-900 border border-purple-200 text-xs font-bold shadow-sm animate-fadeIn">
+              <Sparkles className="w-3.5 h-3.5 text-purple-700 shrink-0" />
+              <span>{announcement}</span>
+            </div>
+          )}
+
           {/* Top trust badges */}
           <div className="inline-flex flex-wrap items-center justify-center gap-2 p-1.5 rounded-full bg-white border border-purple-200 shadow-sm">
             <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-50 text-amber-900 border border-amber-200 text-xs sm:text-sm font-semibold">
@@ -39,16 +51,16 @@ export default function Hero({ onOpenTrialModal, onNavigateToQuiz }) {
             <span className="text-purple-700 font-semibold"> professional motivating coaches</span> dedicated to your daily consistency.
           </p>
 
-          {/* Timing & Batch Pills */}
+          {/* Timing & Batch Pills (Dynamic from Admin Panel) */}
           <div className="inline-flex flex-wrap items-center justify-center gap-2 sm:gap-3 text-xs sm:text-sm text-slate-700 py-2.5 px-4 rounded-2xl bg-white border border-purple-200 shadow-sm">
             <span className="flex items-center gap-1.5 text-purple-900 font-bold">
               <Clock className="w-4 h-4 text-purple-600" /> Two Daily Shifts:
             </span>
             <span className="bg-purple-50 text-purple-900 border border-purple-100 px-3 py-1 rounded-lg font-semibold">
-              Morning: 6:00 AM – 10:00 AM
+              Morning: {morningBatch}
             </span>
             <span className="bg-purple-50 text-purple-900 border border-purple-100 px-3 py-1 rounded-lg font-semibold">
-              Evening: 5:00 PM – 10:00 PM
+              Evening: {eveningBatch}
             </span>
           </div>
 

@@ -6,9 +6,10 @@ import {
 import { gymDetails } from '../data/gymData';
 import { getGymBatchStatus } from '../utils/timeHelper';
 
-export default function Sidebar({ isOpen, onClose, onOpenTrialModal, onNavigateToQuiz }) {
+export default function Sidebar({ isOpen, onClose, onOpenTrialModal, onNavigateToQuiz, settings }) {
   const [status, setStatus] = useState(getGymBatchStatus());
   const [activeSection, setActiveSection] = useState('hero');
+  const whatsapp = settings?.whatsapp || gymDetails.contact.whatsapp;
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -154,7 +155,7 @@ export default function Sidebar({ isOpen, onClose, onOpenTrialModal, onNavigateT
 
           {/* Quick WhatsApp Link */}
           <a
-            href={`https://wa.me/${gymDetails.contact.whatsapp}?text=Hi%20Elite%20Gym%20Sagar,%20I%20have%20a%20question%20about%20membership.`}
+            href={`https://wa.me/${whatsapp}?text=Hi%20Elite%20Gym%20Sagar,%20I%20have%20a%20question%20about%20membership.`}
             target="_blank"
             rel="noopener noreferrer"
             className="w-full py-2 px-3 rounded-xl bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 text-emerald-800 text-xs font-bold flex items-center justify-center gap-2 transition-colors"

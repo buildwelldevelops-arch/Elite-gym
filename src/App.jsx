@@ -106,11 +106,46 @@ const DEFAULT_PHOTOS = [
   }
 ];
 
+const DEFAULT_SETTINGS = {
+  gymName: 'Elite Gym',
+  morningBatch: '6:00 AM – 10:00 AM',
+  eveningBatch: '5:00 PM – 10:00 PM',
+  sundayTimings: '7:00 AM – 10:00 AM',
+  phone: '+91 98260 00000',
+  whatsapp: '919826000000',
+  address: 'Elite gym, Tili Rd, in front of Rozgar Office, State Bank Colony, Poddar Colony, Sagar, Madhya Pradesh 470001',
+  announcement: 'Welcome to Elite Gym Sagar! Dual batches open daily.',
+  monthlyPrice: '1,199',
+  quarterlyPrice: '2,999',
+  annualPrice: '8,999'
+};
+
+const normalizeSettings = (data) => {
+  if (!data) return DEFAULT_SETTINGS;
+  return {
+    gymName: data.gym_name || data.gymName || DEFAULT_SETTINGS.gymName,
+    morningBatch: data.morning_batch || data.morningBatch || DEFAULT_SETTINGS.morningBatch,
+    eveningBatch: data.evening_batch || data.eveningBatch || DEFAULT_SETTINGS.eveningBatch,
+    sundayTimings: data.sunday_timings || data.sundayTimings || DEFAULT_SETTINGS.sundayTimings,
+    phone: data.phone || DEFAULT_SETTINGS.phone,
+    whatsapp: data.whatsapp || DEFAULT_SETTINGS.whatsapp,
+    address: data.address || DEFAULT_SETTINGS.address,
+    announcement: data.announcement || DEFAULT_SETTINGS.announcement,
+    monthlyPrice: data.monthly_price || data.monthlyPrice || DEFAULT_SETTINGS.monthlyPrice,
+    quarterlyPrice: data.quarterly_price || data.quarterlyPrice || DEFAULT_SETTINGS.quarterlyPrice,
+    annualPrice: data.annual_price || data.annualPrice || DEFAULT_SETTINGS.annualPrice,
+  };
+};
+
 export default function App() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isTrialModalOpen, setIsTrialModalOpen] = useState(false);
   const [isAdminOpen, setIsAdminOpen] = useState(false);
-  const [gymSettings, setGymSettings] = useState(null);
+
+  const [gymSettings, setGymSettings] = useState(() => {
+    const cached = localStorage.getItem('elite_gym_settings');
+    return cached ? normalizeSettings(JSON.parse(cached)) : DEFAULT_SETTINGS;
+  });
 
   const [gymOffers, setGymOffers] = useState(() => {
     const cached = localStorage.getItem('elite_gym_offers');
@@ -140,7 +175,9 @@ export default function App() {
           localStorage.setItem('elite_gym_photos', JSON.stringify(photosRes.data));
         }
         if (settingsRes.data) {
-          setGymSettings(settingsRes.data);
+          const norm = normalizeSettings(settingsRes.data);
+          setGymSettings(norm);
+          localStorage.setItem('elite_gym_settings', JSON.stringify(norm));
         }
       } catch (err) {
         console.warn('Initial cloud data fetch:', err);
@@ -148,6 +185,22 @@ export default function App() {
     };
     loadCloudData();
   }, []);
+
+  const handleUpdateSettings = (newSettings) => {
+    const norm = normalizeSettings(newSettings);
+    setGymSettings(norm);
+    localStorage.setItem('elite_gym_settings', JSON.stringify(norm));
+  };
+
+  const handleUpdateOffers = (newOffers) => {
+    setGymOffers(newOffers);
+    localStorage.setItem('elite_gym_offers', JSON.stringify(newOffers));
+  };
+
+  const handleUpdatePhotos = (newPhotos) => {
+    setGymPhotos(newPhotos);
+    localStorage.setItem('elite_gym_photos', JSON.stringify(newPhotos));
+  };
 
   const handleOpenTrialModal = () => {
     setIsTrialModalOpen(true);
@@ -173,6 +226,7 @@ export default function App() {
         onClose={() => setIsSidebarOpen(false)}
         onOpenTrialModal={handleOpenTrialModal}
         onNavigateToQuiz={handleNavigateToQuiz}
+        settings={gymSettings}
       />
 
       {/* Main Content Area (Offset by sidebar width on desktop) */}
@@ -183,6 +237,7 @@ export default function App() {
           onOpenSidebar={() => setIsSidebarOpen(true)}
           onOpenTrialModal={handleOpenTrialModal}
           onNavigateToQuiz={handleNavigateToQuiz}
+          settings={gymSettings}
         />
 
         {/* Home & Content Sections */}
@@ -190,6 +245,7 @@ export default function App() {
           <Hero 
             onOpenTrialModal={handleOpenTrialModal} 
             onNavigateToQuiz={handleNavigateToQuiz} 
+            settings={gymSettings}
           />
 
           {/* Dynamic Special Offers Section */}
@@ -204,6 +260,7 @@ export default function App() {
 
           <TimingsAndBatches 
             onOpenTrialModal={handleOpenTrialModal} 
+            settings={gymSettings}
           />
 
           <FacilitiesAndEquipment 
@@ -222,11 +279,13 @@ export default function App() {
 
           <PricingPlans 
             offers={gymOffers}
+            settings={gymSettings}
             onOpenTrialModal={handleOpenTrialModal} 
           />
 
           <LocationAndContact 
             onOpenTrialModal={handleOpenTrialModal} 
+            settings={gymSettings}
           />
         </main>
 
@@ -235,6 +294,7 @@ export default function App() {
           onOpenTrialModal={handleOpenTrialModal} 
           onNavigateToQuiz={handleNavigateToQuiz} 
           onOpenAdmin={() => setIsAdminOpen(true)}
+          settings={gymSettings}
         />
 
       </div>
@@ -250,11 +310,11 @@ export default function App() {
         isOpen={isAdminOpen}
         onClose={() => setIsAdminOpen(false)}
         currentSettings={gymSettings}
-        onUpdateSettings={(newSettings) => setGymSettings(newSettings)}
+        onUpdateSettings={handleUpdateSettings}
         gymOffers={gymOffers}
-        onUpdateOffers={(newOffers) => setGymOffers(newOffers)}
+        onUpdateOffers={handleUpdateOffers}
         gymPhotos={gymPhotos}
-        onUpdatePhotos={(newPhotos) => setGymPhotos(newPhotos)}
+        onUpdatePhotos={handleUpdatePhotos}
       />
     </div>
   );
