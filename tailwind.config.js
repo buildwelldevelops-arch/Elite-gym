@@ -7,29 +7,30 @@ export default {
   theme: {
     extend: {
       colors: {
-        dark: {
-          950: '#070a12',
-          900: '#0b0f19',
-          850: '#0f172a',
-          800: '#131d31',
-          700: '#1e293b',
-          600: '#334155',
-        },
         primary: {
-          50: '#fef2f2',
-          100: '#fee2e2',
-          200: '#fecaca',
-          300: '#fca5a5',
-          400: '#f87171',
-          500: '#ef4444',
-          600: '#dc2626',
-          700: '#b91c1c',
-          800: '#991b1b',
-          900: '#7f1d1d',
+          50: '#eff6ff',
+          100: '#dbeafe',
+          200: '#bfdbfe',
+          300: '#93c5fd',
+          400: '#60a5fa',
+          500: '#3b82f6',
+          600: '#2563eb',
+          700: '#1d4ed8',
+          800: '#1e40af',
+          900: '#1e3a8a',
+          950: '#172554',
         },
-        cyan: {
-          glow: '#06b6d4',
+        navy: {
+          950: '#07101f',
+          900: '#0b192c',
+          850: '#0f2139',
+          800: '#152b4a',
+          700: '#1e3a5f',
+        },
+        sky: {
+          vibrant: '#0284c7',
           electric: '#0ea5e9',
+          light: '#e0f2fe',
         }
       },
       fontFamily: {
@@ -38,24 +39,26 @@ export default {
         mono: ['"Space Grotesk"', 'monospace'],
       },
       boxShadow: {
-        'glow-red': '0 0 30px -5px rgba(239, 68, 68, 0.45)',
-        'glow-cyan': '0 0 30px -5px rgba(14, 165, 233, 0.45)',
-        'card-dark': '0 10px 35px -5px rgba(0, 0, 0, 0.65)',
-        'soft': '0 2px 15px -3px rgba(0, 0, 0, 0.3)',
+        'blue-sm': '0 2px 8px -1px rgba(37, 99, 235, 0.2)',
+        'blue-md': '0 8px 25px -4px rgba(37, 99, 235, 0.28)',
+        'blue-lg': '0 14px 35px -6px rgba(37, 99, 235, 0.38)',
+        'soft': '0 4px 20px -2px rgba(15, 23, 42, 0.06)',
+        'card': '0 10px 30px -4px rgba(15, 23, 42, 0.08)',
+        'card-hover': '0 16px 36px -4px rgba(37, 99, 235, 0.15)',
       },
       keyframes: {
         pulseSlow: {
           '0%, 100%': { opacity: 1 },
           '50%': { opacity: 0.5 },
         },
-        float: {
-          '0%, 100%': { transform: 'translateY(0)' },
-          '50%': { transform: 'translateY(-6px)' },
+        fadeIn: {
+          '0%': { opacity: 0, transform: 'scale(0.97)' },
+          '100%': { opacity: 1, transform: 'scale(1)' },
         }
       },
       animation: {
-        'pulse-slow': 'pulseSlow 3s ease-in-out infinite',
-        'float': 'float 4s ease-in-out infinite',
+        pulseSlow: 'pulseSlow 3s ease-in-out infinite',
+        fadeIn: 'fadeIn 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards',
       }
     },
   },

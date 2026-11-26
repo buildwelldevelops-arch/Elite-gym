@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import { 
   X, Lock, Shield, CheckCircle, Clock, Phone, MessageSquare, 
   Users, Dumbbell, Star, CreditCard, MapPin, GitBranch, 
@@ -111,7 +111,7 @@ export default function AdminPanel({
     },
     {
       name: 'Plate-Loaded Leg Press',
-      url: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=700&q=80',
+      url: 'https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&w=700&q=80',
       category: 'equipment',
       tag: 'Hypertrophy'
     },
@@ -567,14 +567,14 @@ export default function AdminPanel({
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-slate-900/70 backdrop-blur-md animate-fadeIn">
       <div 
-        className="relative w-full max-w-5xl h-[92vh] rounded-3xl bg-white border border-purple-200 shadow-2xl flex flex-col overflow-hidden"
+        className="relative w-full max-w-5xl h-[92vh] rounded-3xl bg-white border border-blue-200 shadow-2xl flex flex-col overflow-hidden"
         onClick={(e) => e.stopPropagation()}
       >
         
         {/* Header Bar */}
-        <div className="p-4 sm:p-5 bg-dark-950 text-white border-b border-white/10 flex items-center justify-between shrink-0">
+        <div className="p-4 sm:p-5 bg-slate-900 text-white border-b border-white/10 flex items-center justify-between shrink-0">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-red-600 flex items-center justify-center text-white shadow-glow-red">
+            <div className="w-10 h-10 rounded-xl bg-blue-600 flex items-center justify-center text-white shadow-blue-sm">
               <Shield className="w-5 h-5" />
             </div>
             <div>
@@ -582,7 +582,7 @@ export default function AdminPanel({
                 <h3 className="text-base sm:text-lg font-black font-heading tracking-tight uppercase">
                   {formData.gymName || '[Gym Name]'} Admin Portal
                 </h3>
-                <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-red-500/10 text-red-400 border border-red-500/20">
+                <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-blue-500/10 text-blue-400 border border-blue-500/20">
                   Full Control
                 </span>
               </div>
@@ -625,9 +625,9 @@ export default function AdminPanel({
         {/* Body Content */}
         {!isAuthenticated ? (
           /* Authentication Screen */
-          <div className="flex-1 flex items-center justify-center p-6 bg-purple-50/40">
-            <div className="w-full max-w-md p-8 rounded-3xl bg-white border border-purple-200 shadow-soft text-center space-y-5">
-              <div className="w-14 h-14 rounded-2xl bg-purple-100 text-purple-800 flex items-center justify-center mx-auto shadow-sm">
+          <div className="flex-1 flex items-center justify-center p-6 bg-blue-50/40">
+            <div className="w-full max-w-md p-8 rounded-3xl bg-white border border-blue-200 shadow-soft text-center space-y-5">
+              <div className="w-14 h-14 rounded-2xl bg-blue-100 text-blue-800 flex items-center justify-center mx-auto shadow-sm">
                 <Lock className="w-7 h-7" />
               </div>
               
@@ -648,7 +648,7 @@ export default function AdminPanel({
                     placeholder="Enter Admin PIN (Default: admin123)"
                     value={pinInput}
                     onChange={(e) => setPinInput(e.target.value)}
-                    className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 text-center text-slate-900 font-mono text-base tracking-widest focus:outline-none focus:border-purple-600"
+                    className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 text-center text-slate-900 font-mono text-base tracking-widest focus:outline-none focus:border-blue-600"
                   />
                   {pinError && (
                     <p className="text-xs font-semibold text-rose-600 mt-1.5">{pinError}</p>
@@ -657,13 +657,13 @@ export default function AdminPanel({
 
                 <button
                   type="submit"
-                  className="w-full py-3 rounded-xl bg-purple-700 hover:bg-purple-800 text-white font-bold text-sm shadow-purple-sm transition-all cursor-pointer"
+                  className="w-full py-3 rounded-xl bg-blue-700 hover:bg-blue-800 text-white font-bold text-sm shadow-blue-sm transition-all cursor-pointer"
                 >
                   Unlock Admin Panel
                 </button>
 
                 <p className="text-[11px] text-slate-400">
-                  Default Passcode: <code className="bg-slate-100 px-1.5 py-0.5 rounded text-red-600 font-mono font-bold">admin123</code>
+                  Default Passcode: <code className="bg-blue-50 px-1.5 py-0.5 rounded text-blue-700 font-mono font-bold border border-blue-200">admin123</code>
                 </p>
               </form>
             </div>
@@ -673,17 +673,17 @@ export default function AdminPanel({
           <div className="flex-1 flex flex-col md:flex-row overflow-hidden bg-slate-50">
             
             {/* Left Tab Navigation */}
-            <div className="w-full md:w-60 bg-white border-r border-purple-100 p-3 flex md:flex-col gap-1 overflow-x-auto md:overflow-y-auto shrink-0">
+            <div className="w-full md:w-60 bg-white border-r border-blue-100 p-3 flex md:flex-col gap-1 overflow-x-auto md:overflow-y-auto shrink-0">
               
               <button
                 onClick={() => setActiveTab('settings')}
                 className={`w-full px-3.5 py-2.5 rounded-xl text-xs sm:text-sm font-bold flex items-center gap-2.5 transition-colors whitespace-nowrap cursor-pointer ${
                   activeTab === 'settings'
-                    ? 'bg-purple-100 text-purple-900 shadow-sm'
-                    : 'text-slate-600 hover:bg-purple-50 hover:text-purple-800'
+                    ? 'bg-blue-100 text-blue-900 shadow-sm'
+                    : 'text-slate-600 hover:bg-blue-50 hover:text-blue-800'
                 }`}
               >
-                <Clock className="w-4 h-4 text-purple-700" />
+                <Clock className="w-4 h-4 text-blue-700" />
                 <span>Gym Settings & Shifts</span>
               </button>
 
@@ -692,12 +692,12 @@ export default function AdminPanel({
                 onClick={() => setActiveTab('offers')}
                 className={`w-full px-3.5 py-2.5 rounded-xl text-xs sm:text-sm font-bold flex items-center justify-between transition-colors whitespace-nowrap cursor-pointer ${
                   activeTab === 'offers'
-                    ? 'bg-purple-100 text-purple-900 shadow-sm'
-                    : 'text-slate-600 hover:bg-purple-50 hover:text-purple-800'
+                    ? 'bg-blue-100 text-blue-900 shadow-sm'
+                    : 'text-slate-600 hover:bg-blue-50 hover:text-blue-800'
                 }`}
               >
                 <div className="flex items-center gap-2.5">
-                  <Tag className="w-4 h-4 text-purple-700" />
+                  <Tag className="w-4 h-4 text-blue-700" />
                   <span>Offers & Discounts</span>
                 </div>
                 <span className="text-[11px] font-bold px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800">
@@ -710,15 +710,15 @@ export default function AdminPanel({
                 onClick={() => setActiveTab('photos')}
                 className={`w-full px-3.5 py-2.5 rounded-xl text-xs sm:text-sm font-bold flex items-center justify-between transition-colors whitespace-nowrap cursor-pointer ${
                   activeTab === 'photos'
-                    ? 'bg-purple-100 text-purple-900 shadow-sm'
-                    : 'text-slate-600 hover:bg-purple-50 hover:text-purple-800'
+                    ? 'bg-blue-100 text-blue-900 shadow-sm'
+                    : 'text-slate-600 hover:bg-blue-50 hover:text-blue-800'
                 }`}
               >
                 <div className="flex items-center gap-2.5">
-                  <Camera className="w-4 h-4 text-purple-700" />
+                  <Camera className="w-4 h-4 text-blue-700" />
                   <span>Photos & Gallery</span>
                 </div>
-                <span className="text-[11px] font-bold px-2 py-0.5 rounded-full bg-purple-200 text-purple-900">
+                <span className="text-[11px] font-bold px-2 py-0.5 rounded-full bg-blue-200 text-blue-900">
                   {photos.length}
                 </span>
               </button>
@@ -727,15 +727,15 @@ export default function AdminPanel({
                 onClick={() => setActiveTab('inquiries')}
                 className={`w-full px-3.5 py-2.5 rounded-xl text-xs sm:text-sm font-bold flex items-center justify-between transition-colors whitespace-nowrap cursor-pointer ${
                   activeTab === 'inquiries'
-                    ? 'bg-purple-100 text-purple-900 shadow-sm'
-                    : 'text-slate-600 hover:bg-purple-50 hover:text-purple-800'
+                    ? 'bg-blue-100 text-blue-900 shadow-sm'
+                    : 'text-slate-600 hover:bg-blue-50 hover:text-blue-800'
                 }`}
               >
                 <div className="flex items-center gap-2.5">
-                  <Phone className="w-4 h-4 text-purple-700" />
+                  <Phone className="w-4 h-4 text-blue-700" />
                   <span>Inquiries & Leads</span>
                 </div>
-                <span className="text-[11px] font-bold px-2 py-0.5 rounded-full bg-purple-200 text-purple-900">
+                <span className="text-[11px] font-bold px-2 py-0.5 rounded-full bg-blue-200 text-blue-900">
                   {inquiries.length}
                 </span>
               </button>
@@ -744,15 +744,15 @@ export default function AdminPanel({
                 onClick={() => setActiveTab('passes')}
                 className={`w-full px-3.5 py-2.5 rounded-xl text-xs sm:text-sm font-bold flex items-center justify-between transition-colors whitespace-nowrap cursor-pointer ${
                   activeTab === 'passes'
-                    ? 'bg-purple-100 text-purple-900 shadow-sm'
-                    : 'text-slate-600 hover:bg-purple-50 hover:text-purple-800'
+                    ? 'bg-blue-100 text-blue-900 shadow-sm'
+                    : 'text-slate-600 hover:bg-blue-50 hover:text-blue-800'
                 }`}
               >
                 <div className="flex items-center gap-2.5">
-                  <Dumbbell className="w-4 h-4 text-purple-700" />
+                  <Dumbbell className="w-4 h-4 text-blue-700" />
                   <span>VIP Trial Passes</span>
                 </div>
-                <span className="text-[11px] font-bold px-2 py-0.5 rounded-full bg-purple-200 text-purple-900">
+                <span className="text-[11px] font-bold px-2 py-0.5 rounded-full bg-blue-200 text-blue-900">
                   {trialPasses.length}
                 </span>
               </button>
@@ -761,15 +761,15 @@ export default function AdminPanel({
                 onClick={() => setActiveTab('quizzes')}
                 className={`w-full px-3.5 py-2.5 rounded-xl text-xs sm:text-sm font-bold flex items-center justify-between transition-colors whitespace-nowrap cursor-pointer ${
                   activeTab === 'quizzes'
-                    ? 'bg-purple-100 text-purple-900 shadow-sm'
-                    : 'text-slate-600 hover:bg-purple-50 hover:text-purple-800'
+                    ? 'bg-blue-100 text-blue-900 shadow-sm'
+                    : 'text-slate-600 hover:bg-blue-50 hover:text-blue-800'
                 }`}
               >
                 <div className="flex items-center gap-2.5">
-                  <Users className="w-4 h-4 text-purple-700" />
+                  <Users className="w-4 h-4 text-blue-700" />
                   <span>Routine Finder Plans</span>
                 </div>
-                <span className="text-[11px] font-bold px-2 py-0.5 rounded-full bg-purple-200 text-purple-900">
+                <span className="text-[11px] font-bold px-2 py-0.5 rounded-full bg-blue-200 text-blue-900">
                   {quizSubmissions.length}
                 </span>
               </button>
@@ -778,15 +778,15 @@ export default function AdminPanel({
                 onClick={() => setActiveTab('reviews')}
                 className={`w-full px-3.5 py-2.5 rounded-xl text-xs sm:text-sm font-bold flex items-center justify-between transition-colors whitespace-nowrap cursor-pointer ${
                   activeTab === 'reviews'
-                    ? 'bg-purple-100 text-purple-900 shadow-sm'
-                    : 'text-slate-600 hover:bg-purple-50 hover:text-purple-800'
+                    ? 'bg-blue-100 text-blue-900 shadow-sm'
+                    : 'text-slate-600 hover:bg-blue-50 hover:text-blue-800'
                 }`}
               >
                 <div className="flex items-center gap-2.5">
                   <Star className="w-4 h-4 text-amber-500 fill-amber-400" />
                   <span>Member Reviews</span>
                 </div>
-                <span className="text-[11px] font-bold px-2 py-0.5 rounded-full bg-purple-200 text-purple-900">
+                <span className="text-[11px] font-bold px-2 py-0.5 rounded-full bg-blue-200 text-blue-900">
                   {reviews.length}
                 </span>
               </button>
@@ -795,18 +795,18 @@ export default function AdminPanel({
                 onClick={() => setActiveTab('github')}
                 className={`w-full px-3.5 py-2.5 rounded-xl text-xs sm:text-sm font-bold flex items-center gap-2.5 transition-colors whitespace-nowrap cursor-pointer ${
                   activeTab === 'github'
-                    ? 'bg-purple-100 text-purple-900 shadow-sm'
-                    : 'text-slate-600 hover:bg-purple-50 hover:text-purple-800'
+                    ? 'bg-blue-100 text-blue-900 shadow-sm'
+                    : 'text-slate-600 hover:bg-blue-50 hover:text-blue-800'
                 }`}
               >
-                <GitBranch className="w-4 h-4 text-purple-700" />
+                <GitBranch className="w-4 h-4 text-blue-700" />
                 <span>GitHub & Code Sync</span>
               </button>
 
               <div className="pt-4 mt-auto border-t border-slate-100 hidden md:block">
                 <button
                   onClick={fetchAdminData}
-                  className="w-full py-2 px-3 rounded-lg text-xs font-semibold text-slate-600 hover:bg-purple-50 flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
+                  className="w-full py-2 px-3 rounded-lg text-xs font-semibold text-slate-600 hover:bg-blue-50 flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
                 >
                   <RefreshCw className="w-3.5 h-3.5" />
                   <span>Refresh Cloud Data</span>
@@ -834,7 +834,7 @@ export default function AdminPanel({
                     <button
                       type="button"
                       onClick={handleExportJSON}
-                      className="px-3 py-1.5 rounded-lg text-xs font-bold bg-white border border-purple-200 text-purple-800 hover:bg-purple-50 flex items-center gap-1.5 cursor-pointer shadow-sm"
+                      className="px-3 py-1.5 rounded-lg text-xs font-bold bg-white border border-blue-200 text-blue-800 hover:bg-blue-50 flex items-center gap-1.5 cursor-pointer shadow-sm"
                     >
                       <Download className="w-3.5 h-3.5" />
                       <span>Export JSON Config</span>
@@ -850,7 +850,7 @@ export default function AdminPanel({
                           type="text"
                           value={formData.gymName}
                           onChange={(e) => setFormData({ ...formData, gymName: e.target.value })}
-                          className="w-full px-3.5 py-2.5 rounded-xl bg-white border border-slate-200 text-slate-900 text-sm focus:outline-none focus:border-purple-600"
+                          className="w-full px-3.5 py-2.5 rounded-xl bg-white border border-slate-200 text-slate-900 text-sm focus:outline-none focus:border-blue-600"
                         />
                       </div>
 
@@ -860,7 +860,7 @@ export default function AdminPanel({
                           type="text"
                           value={formData.phone}
                           onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                          className="w-full px-3.5 py-2.5 rounded-xl bg-white border border-slate-200 text-slate-900 text-sm focus:outline-none focus:border-purple-600"
+                          className="w-full px-3.5 py-2.5 rounded-xl bg-white border border-slate-200 text-slate-900 text-sm focus:outline-none focus:border-blue-600"
                         />
                       </div>
                     </div>
@@ -872,7 +872,7 @@ export default function AdminPanel({
                           type="text"
                           value={formData.morningBatch}
                           onChange={(e) => setFormData({ ...formData, morningBatch: e.target.value })}
-                          className="w-full px-3.5 py-2.5 rounded-xl bg-white border border-slate-200 text-slate-900 text-sm focus:outline-none focus:border-purple-600"
+                          className="w-full px-3.5 py-2.5 rounded-xl bg-white border border-slate-200 text-slate-900 text-sm focus:outline-none focus:border-blue-600"
                         />
                         <span className="text-[11px] text-slate-400">e.g. 6:00 AM – 10:00 AM</span>
                       </div>
@@ -883,7 +883,7 @@ export default function AdminPanel({
                           type="text"
                           value={formData.eveningBatch}
                           onChange={(e) => setFormData({ ...formData, eveningBatch: e.target.value })}
-                          className="w-full px-3.5 py-2.5 rounded-xl bg-white border border-slate-200 text-slate-900 text-sm focus:outline-none focus:border-purple-600"
+                          className="w-full px-3.5 py-2.5 rounded-xl bg-white border border-slate-200 text-slate-900 text-sm focus:outline-none focus:border-blue-600"
                         />
                         <span className="text-[11px] text-slate-400">e.g. 5:00 PM – 10:00 PM</span>
                       </div>
@@ -896,7 +896,7 @@ export default function AdminPanel({
                           type="text"
                           value={formData.monthlyPrice}
                           onChange={(e) => setFormData({ ...formData, monthlyPrice: e.target.value })}
-                          className="w-full px-3.5 py-2 rounded-xl bg-white border border-slate-200 text-slate-900 text-sm font-bold text-purple-900 focus:outline-none focus:border-purple-600"
+                          className="w-full px-3.5 py-2 rounded-xl bg-white border border-slate-200 text-slate-900 text-sm font-bold text-blue-900 focus:outline-none focus:border-blue-600"
                         />
                         <span className="text-[11px] text-slate-400">Appears on Monthly Card</span>
                       </div>
@@ -907,7 +907,7 @@ export default function AdminPanel({
                           type="text"
                           value={formData.quarterlyPrice}
                           onChange={(e) => setFormData({ ...formData, quarterlyPrice: e.target.value })}
-                          className="w-full px-3.5 py-2 rounded-xl bg-white border border-slate-200 text-slate-900 text-sm font-bold text-purple-900 focus:outline-none focus:border-purple-600"
+                          className="w-full px-3.5 py-2 rounded-xl bg-white border border-slate-200 text-slate-900 text-sm font-bold text-blue-900 focus:outline-none focus:border-blue-600"
                         />
                         <span className="text-[11px] text-slate-400">Appears on 3-Month Card</span>
                       </div>
@@ -918,7 +918,7 @@ export default function AdminPanel({
                           type="text"
                           value={formData.annualPrice}
                           onChange={(e) => setFormData({ ...formData, annualPrice: e.target.value })}
-                          className="w-full px-3.5 py-2 rounded-xl bg-white border border-slate-200 text-slate-900 text-sm font-bold text-purple-900 focus:outline-none focus:border-purple-600"
+                          className="w-full px-3.5 py-2 rounded-xl bg-white border border-slate-200 text-slate-900 text-sm font-bold text-blue-900 focus:outline-none focus:border-blue-600"
                         />
                         <span className="text-[11px] text-slate-400">Appears on Annual Card</span>
                       </div>
@@ -931,7 +931,7 @@ export default function AdminPanel({
                           type="text"
                           value={formData.whatsapp}
                           onChange={(e) => setFormData({ ...formData, whatsapp: e.target.value })}
-                          className="w-full px-3.5 py-2.5 rounded-xl bg-white border border-slate-200 text-slate-900 text-sm focus:outline-none focus:border-purple-600"
+                          className="w-full px-3.5 py-2.5 rounded-xl bg-white border border-slate-200 text-slate-900 text-sm focus:outline-none focus:border-blue-600"
                         />
                         <span className="text-[11px] text-slate-400">Country code without +, e.g. 919826000000</span>
                       </div>
@@ -942,7 +942,7 @@ export default function AdminPanel({
                           type="text"
                           value={formData.sundayTimings}
                           onChange={(e) => setFormData({ ...formData, sundayTimings: e.target.value })}
-                          className="w-full px-3.5 py-2.5 rounded-xl bg-white border border-slate-200 text-slate-900 text-sm focus:outline-none focus:border-purple-600"
+                          className="w-full px-3.5 py-2.5 rounded-xl bg-white border border-slate-200 text-slate-900 text-sm focus:outline-none focus:border-blue-600"
                         />
                       </div>
                     </div>
@@ -953,7 +953,7 @@ export default function AdminPanel({
                         type="text"
                         value={formData.address}
                         onChange={(e) => setFormData({ ...formData, address: e.target.value })}
-                        className="w-full px-3.5 py-2 rounded-xl bg-white border border-slate-200 text-slate-900 text-sm focus:outline-none focus:border-purple-600"
+                        className="w-full px-3.5 py-2 rounded-xl bg-white border border-slate-200 text-slate-900 text-sm focus:outline-none focus:border-blue-600"
                       />
                     </div>
 
@@ -964,14 +964,14 @@ export default function AdminPanel({
                         value={formData.announcement}
                         onChange={(e) => setFormData({ ...formData, announcement: e.target.value })}
                         placeholder="Leave empty to hide, or enter custom alert message"
-                        className="w-full px-3.5 py-2 rounded-xl bg-white border border-slate-200 text-slate-900 text-sm focus:outline-none focus:border-purple-600"
+                        className="w-full px-3.5 py-2 rounded-xl bg-white border border-slate-200 text-slate-900 text-sm focus:outline-none focus:border-blue-600"
                       />
                     </div>
 
                     <div className="pt-2">
                       <button
                         type="submit"
-                        className="px-6 py-3 rounded-xl bg-purple-700 hover:bg-purple-800 text-white font-bold text-xs shadow-purple-sm transition-all flex items-center gap-2 cursor-pointer"
+                        className="px-6 py-3 rounded-xl bg-blue-700 hover:bg-blue-800 text-white font-bold text-xs shadow-blue-sm transition-all flex items-center gap-2 cursor-pointer"
                       >
                         <Save className="w-4 h-4" />
                         <span>Update Website Now</span>
@@ -997,7 +997,7 @@ export default function AdminPanel({
 
                     <button
                       onClick={() => setIsAddingOffer(!isAddingOffer)}
-                      className="px-3.5 py-2 rounded-xl bg-purple-700 hover:bg-purple-800 text-white text-xs font-bold flex items-center gap-1.5 transition-colors shadow-purple-sm cursor-pointer self-start sm:self-auto"
+                      className="px-3.5 py-2 rounded-xl bg-blue-700 hover:bg-blue-800 text-white text-xs font-bold flex items-center gap-1.5 transition-colors shadow-blue-sm cursor-pointer self-start sm:self-auto"
                     >
                       <Plus className="w-4 h-4" />
                       <span>{isAddingOffer ? 'Cancel' : 'Add New Offer'}</span>
@@ -1006,13 +1006,13 @@ export default function AdminPanel({
 
                   {/* Add Offer Form Modal / Collapsible */}
                   {isAddingOffer && (
-                    <form onSubmit={handleCreateOffer} className="p-5 rounded-2xl bg-purple-50/60 border border-purple-200 shadow-sm space-y-4 animate-fadeIn">
+                    <form onSubmit={handleCreateOffer} className="p-5 rounded-2xl bg-blue-50/60 border border-blue-200 shadow-sm space-y-4 animate-fadeIn">
                       <div className="flex items-center justify-between">
-                        <h5 className="text-sm font-bold text-purple-950 flex items-center gap-1.5">
-                          <Sparkles className="w-4 h-4 text-purple-700" />
+                        <h5 className="text-sm font-bold text-blue-950 flex items-center gap-1.5">
+                          <Sparkles className="w-4 h-4 text-blue-700" />
                           <span>Create New Website Offer</span>
                         </h5>
-                        <span className="text-[11px] text-purple-700 font-semibold">Instant Live Update</span>
+                        <span className="text-[11px] text-blue-700 font-semibold">Instant Live Update</span>
                       </div>
 
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -1024,7 +1024,7 @@ export default function AdminPanel({
                             placeholder="e.g. Summer Student Booster Pass"
                             value={offerForm.title}
                             onChange={(e) => setOfferForm({ ...offerForm, title: e.target.value })}
-                            className="w-full px-3.5 py-2 rounded-xl bg-white border border-slate-200 text-slate-900 text-xs focus:outline-none focus:border-purple-600"
+                            className="w-full px-3.5 py-2 rounded-xl bg-white border border-slate-200 text-slate-900 text-xs focus:outline-none focus:border-blue-600"
                           />
                         </div>
 
@@ -1036,7 +1036,7 @@ export default function AdminPanel({
                             placeholder="e.g. ₹200 OFF or SAVE 20%"
                             value={offerForm.discount_tag}
                             onChange={(e) => setOfferForm({ ...offerForm, discount_tag: e.target.value })}
-                            className="w-full px-3.5 py-2 rounded-xl bg-white border border-slate-200 text-slate-900 text-xs focus:outline-none focus:border-purple-600"
+                            className="w-full px-3.5 py-2 rounded-xl bg-white border border-slate-200 text-slate-900 text-xs focus:outline-none focus:border-blue-600"
                           />
                         </div>
                       </div>
@@ -1049,7 +1049,7 @@ export default function AdminPanel({
                             placeholder="e.g. STUDENT200"
                             value={offerForm.promo_code}
                             onChange={(e) => setOfferForm({ ...offerForm, promo_code: e.target.value })}
-                            className="w-full px-3.5 py-2 rounded-xl bg-white border border-slate-200 text-slate-900 text-xs font-mono uppercase focus:outline-none focus:border-purple-600"
+                            className="w-full px-3.5 py-2 rounded-xl bg-white border border-slate-200 text-slate-900 text-xs font-mono uppercase focus:outline-none focus:border-blue-600"
                           />
                         </div>
 
@@ -1060,7 +1060,7 @@ export default function AdminPanel({
                             placeholder="e.g. Student Special"
                             value={offerForm.badge}
                             onChange={(e) => setOfferForm({ ...offerForm, badge: e.target.value })}
-                            className="w-full px-3.5 py-2 rounded-xl bg-white border border-slate-200 text-slate-900 text-xs focus:outline-none focus:border-purple-600"
+                            className="w-full px-3.5 py-2 rounded-xl bg-white border border-slate-200 text-slate-900 text-xs focus:outline-none focus:border-blue-600"
                           />
                         </div>
 
@@ -1071,7 +1071,7 @@ export default function AdminPanel({
                             placeholder="e.g. First 25 Members"
                             value={offerForm.valid_until}
                             onChange={(e) => setOfferForm({ ...offerForm, valid_until: e.target.value })}
-                            className="w-full px-3.5 py-2 rounded-xl bg-white border border-slate-200 text-slate-900 text-xs focus:outline-none focus:border-purple-600"
+                            className="w-full px-3.5 py-2 rounded-xl bg-white border border-slate-200 text-slate-900 text-xs focus:outline-none focus:border-blue-600"
                           />
                         </div>
                       </div>
@@ -1083,14 +1083,14 @@ export default function AdminPanel({
                           placeholder="Describe who qualifies and what is included in the deal..."
                           value={offerForm.description}
                           onChange={(e) => setOfferForm({ ...offerForm, description: e.target.value })}
-                          className="w-full px-3.5 py-2 rounded-xl bg-white border border-slate-200 text-slate-900 text-xs focus:outline-none focus:border-purple-600"
+                          className="w-full px-3.5 py-2 rounded-xl bg-white border border-slate-200 text-slate-900 text-xs focus:outline-none focus:border-blue-600"
                         />
                       </div>
 
                       <div className="flex items-center gap-2 pt-1">
                         <button
                           type="submit"
-                          className="px-5 py-2 rounded-xl bg-purple-700 hover:bg-purple-800 text-white font-bold text-xs shadow-purple-sm transition-all cursor-pointer"
+                          className="px-5 py-2 rounded-xl bg-blue-700 hover:bg-blue-800 text-white font-bold text-xs shadow-blue-sm transition-all cursor-pointer"
                         >
                           Publish Offer to Website
                         </button>
@@ -1117,20 +1117,20 @@ export default function AdminPanel({
                           key={offer.id}
                           className={`p-4 rounded-2xl bg-white border transition-all flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 ${
                             offer.is_active !== false 
-                              ? 'border-purple-200 shadow-sm' 
+                              ? 'border-blue-200 shadow-sm' 
                               : 'border-slate-200 opacity-60 bg-slate-50/50'
                           }`}
                         >
                           <div className="space-y-1.5 flex-1">
                             <div className="flex flex-wrap items-center gap-2">
-                              <span className="px-2.5 py-0.5 rounded-md bg-purple-100 text-purple-900 font-extrabold text-xs">
+                              <span className="px-2.5 py-0.5 rounded-md bg-blue-100 text-blue-900 font-extrabold text-xs">
                                 {offer.discount_tag}
                               </span>
                               <h5 className="font-bold text-slate-900 text-sm font-heading">
                                 {offer.title}
                               </h5>
                               {offer.badge && (
-                                <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-purple-700 text-white">
+                                <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-blue-700 text-white">
                                   {offer.badge}
                                 </span>
                               )}
@@ -1142,7 +1142,7 @@ export default function AdminPanel({
 
                             <div className="flex flex-wrap items-center gap-3 text-[11px] text-slate-500 font-medium">
                               {offer.promo_code && (
-                                <span className="font-mono bg-purple-50 px-2 py-0.5 rounded border border-purple-200 text-purple-800 font-bold">
+                                <span className="font-mono bg-blue-50 px-2 py-0.5 rounded border border-blue-200 text-blue-800 font-bold">
                                   CODE: {offer.promo_code}
                                 </span>
                               )}
@@ -1181,7 +1181,7 @@ export default function AdminPanel({
                               href={`https://wa.me/${formData.whatsapp || '919876543210'}?text=${encodeURIComponent(`Hi ${formData.gymName || 'Gym'}! Inquiring about "${offer.title}" offer (Code: ${offer.promo_code || 'N/A'})`)}`}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="p-2 rounded-xl bg-purple-50 hover:bg-purple-100 text-purple-700 border border-purple-200 transition-colors"
+                              className="p-2 rounded-xl bg-blue-50 hover:bg-blue-100 text-blue-700 border border-blue-200 transition-colors"
                               title="Test WhatsApp Inquiry"
                             >
                               <MessageSquare className="w-3.5 h-3.5" />
@@ -1218,7 +1218,7 @@ export default function AdminPanel({
 
                     <button
                       onClick={() => setIsAddingPhoto(!isAddingPhoto)}
-                      className="px-3.5 py-2 rounded-xl bg-purple-700 hover:bg-purple-800 text-white text-xs font-bold flex items-center gap-1.5 transition-colors shadow-purple-sm cursor-pointer self-start sm:self-auto"
+                      className="px-3.5 py-2 rounded-xl bg-blue-700 hover:bg-blue-800 text-white text-xs font-bold flex items-center gap-1.5 transition-colors shadow-blue-sm cursor-pointer self-start sm:self-auto"
                     >
                       <Plus className="w-4 h-4" />
                       <span>{isAddingPhoto ? 'Cancel' : 'Add New Photo'}</span>
@@ -1227,13 +1227,13 @@ export default function AdminPanel({
 
                   {/* Add Photo Collapsible Form */}
                   {isAddingPhoto && (
-                    <form onSubmit={handleCreatePhoto} className="p-5 rounded-2xl bg-purple-50/60 border border-purple-200 shadow-sm space-y-4 animate-fadeIn">
+                    <form onSubmit={handleCreatePhoto} className="p-5 rounded-2xl bg-blue-50/60 border border-blue-200 shadow-sm space-y-4 animate-fadeIn">
                       <div className="flex items-center justify-between">
-                        <h5 className="text-sm font-bold text-purple-950 flex items-center gap-1.5">
-                          <Camera className="w-4 h-4 text-purple-700" />
+                        <h5 className="text-sm font-bold text-blue-950 flex items-center gap-1.5">
+                          <Camera className="w-4 h-4 text-blue-700" />
                           <span>Add New Photo to Website</span>
                         </h5>
-                        <span className="text-[11px] text-purple-700 font-semibold">Immediate Live Display</span>
+                        <span className="text-[11px] text-blue-700 font-semibold">Immediate Live Display</span>
                       </div>
 
                       {/* Prominent File Chooser from Device / Folders */}
@@ -1241,7 +1241,7 @@ export default function AdminPanel({
                         <label className="block text-xs font-bold text-slate-700 mb-1.5">
                           📁 Select Photo from Files & Folders (Computer / Mobile)
                         </label>
-                        <div className="relative p-6 rounded-2xl border-2 border-dashed border-purple-300 hover:border-purple-600 bg-white hover:bg-purple-50/60 text-center transition-all cursor-pointer group shadow-sm">
+                        <div className="relative p-6 rounded-2xl border-2 border-dashed border-blue-300 hover:border-blue-600 bg-white hover:bg-blue-50/60 text-center transition-all cursor-pointer group shadow-sm">
                           <input
                             type="file"
                             accept="image/*"
@@ -1249,10 +1249,10 @@ export default function AdminPanel({
                             className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
                           />
                           <div className="flex flex-col items-center justify-center gap-2">
-                            <div className="w-12 h-12 rounded-2xl bg-purple-100 text-purple-800 flex items-center justify-center shadow-sm group-hover:bg-purple-700 group-hover:text-white transition-all">
+                            <div className="w-12 h-12 rounded-2xl bg-blue-100 text-blue-800 flex items-center justify-center shadow-sm group-hover:bg-blue-700 group-hover:text-white transition-all">
                               <FolderOpen className="w-6 h-6" />
                             </div>
-                            <span className="text-xs sm:text-sm font-bold text-purple-950 font-heading">
+                            <span className="text-xs sm:text-sm font-bold text-blue-950 font-heading">
                               Click to Browse Files & Folders
                             </span>
                             <span className="text-[11px] text-slate-500 max-w-sm">
@@ -1287,7 +1287,7 @@ export default function AdminPanel({
                                 });
                                 setSelectedFileName(preset.name);
                               }}
-                              className="px-2.5 py-1 rounded-lg bg-white border border-purple-200 text-purple-900 text-[11px] font-semibold hover:bg-purple-100 transition-colors cursor-pointer"
+                              className="px-2.5 py-1 rounded-lg bg-white border border-blue-200 text-blue-900 text-[11px] font-semibold hover:bg-blue-100 transition-colors cursor-pointer"
                             >
                               + {preset.name}
                             </button>
@@ -1304,7 +1304,7 @@ export default function AdminPanel({
                             placeholder="e.g. Olympic Free Weights & Heavy Dumbbells"
                             value={photoForm.title}
                             onChange={(e) => setPhotoForm({ ...photoForm, title: e.target.value })}
-                            className="w-full px-3.5 py-2 rounded-xl bg-white border border-slate-200 text-slate-900 text-xs focus:outline-none focus:border-purple-600"
+                            className="w-full px-3.5 py-2 rounded-xl bg-white border border-slate-200 text-slate-900 text-xs focus:outline-none focus:border-blue-600"
                           />
                         </div>
 
@@ -1313,7 +1313,7 @@ export default function AdminPanel({
                           <select
                             value={photoForm.category}
                             onChange={(e) => setPhotoForm({ ...photoForm, category: e.target.value })}
-                            className="w-full px-3.5 py-2 rounded-xl bg-white border border-slate-200 text-slate-900 text-xs focus:outline-none focus:border-purple-600"
+                            className="w-full px-3.5 py-2 rounded-xl bg-white border border-slate-200 text-slate-900 text-xs focus:outline-none focus:border-blue-600"
                           >
                             <option value="equipment">Strength & Free Weights</option>
                             <option value="cardio">Cardio Theatre</option>
@@ -1323,15 +1323,15 @@ export default function AdminPanel({
                       </div>
 
                       {photoForm.image_url && (
-                        <div className="flex items-center gap-3 p-3 bg-white rounded-2xl border border-purple-200 shadow-sm">
+                        <div className="flex items-center gap-3 p-3 bg-white rounded-2xl border border-blue-200 shadow-sm">
                           <img 
                             src={photoForm.image_url} 
                             alt="Preview" 
-                            className="w-20 h-16 object-cover rounded-xl border border-purple-100 shadow-sm"
+                            className="w-20 h-16 object-cover rounded-xl border border-blue-100 shadow-sm"
                             onError={(e) => { e.target.style.display = 'none'; }}
                           />
                           <div>
-                            <span className="text-xs font-bold text-purple-900 block">Image Ready for Display</span>
+                            <span className="text-xs font-bold text-blue-900 block">Image Ready for Display</span>
                             <span className="text-[11px] text-slate-500">Will be shown in the Equipment & Facilities section</span>
                           </div>
                         </div>
@@ -1345,7 +1345,7 @@ export default function AdminPanel({
                             placeholder="e.g. Heavy Lifts, Hypertrophy, Cardio"
                             value={photoForm.tag}
                             onChange={(e) => setPhotoForm({ ...photoForm, tag: e.target.value })}
-                            className="w-full px-3.5 py-2 rounded-xl bg-white border border-slate-200 text-slate-900 text-xs focus:outline-none focus:border-purple-600"
+                            className="w-full px-3.5 py-2 rounded-xl bg-white border border-slate-200 text-slate-900 text-xs focus:outline-none focus:border-blue-600"
                           />
                         </div>
 
@@ -1356,7 +1356,7 @@ export default function AdminPanel({
                             placeholder="e.g. 2.5kg to 40kg • Rubber coated hex"
                             value={photoForm.specs}
                             onChange={(e) => setPhotoForm({ ...photoForm, specs: e.target.value })}
-                            className="w-full px-3.5 py-2 rounded-xl bg-white border border-slate-200 text-slate-900 text-xs focus:outline-none focus:border-purple-600"
+                            className="w-full px-3.5 py-2 rounded-xl bg-white border border-slate-200 text-slate-900 text-xs focus:outline-none focus:border-blue-600"
                           />
                         </div>
                       </div>
@@ -1364,7 +1364,7 @@ export default function AdminPanel({
                       <div className="flex items-center gap-2 pt-1">
                         <button
                           type="submit"
-                          className="px-5 py-2 rounded-xl bg-purple-700 hover:bg-purple-800 text-white font-bold text-xs shadow-purple-sm transition-all cursor-pointer"
+                          className="px-5 py-2 rounded-xl bg-blue-700 hover:bg-blue-800 text-white font-bold text-xs shadow-blue-sm transition-all cursor-pointer"
                         >
                           Add Photo to Website Now
                         </button>
@@ -1395,8 +1395,8 @@ export default function AdminPanel({
                         onClick={() => setPhotoFilter(tab.id)}
                         className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-colors cursor-pointer ${
                           photoFilter === tab.id
-                            ? 'bg-purple-700 text-white shadow-purple-sm'
-                            : 'bg-white border border-slate-200 text-slate-600 hover:bg-purple-50'
+                            ? 'bg-blue-700 text-white shadow-blue-sm'
+                            : 'bg-white border border-slate-200 text-slate-600 hover:bg-blue-50'
                         }`}
                       >
                         {tab.label}
@@ -1409,7 +1409,7 @@ export default function AdminPanel({
                     {filteredPhotos.map((photo) => (
                       <div 
                         key={photo.id}
-                        className="rounded-2xl bg-white border border-purple-100 hover:border-purple-300 p-3 shadow-sm flex flex-col justify-between group transition-all"
+                        className="rounded-2xl bg-white border border-blue-100 hover:border-blue-300 p-3 shadow-sm flex flex-col justify-between group transition-all"
                       >
                         <div>
                           <div className="relative h-40 rounded-xl overflow-hidden bg-slate-100 mb-2.5">
@@ -1419,7 +1419,7 @@ export default function AdminPanel({
                               className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                             />
                             {photo.tag && (
-                              <span className="absolute top-2 left-2 text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-purple-700 text-white shadow-sm">
+                              <span className="absolute top-2 left-2 text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-blue-700 text-white shadow-sm">
                                 {photo.tag}
                               </span>
                             )}
@@ -1428,7 +1428,7 @@ export default function AdminPanel({
                           <h5 className="font-bold text-slate-900 text-xs line-clamp-1 font-heading">
                             {photo.title}
                           </h5>
-                          <p className="text-[11px] text-purple-700 font-semibold line-clamp-1 mt-0.5">
+                          <p className="text-[11px] text-blue-700 font-semibold line-clamp-1 mt-0.5">
                             {photo.specs}
                           </p>
                         </div>
@@ -1437,8 +1437,8 @@ export default function AdminPanel({
                         <div className="pt-2.5 mt-2.5 border-t border-slate-100 space-y-2">
                           
                           {/* Option 1: Native Choose from Files & Folders */}
-                          <label className="w-full py-2 px-3 rounded-xl bg-purple-50 hover:bg-purple-100 border border-purple-200 text-purple-950 text-xs font-bold flex items-center justify-center gap-1.5 transition-colors cursor-pointer shadow-sm">
-                            <FolderOpen className="w-3.5 h-3.5 text-purple-700 shrink-0" />
+                          <label className="w-full py-2 px-3 rounded-xl bg-blue-50 hover:bg-blue-100 border border-blue-200 text-blue-950 text-xs font-bold flex items-center justify-center gap-1.5 transition-colors cursor-pointer shadow-sm">
+                            <FolderOpen className="w-3.5 h-3.5 text-blue-700 shrink-0" />
                             <span>📁 Pick from Files & Folders</span>
                             <input
                               type="file"
@@ -1456,13 +1456,13 @@ export default function AdminPanel({
                                 placeholder="Paste custom image URL..."
                                 value={editingPhotoUrl}
                                 onChange={(e) => setEditingPhotoUrl(e.target.value)}
-                                className="w-full px-2.5 py-1 text-[11px] rounded-lg bg-slate-50 border border-slate-200 text-slate-900 focus:outline-none focus:border-purple-600 font-mono"
+                                className="w-full px-2.5 py-1 text-[11px] rounded-lg bg-slate-50 border border-slate-200 text-slate-900 focus:outline-none focus:border-blue-600 font-mono"
                               />
                               <div className="flex items-center gap-1.5">
                                 <button
                                   type="button"
                                   onClick={() => handleSavePhotoUrl(photo.id)}
-                                  className="px-2.5 py-1 rounded-md bg-purple-700 text-white text-[10px] font-bold hover:bg-purple-800 cursor-pointer"
+                                  className="px-2.5 py-1 rounded-md bg-blue-700 text-white text-[10px] font-bold hover:bg-blue-800 cursor-pointer"
                                 >
                                   Save URL
                                 </button>
@@ -1486,7 +1486,7 @@ export default function AdminPanel({
                                   setEditingPhotoId(photo.id);
                                   setEditingPhotoUrl(photo.image_url);
                                 }}
-                                className="text-[11px] font-semibold text-slate-600 hover:text-purple-700 flex items-center gap-1 cursor-pointer"
+                                className="text-[11px] font-semibold text-slate-600 hover:text-blue-700 flex items-center gap-1 cursor-pointer"
                               >
                                 <Edit3 className="w-3 h-3" />
                                 <span>Paste URL</span>
@@ -1526,7 +1526,7 @@ export default function AdminPanel({
 
                     <button
                       onClick={fetchAdminData}
-                      className="px-3 py-1.5 rounded-lg text-xs font-bold bg-white border border-slate-200 text-slate-700 hover:bg-purple-50 flex items-center gap-1.5"
+                      className="px-3 py-1.5 rounded-lg text-xs font-bold bg-white border border-slate-200 text-slate-700 hover:bg-blue-50 flex items-center gap-1.5"
                     >
                       <RefreshCw className="w-3.5 h-3.5" />
                       <span>Refresh</span>
@@ -1542,12 +1542,12 @@ export default function AdminPanel({
                       {inquiries.map((inq) => (
                         <div 
                           key={inq.id}
-                          className="p-4 rounded-2xl bg-white border border-purple-100 hover:border-purple-300 shadow-sm transition-all flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3"
+                          className="p-4 rounded-2xl bg-white border border-blue-100 hover:border-blue-300 shadow-sm transition-all flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3"
                         >
                           <div className="space-y-1">
                             <div className="flex items-center gap-2">
                               <h5 className="font-bold text-slate-900 text-sm font-heading">{inq.full_name || inq.name || 'Anonymous Visitor'}</h5>
-                              <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-purple-100 text-purple-800">
+                              <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-blue-100 text-blue-800">
                                 {inq.preferred_batch || 'Any Batch'}
                               </span>
                             </div>
@@ -1577,9 +1577,9 @@ export default function AdminPanel({
 
                               <a
                                 href={`tel:${inq.phone}`}
-                                className="px-3 py-1.5 rounded-xl bg-purple-50 hover:bg-purple-100 text-purple-900 text-xs font-bold flex items-center gap-1 border border-purple-200"
+                                className="px-3 py-1.5 rounded-xl bg-blue-50 hover:bg-blue-100 text-blue-900 text-xs font-bold flex items-center gap-1 border border-blue-200"
                               >
-                                <Phone className="w-3.5 h-3.5 text-purple-700" />
+                                <Phone className="w-3.5 h-3.5 text-blue-700" />
                                 <span>Call</span>
                               </a>
                             </div>
@@ -1606,7 +1606,7 @@ export default function AdminPanel({
 
                     <button
                       onClick={fetchAdminData}
-                      className="px-3 py-1.5 rounded-lg text-xs font-bold bg-white border border-slate-200 text-slate-700 hover:bg-purple-50 flex items-center gap-1.5"
+                      className="px-3 py-1.5 rounded-lg text-xs font-bold bg-white border border-slate-200 text-slate-700 hover:bg-blue-50 flex items-center gap-1.5"
                     >
                       <RefreshCw className="w-3.5 h-3.5" />
                       <span>Refresh</span>
@@ -1622,11 +1622,11 @@ export default function AdminPanel({
                       {trialPasses.map((pass) => (
                         <div 
                           key={pass.id}
-                          className="p-4 rounded-2xl bg-white border border-purple-100 shadow-sm flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3"
+                          className="p-4 rounded-2xl bg-white border border-blue-100 shadow-sm flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3"
                         >
                           <div className="space-y-1">
                             <div className="flex items-center gap-2">
-                              <span className="font-mono font-bold text-xs px-2 py-0.5 rounded bg-purple-100 text-purple-900">
+                              <span className="font-mono font-bold text-xs px-2 py-0.5 rounded bg-blue-100 text-blue-900">
                                 {pass.pass_code || 'PASS-CODE'}
                               </span>
                               <h5 className="font-bold text-slate-900 text-sm font-heading">{pass.full_name}</h5>
@@ -1638,7 +1638,7 @@ export default function AdminPanel({
                             </div>
 
                             <p className="text-xs text-slate-600">
-                              Preferred Batch: <span className="font-semibold text-purple-900">{pass.preferred_batch || 'Morning / Evening'}</span>
+                              Preferred Batch: <span className="font-semibold text-blue-900">{pass.preferred_batch || 'Morning / Evening'}</span>
                             </p>
 
                             <div className="flex items-center gap-4 text-[11px] text-slate-400">
@@ -1651,7 +1651,7 @@ export default function AdminPanel({
                             {pass.status !== 'used' && (
                               <button
                                 onClick={() => handleMarkPassUsed(pass.id)}
-                                className="px-3.5 py-1.5 rounded-xl bg-purple-700 hover:bg-purple-800 text-white text-xs font-bold flex items-center gap-1 shadow-purple-sm transition-all cursor-pointer"
+                                className="px-3.5 py-1.5 rounded-xl bg-blue-700 hover:bg-blue-800 text-white text-xs font-bold flex items-center gap-1 shadow-blue-sm transition-all cursor-pointer"
                               >
                                 <Check className="w-3.5 h-3.5" />
                                 <span>Check-In Member</span>
@@ -1662,7 +1662,7 @@ export default function AdminPanel({
                               href={`https://wa.me/${pass.phone.replace(/[^0-9]/g, '')}?text=Hi%20${encodeURIComponent(pass.full_name)},%20welcome%20to%20${encodeURIComponent(formData.gymName || 'our gym')}!%20Your%20VIP%20Trial%20Pass%20${pass.pass_code}%20is%20ready.`}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="p-2 rounded-xl bg-purple-50 hover:bg-purple-100 text-purple-700 border border-purple-200 transition-colors"
+                              className="p-2 rounded-xl bg-blue-50 hover:bg-blue-100 text-blue-700 border border-blue-200 transition-colors"
                               title="Message on WhatsApp"
                             >
                               <MessageSquare className="w-3.5 h-3.5" />
@@ -1690,7 +1690,7 @@ export default function AdminPanel({
 
                     <button
                       onClick={fetchAdminData}
-                      className="px-3 py-1.5 rounded-lg text-xs font-bold bg-white border border-slate-200 text-slate-700 hover:bg-purple-50 flex items-center gap-1.5"
+                      className="px-3 py-1.5 rounded-lg text-xs font-bold bg-white border border-slate-200 text-slate-700 hover:bg-blue-50 flex items-center gap-1.5"
                     >
                       <RefreshCw className="w-3.5 h-3.5" />
                       <span>Refresh</span>
@@ -1706,12 +1706,12 @@ export default function AdminPanel({
                       {quizSubmissions.map((quiz) => (
                         <div 
                           key={quiz.id}
-                          className="p-4 rounded-2xl bg-white border border-purple-100 shadow-sm space-y-2"
+                          className="p-4 rounded-2xl bg-white border border-blue-100 shadow-sm space-y-2"
                         >
                           <div className="flex items-center justify-between">
                             <div className="flex items-center gap-2">
                               <h5 className="font-bold text-slate-900 text-sm font-heading">{quiz.name || 'Member'}</h5>
-                              <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-purple-100 text-purple-800">
+                              <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-blue-100 text-blue-800">
                                 Goal: {quiz.goal || 'General Fitness'}
                               </span>
                             </div>
@@ -1760,7 +1760,7 @@ export default function AdminPanel({
 
                     <button
                       onClick={fetchAdminData}
-                      className="px-3 py-1.5 rounded-lg text-xs font-bold bg-white border border-slate-200 text-slate-700 hover:bg-purple-50 flex items-center gap-1.5"
+                      className="px-3 py-1.5 rounded-lg text-xs font-bold bg-white border border-slate-200 text-slate-700 hover:bg-blue-50 flex items-center gap-1.5"
                     >
                       <RefreshCw className="w-3.5 h-3.5" />
                       <span>Refresh</span>
@@ -1776,7 +1776,7 @@ export default function AdminPanel({
                       {reviews.map((rev) => (
                         <div 
                           key={rev.id}
-                          className="p-4 rounded-2xl bg-white border border-purple-100 shadow-sm flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3"
+                          className="p-4 rounded-2xl bg-white border border-blue-100 shadow-sm flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3"
                         >
                           <div className="space-y-1">
                             <div className="flex items-center gap-2">
@@ -1822,7 +1822,7 @@ export default function AdminPanel({
                   </div>
 
                   {/* GitHub Repo Card */}
-                  <div className="p-5 rounded-2xl bg-white border border-purple-200 shadow-sm space-y-3">
+                  <div className="p-5 rounded-2xl bg-white border border-blue-200 shadow-sm space-y-3">
                     <div className="flex items-start justify-between">
                       <div className="flex items-center gap-3">
                         <div className="w-10 h-10 rounded-xl bg-slate-900 text-white flex items-center justify-center">
@@ -1833,7 +1833,7 @@ export default function AdminPanel({
                             buildwelldevelops-arch / Elite-gym
                           </h5>
                           <p className="text-xs text-slate-500">
-                            Default branch: <span className="font-mono font-bold text-purple-700">main</span>
+                            Default branch: <span className="font-mono font-bold text-blue-700">main</span>
                           </p>
                         </div>
                       </div>
@@ -1842,14 +1842,14 @@ export default function AdminPanel({
                         href="https://github.com/buildwelldevelops-arch/Elite-gym"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="px-3.5 py-1.5 rounded-lg bg-purple-700 hover:bg-purple-800 text-white text-xs font-bold flex items-center gap-1.5 transition-colors shadow-purple-sm"
+                        className="px-3.5 py-1.5 rounded-lg bg-blue-700 hover:bg-blue-800 text-white text-xs font-bold flex items-center gap-1.5 transition-colors shadow-blue-sm"
                       >
                         <span>Open on GitHub</span>
                         <ExternalLink className="w-3.5 h-3.5" />
                       </a>
                     </div>
 
-                    <div className="p-3 rounded-xl bg-purple-50/60 border border-purple-100 text-xs text-purple-950 font-mono break-all">
+                    <div className="p-3 rounded-xl bg-blue-50/60 border border-blue-100 text-xs text-blue-950 font-mono break-all">
                       https://github.com/buildwelldevelops-arch/Elite-gym.git
                     </div>
                   </div>
@@ -1857,7 +1857,7 @@ export default function AdminPanel({
                   {/* Git Deployment Guide */}
                   <div className="p-5 rounded-2xl bg-white border border-slate-200 shadow-sm space-y-3 text-xs text-slate-700">
                     <h5 className="font-bold text-slate-900 text-sm flex items-center gap-1.5">
-                      <AlertCircle className="w-4 h-4 text-purple-700" />
+                      <AlertCircle className="w-4 h-4 text-blue-700" />
                       <span>How to Push Future Code Changes</span>
                     </h5>
                     <p className="text-slate-600">

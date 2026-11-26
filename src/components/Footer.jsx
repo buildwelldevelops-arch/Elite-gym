@@ -14,7 +14,7 @@ export default function Footer({ onOpenTrialModal, onNavigateToQuiz, onOpenAdmin
   const googleMapsUrl = settings?.googleMaps || gymDetails.contact.googleMapsUrl;
 
   return (
-    <footer className="pt-16 pb-24 border-t border-white/10 bg-dark-950 text-slate-400 text-xs sm:text-sm">
+    <footer className="pt-16 pb-24 border-t border-slate-800 bg-[#0b192c] text-slate-300 text-xs sm:text-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 mb-12">
@@ -22,7 +22,7 @@ export default function Footer({ onOpenTrialModal, onNavigateToQuiz, onOpenAdmin
           {/* Brand Info (2 Columns) */}
           <div className="lg:col-span-2 space-y-4">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-red-600 flex items-center justify-center text-white shadow-glow-red">
+              <div className="w-10 h-10 rounded-xl bg-blue-600 flex items-center justify-center text-white shadow-blue-sm">
                 <Dumbbell className="w-5 h-5 text-white" />
               </div>
               <span className="text-2xl font-black tracking-tight font-heading text-white uppercase">
@@ -31,7 +31,7 @@ export default function Footer({ onOpenTrialModal, onNavigateToQuiz, onOpenAdmin
             </div>
 
             <p className="text-slate-400 text-xs sm:text-sm leading-relaxed max-w-sm">
-              High-performance strength & conditioning facility equipped with German-engineered treadmills, Olympic free weights, and certified coaches.
+              Modern fitness & strength training club featuring precision cardio systems, Olympic free weights, and certified coaching staff.
             </p>
 
             <div className="flex items-center gap-2 pt-1 text-amber-400">
@@ -41,13 +41,13 @@ export default function Footer({ onOpenTrialModal, onNavigateToQuiz, onOpenAdmin
                 ))}
               </div>
               <span className="text-xs font-bold text-white">4.9 / 5.0</span>
-              <span className="text-xs text-slate-500">(Verified Google Reviews)</span>
+              <span className="text-xs text-slate-400">(Verified Google Reviews)</span>
             </div>
 
             <div className="pt-2">
               <button
                 onClick={onOpenTrialModal}
-                className="px-4 py-2.5 rounded-xl text-xs font-bold bg-red-600 hover:bg-red-500 text-white transition-all shadow-glow-red inline-flex items-center gap-2 cursor-pointer uppercase tracking-wider"
+                className="px-4 py-2.5 rounded-xl text-xs font-bold bg-blue-600 hover:bg-blue-500 text-white transition-all shadow-blue-sm inline-flex items-center gap-2 cursor-pointer uppercase tracking-wider font-heading"
               >
                 Claim Free 1-Day Trial Pass
               </button>
@@ -64,15 +64,15 @@ export default function Footer({ onOpenTrialModal, onNavigateToQuiz, onOpenAdmin
                 <a href="#hero" className="hover:text-white transition-colors">Overview</a>
               </li>
               <li>
-                <button onClick={onNavigateToQuiz} className="hover:text-white transition-colors text-left text-red-400 font-bold">
+                <button onClick={onNavigateToQuiz} className="hover:text-white transition-colors text-left text-sky-400 font-bold">
                   Personal Routine Finder
                 </button>
               </li>
               <li>
-                <a href="#timings" className="hover:text-white transition-colors">Morning & Evening Batches</a>
+                <a href="#timings" className="hover:text-white transition-colors">Morning & Evening Shifts</a>
               </li>
               <li>
-                <a href="#facilities" className="hover:text-white transition-colors">Cardio Deck & Floor</a>
+                <a href="#facilities" className="hover:text-white transition-colors">Equipment & Training Floor</a>
               </li>
               <li>
                 <a href="#reviews" className="hover:text-white transition-colors">Member Reviews (4.9★)</a>
@@ -89,15 +89,15 @@ export default function Footer({ onOpenTrialModal, onNavigateToQuiz, onOpenAdmin
               Batch Schedules
             </h4>
             <div className="space-y-2.5 text-xs text-slate-300">
-              <div className="p-3 rounded-xl bg-dark-900 border border-white/5">
-                <span className="font-bold text-red-400 block">Morning Shift:</span>
+              <div className="p-3 rounded-xl bg-slate-800/80 border border-slate-700">
+                <span className="font-bold text-sky-400 block">Morning Shift:</span>
                 <span className="text-white font-bold">{morningBatch}</span>
-                <span className="text-[10px] text-slate-500 block mt-0.5">Monday to Saturday</span>
+                <span className="text-[10px] text-slate-400 block mt-0.5">Monday to Saturday</span>
               </div>
-              <div className="p-3 rounded-xl bg-dark-900 border border-white/5">
-                <span className="font-bold text-red-400 block">Evening Shift:</span>
+              <div className="p-3 rounded-xl bg-slate-800/80 border border-slate-700">
+                <span className="font-bold text-sky-400 block">Evening Shift:</span>
                 <span className="text-white font-bold">{eveningBatch}</span>
-                <span className="text-[10px] text-slate-500 block mt-0.5">Monday to Saturday</span>
+                <span className="text-[10px] text-slate-400 block mt-0.5">Monday to Saturday</span>
               </div>
               <p className="text-[11px] text-slate-400">Sunday: {sundayTimings}</p>
             </div>
@@ -110,11 +110,11 @@ export default function Footer({ onOpenTrialModal, onNavigateToQuiz, onOpenAdmin
             </h4>
             <div className="space-y-2.5 text-xs text-slate-400">
               <div className="flex items-start gap-2">
-                <MapPin className="w-4 h-4 text-red-400 shrink-0 mt-0.5" />
+                <MapPin className="w-4 h-4 text-blue-400 shrink-0 mt-0.5" />
                 <span>{address}</span>
               </div>
               <div className="flex items-center gap-2">
-                <Phone className="w-4 h-4 text-cyan-400 shrink-0" />
+                <Phone className="w-4 h-4 text-sky-400 shrink-0" />
                 <span>{phone}</span>
               </div>
               <div className="flex items-center gap-2">
@@ -145,20 +145,20 @@ export default function Footer({ onOpenTrialModal, onNavigateToQuiz, onOpenAdmin
         </div>
 
         {/* Bottom Credits & Copyright */}
-        <div className="pt-8 border-t border-white/5 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
+        <div className="pt-8 border-t border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-400">
           <p>
             © {new Date().getFullYear()} {gymName}. All rights reserved.
           </p>
           <div className="flex flex-wrap items-center gap-4">
             <p className="flex items-center gap-1 font-medium text-slate-400">
-              High-Performance Fitness & Training Center
+              Modern Fitness & Strength Club
             </p>
             <button
               onClick={onOpenAdmin}
-              className="text-slate-300 hover:text-white transition-all flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-dark-900 hover:bg-dark-850 border border-white/10 text-xs font-semibold cursor-pointer shadow-sm hover:border-red-500/50"
+              className="text-slate-300 hover:text-white transition-all flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 text-xs font-semibold cursor-pointer shadow-sm hover:border-blue-500"
               title="Admin Portal - Manage Batches, Inquiries, Settings & Photos"
             >
-              <Shield className="w-3.5 h-3.5 text-red-400" />
+              <Shield className="w-3.5 h-3.5 text-blue-400" />
               <span>Admin Portal</span>
             </button>
           </div>

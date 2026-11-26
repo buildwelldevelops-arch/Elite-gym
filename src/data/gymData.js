@@ -183,21 +183,21 @@ export const gymDetails = {
       role: "Head Conditioning Specialist",
       experience: "Certified Trainer",
       specialty: "Hypertrophy, Posture & Strength",
-      image: "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=600&q=80"
+      image: "https://images.unsplash.com/photo-1567013127542-490d757e51fc?auto=format&fit=crop&w=600&q=80"
     },
     {
       name: "Fitness Specialist",
       role: "Cardio & Fat Loss Coach",
       experience: "Functional Coach",
       specialty: "HIIT, Transformation & Endurance",
-      image: "https://images.unsplash.com/photo-1567013127542-490d757e51fc?auto=format&fit=crop&w=600&q=80"
+      image: "https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?auto=format&fit=crop&w=600&q=80"
     },
     {
-      name: "Wellness Coach",
-      role: "Mobility & Core Trainer",
-      experience: "Certified Specialist",
+      name: "Movement & Core Coach",
+      role: "Athletic Conditioning Specialist",
+      experience: "Certified Coach",
       specialty: "Functional Movement & Stability",
-      image: "https://images.unsplash.com/photo-1518611012118-696072aa579a?auto=format&fit=crop&w=600&q=80"
+      image: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?auto=format&fit=crop&w=600&q=80"
     }
   ]
 };

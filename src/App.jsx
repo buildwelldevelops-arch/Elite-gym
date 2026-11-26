@@ -54,9 +54,9 @@ const DEFAULT_PHOTOS = [
   {
     id: 'photo-1',
     category: 'equipment',
-    title: 'German-Designed Incline Treadmills & Cardio Deck',
+    title: 'State-of-the-Art Commercial Equipment & Cardio Floor',
     image_url: '/images/gym-hero.jpg',
-    tag: 'Precision Cardio',
+    tag: 'Strength & Cardio',
     specs: 'Commercial motorized treadmills • Multi-level electronic incline • Cushioned decks',
     highlight: 'Advanced shock-absorption running tracks engineered for joint protection and peak cardio burn.'
   },
@@ -73,7 +73,7 @@ const DEFAULT_PHOTOS = [
     id: 'photo-3',
     category: 'equipment',
     title: 'Biomechanic Plate-Loaded Resistance Machines',
-    image_url: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=700&q=80',
+    image_url: 'https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&w=700&q=80',
     tag: 'Hypertrophy',
     specs: 'Linear 45° Leg Press • Hack Squat • Dual Chest Press & Lat Pulldown',
     highlight: 'Fluid natural arcs of motion reducing joint strain and maximizing muscular hypertrophy.'
@@ -250,7 +250,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-dark-950 text-slate-100 selection:bg-red-600 selection:text-white">
+    <div className="min-h-screen bg-slate-50 text-slate-900 selection:bg-blue-600 selection:text-white">
       
       {/* Sleek Left Sidebar Navigation */}
       <Sidebar 
