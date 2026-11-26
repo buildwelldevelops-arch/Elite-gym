@@ -24,7 +24,7 @@ All details are fully customizable via the embedded **Admin Portal** or by passi
 
 ## 🎨 Design System & Features
 
-- **Dark Athletic Identity**: Obsidian dark backdrop (`#070a12`, `#0b0f19`), electric crimson red accents (`#ef4444`), and neon cyan glow (`#06b6d4`).
+- **White & Blue Visual Identity**: Crisp white backdrop (`#ffffff`, `bg-slate-50`), vibrant royal blue primary theme (`#2563eb`), sky blue accents (`#0ea5e9`), and dark slate typography for a clean, modern aesthetic.
 - **Custom Visual Showcase**: Features precision German-designed commercial cardio treadmills, plate-loaded strength stations, and clean AC training floor.
 - **Admin Portal**: Integrated management portal in the footer allowing instant updates to gym name, batch hours, membership fees, active promo offers, and local image uploads via file/folder chooser.
 - **Interactive Workout Routine Finder**: 4-step assessment generating personalized workout splits and caloric targets based on athlete goals.
