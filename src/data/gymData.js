@@ -197,7 +197,7 @@ export const gymDetails = {
       role: "Athletic Conditioning Specialist",
       experience: "Certified Coach",
       specialty: "Functional Movement & Stability",
-      image: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?auto=format&fit=crop&w=600&q=80"
+      image: "https://images.unsplash.com/photo-1541534741688-6078c6bfb5c5?auto=format&fit=crop&w=600&q=80"
     }
   ]
 };
