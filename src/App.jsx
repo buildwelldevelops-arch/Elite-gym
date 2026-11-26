@@ -15,23 +15,24 @@ import Footer from './components/Footer';
 import TrialModal from './components/TrialModal';
 import AdminPanel from './components/AdminPanel';
 import { supabase } from './lib/supabase';
+import { gymDetails } from './data/gymData';
 
 const DEFAULT_OFFERS = [
   {
     id: 'offer-1',
     title: 'Student Fitness Booster Pass',
-    discount_tag: '₹200 OFF',
-    description: 'Valid for all college and school students with valid ID card. Applies to Monthly and 3-Month memberships.',
+    discount_tag: 'STUDENT DISCOUNT',
+    description: 'Valid for all high school and college students with valid student ID. Applies to monthly and multi-month memberships.',
     badge: 'Student Special',
-    promo_code: 'STUDENT200',
-    valid_until: 'Active for 2026 Batch',
+    promo_code: 'STUDENTPASS',
+    valid_until: 'Limited Seats',
     is_active: true
   },
   {
     id: 'offer-2',
-    title: '3-Month Transformation Combo',
-    discount_tag: 'SAVE 17% + FREE SHAKER',
-    description: 'Join our 90-day guided muscle & fat-loss program. Includes customized diet blueprint and 2 free guest passes.',
+    title: '90-Day Transformation Combo',
+    discount_tag: 'SEASONAL DISCOUNT',
+    description: 'Comprehensive guided muscle hypertrophy and fat-loss program with workout split and nutrition blueprint.',
     badge: 'Most Popular',
     promo_code: 'TRANSFORM90',
     valid_until: 'First 25 Registrations',
@@ -39,11 +40,11 @@ const DEFAULT_OFFERS = [
   },
   {
     id: 'offer-3',
-    title: 'Buddy Workout Dual Pass',
-    discount_tag: 'FLAT ₹500 OFF',
-    description: 'Join with a workout partner or friend and both get ₹250 instant discount on 3-month or annual admissions.',
+    title: 'Workout Partner Dual Pass',
+    discount_tag: 'BUDDY PASS DISCOUNT',
+    description: 'Join together with a friend or workout partner and receive instant admission discounts on quarterly or annual memberships.',
     badge: 'Duo Offer',
-    promo_code: 'ELITEBUDDY',
+    promo_code: 'FITBUDDY',
     valid_until: 'Limited Time',
     is_active: true
   }
@@ -53,29 +54,29 @@ const DEFAULT_PHOTOS = [
   {
     id: 'photo-1',
     category: 'equipment',
-    title: 'Olympic Free Weights & Heavy Dumbbells',
-    image_url: 'https://images.unsplash.com/photo-1584735935682-2f2b69dff9d2?auto=format&fit=crop&w=700&q=80',
-    tag: 'Heavy Lifts',
-    specs: 'Dumbbells from 2.5kg to 40kg • Rubber coated hex weights • Olympic barbells',
-    highlight: 'Zero bending bars with precision knurling for deadlifts and heavy presses.'
+    title: 'German-Designed Incline Treadmills & Cardio Deck',
+    image_url: '/images/gym-hero.jpg',
+    tag: 'Precision Cardio',
+    specs: 'Commercial motorized treadmills • Multi-level electronic incline • Cushioned decks',
+    highlight: 'Advanced shock-absorption running tracks engineered for joint protection and peak cardio burn.'
   },
   {
     id: 'photo-2',
     category: 'equipment',
-    title: 'Biomechanic Plate-Loaded Machines',
-    image_url: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=700&q=80',
-    tag: 'Hypertrophy',
-    specs: 'Linear 45° Leg Press • Hack Squat • Dual Chest Press & Lat Pulldown',
-    highlight: 'Fluid natural arcs of motion reducing joint strain and maximizing muscle activation.'
+    title: 'Olympic Free Weights & Heavy Dumbbells',
+    image_url: 'https://images.unsplash.com/photo-1584735935682-2f2b69dff9d2?auto=format&fit=crop&w=700&q=80',
+    tag: 'Heavy Lifts',
+    specs: 'Dumbbells from 2.5kg to 40kg • Rubber coated hex weights • Olympic barbells',
+    highlight: 'Zero bending bars with precision knurling for deadlifts, squats and heavy overhead presses.'
   },
   {
     id: 'photo-3',
     category: 'equipment',
-    title: 'Commercial Cardio Theatre',
-    image_url: 'https://images.unsplash.com/photo-1576678927484-cc907957088c?auto=format&fit=crop&w=700&q=80',
-    tag: 'Cardio & HIIT',
-    specs: 'Motorized Incline Treadmills • Cross Trainers • Spin Cycles',
-    highlight: 'High shock-absorbing running decks for joint-friendly fat burning and endurance.'
+    title: 'Biomechanic Plate-Loaded Resistance Machines',
+    image_url: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=700&q=80',
+    tag: 'Hypertrophy',
+    specs: 'Linear 45° Leg Press • Hack Squat • Dual Chest Press & Lat Pulldown',
+    highlight: 'Fluid natural arcs of motion reducing joint strain and maximizing muscular hypertrophy.'
   },
   {
     id: 'photo-4',
@@ -84,40 +85,42 @@ const DEFAULT_PHOTOS = [
     image_url: 'https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&w=700&q=80',
     tag: 'Isolation & Pump',
     specs: 'Dual 90kg weight stacks • Multi-grip pull-up handles • Complete attachments',
-    highlight: 'Bicep curls, tricep pushdowns, cable flyes, facepulls & woodchops.'
+    highlight: 'Ideal for chest flyes, facepulls, bicep curls, lateral raises, and woodchops.'
   },
   {
     id: 'photo-5',
     category: 'facility',
-    title: 'Spacious & Clean Air-Conditioned Floor',
+    title: 'Spacious & Clean Air-Conditioned Training Floor',
     image_url: 'https://images.unsplash.com/photo-1540497077202-7c8a3999166f?auto=format&fit=crop&w=700&q=80',
     tag: 'Spacious & Fresh',
     specs: 'High-power commercial ACs • Industrial air ventilation • Daily sanitization',
-    highlight: 'Consistently praised in Google reviews for pristine cleanliness and fresh environment.'
+    highlight: 'Spotlessly maintained flooring, fresh atmosphere, and hygienic equipment.'
   },
   {
     id: 'photo-6',
     category: 'facility',
-    title: 'Lockers, Changing Areas & RO Hydration',
+    title: 'Member Lockers, Changing Rooms & Hydration Station',
     image_url: 'https://images.unsplash.com/photo-1571902943202-507ec2618e8f?auto=format&fit=crop&w=700&q=80',
     tag: 'Convenience',
     specs: 'Secure member lockers • Clean washrooms & showers • Filtered chilled drinking water',
-    highlight: 'Comfortable pre- and post-workout facilities right on Tili Road.'
+    highlight: 'Comfortable pre- and post-workout amenities ensuring a seamless training routine.'
   }
 ];
 
 const DEFAULT_SETTINGS = {
-  gymName: 'Elite Gym',
-  morningBatch: '6:00 AM – 10:00 AM',
-  eveningBatch: '5:00 PM – 10:00 PM',
-  sundayTimings: '7:00 AM – 10:00 AM',
-  phone: '+91 98260 00000',
-  whatsapp: '919826000000',
-  address: 'Elite gym, Tili Rd, in front of Rozgar Office, State Bank Colony, Poddar Colony, Sagar, Madhya Pradesh 470001',
-  announcement: 'Welcome to Elite Gym Sagar! Dual batches open daily.',
-  monthlyPrice: '1,199',
-  quarterlyPrice: '2,999',
-  annualPrice: '8,999'
+  gymName: gymDetails.name,
+  morningBatch: gymDetails.timings.morningBatch,
+  eveningBatch: gymDetails.timings.eveningBatch,
+  sundayTimings: gymDetails.timings.sunday,
+  phone: gymDetails.contact.phone,
+  whatsapp: gymDetails.contact.whatsapp,
+  address: gymDetails.address.full,
+  instagram: gymDetails.contact.instagramUrl,
+  googleMaps: gymDetails.contact.googleMapsUrl,
+  announcement: 'Welcome to [Gym Name]! Professional athletic training and precision cardio deck.',
+  monthlyPrice: '[Monthly Fee]',
+  quarterlyPrice: '[Quarterly Fee]',
+  annualPrice: '[Annual Fee]'
 };
 
 const normalizeSettings = (data) => {
@@ -130,6 +133,8 @@ const normalizeSettings = (data) => {
     phone: data.phone || DEFAULT_SETTINGS.phone,
     whatsapp: data.whatsapp || DEFAULT_SETTINGS.whatsapp,
     address: data.address || DEFAULT_SETTINGS.address,
+    instagram: data.instagram || DEFAULT_SETTINGS.instagram,
+    googleMaps: data.googleMaps || data.google_maps || DEFAULT_SETTINGS.googleMaps,
     announcement: data.announcement || DEFAULT_SETTINGS.announcement,
     monthlyPrice: data.monthly_price || data.monthlyPrice || DEFAULT_SETTINGS.monthlyPrice,
     quarterlyPrice: data.quarterly_price || data.quarterlyPrice || DEFAULT_SETTINGS.quarterlyPrice,
@@ -143,21 +148,45 @@ export default function App() {
   const [isAdminOpen, setIsAdminOpen] = useState(false);
 
   const [gymSettings, setGymSettings] = useState(() => {
-    const cached = localStorage.getItem('elite_gym_settings');
-    return cached ? normalizeSettings(JSON.parse(cached)) : DEFAULT_SETTINGS;
+    try {
+      const cached = localStorage.getItem('gym_custom_settings') || localStorage.getItem('elite_gym_settings');
+      if (cached) {
+        const parsed = JSON.parse(cached);
+        if (parsed.gymName && parsed.gymName !== 'Elite Gym') {
+          return normalizeSettings(parsed);
+        }
+      }
+    } catch (e) {}
+    return DEFAULT_SETTINGS;
   });
 
   const [gymOffers, setGymOffers] = useState(() => {
-    const cached = localStorage.getItem('elite_gym_offers');
-    return cached ? JSON.parse(cached) : DEFAULT_OFFERS;
+    try {
+      const cached = localStorage.getItem('gym_custom_offers') || localStorage.getItem('elite_gym_offers');
+      if (cached) {
+        const parsed = JSON.parse(cached);
+        if (Array.isArray(parsed) && parsed.length > 0 && !parsed.some(o => o.promo_code === 'ELITEBUDDY')) {
+          return parsed;
+        }
+      }
+    } catch (e) {}
+    return DEFAULT_OFFERS;
   });
 
   const [gymPhotos, setGymPhotos] = useState(() => {
-    const cached = localStorage.getItem('elite_gym_photos');
-    return cached ? JSON.parse(cached) : DEFAULT_PHOTOS;
+    try {
+      const cached = localStorage.getItem('gym_custom_photos') || localStorage.getItem('elite_gym_photos');
+      if (cached) {
+        const parsed = JSON.parse(cached);
+        if (Array.isArray(parsed) && parsed.some(p => p.image_url === '/images/gym-hero.jpg')) {
+          return parsed;
+        }
+      }
+    } catch (e) {}
+    return DEFAULT_PHOTOS;
   });
 
-  // Sync with Supabase on mount
+  // Sync with cloud backend if available
   useEffect(() => {
     const loadCloudData = async () => {
       try {
@@ -168,16 +197,16 @@ export default function App() {
         ]);
         if (offersRes.data && offersRes.data.length > 0) {
           setGymOffers(offersRes.data);
-          localStorage.setItem('elite_gym_offers', JSON.stringify(offersRes.data));
+          localStorage.setItem('gym_custom_offers', JSON.stringify(offersRes.data));
         }
         if (photosRes.data && photosRes.data.length > 0) {
           setGymPhotos(photosRes.data);
-          localStorage.setItem('elite_gym_photos', JSON.stringify(photosRes.data));
+          localStorage.setItem('gym_custom_photos', JSON.stringify(photosRes.data));
         }
         if (settingsRes.data) {
           const norm = normalizeSettings(settingsRes.data);
           setGymSettings(norm);
-          localStorage.setItem('elite_gym_settings', JSON.stringify(norm));
+          localStorage.setItem('gym_custom_settings', JSON.stringify(norm));
         }
       } catch (err) {
         console.warn('Initial cloud data fetch:', err);
@@ -189,16 +218,19 @@ export default function App() {
   const handleUpdateSettings = (newSettings) => {
     const norm = normalizeSettings(newSettings);
     setGymSettings(norm);
+    localStorage.setItem('gym_custom_settings', JSON.stringify(norm));
     localStorage.setItem('elite_gym_settings', JSON.stringify(norm));
   };
 
   const handleUpdateOffers = (newOffers) => {
     setGymOffers(newOffers);
+    localStorage.setItem('gym_custom_offers', JSON.stringify(newOffers));
     localStorage.setItem('elite_gym_offers', JSON.stringify(newOffers));
   };
 
   const handleUpdatePhotos = (newPhotos) => {
     setGymPhotos(newPhotos);
+    localStorage.setItem('gym_custom_photos', JSON.stringify(newPhotos));
     localStorage.setItem('elite_gym_photos', JSON.stringify(newPhotos));
   };
 
@@ -218,7 +250,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-white text-slate-900 selection:bg-purple-600 selection:text-white">
+    <div className="min-h-screen bg-dark-950 text-slate-100 selection:bg-red-600 selection:text-white">
       
       {/* Sleek Left Sidebar Navigation */}
       <Sidebar 
@@ -252,6 +284,7 @@ export default function App() {
           <OffersSection 
             offers={gymOffers}
             onOpenTrialModal={handleOpenTrialModal}
+            settings={gymSettings}
           />
 
           <FitnessQuiz 
@@ -267,7 +300,9 @@ export default function App() {
             photos={gymPhotos}
           />
 
-          <ReviewSummary />
+          <ReviewSummary 
+            settings={gymSettings}
+          />
 
           <Coaches 
             onOpenTrialModal={handleOpenTrialModal} 
@@ -275,6 +310,7 @@ export default function App() {
 
           <BmiCalculator 
             onOpenTrialModal={handleOpenTrialModal} 
+            settings={gymSettings}
           />
 
           <PricingPlans 
@@ -303,6 +339,7 @@ export default function App() {
       <TrialModal 
         isOpen={isTrialModalOpen} 
         onClose={handleCloseTrialModal} 
+        settings={gymSettings}
       />
 
       {/* Admin Panel Portal Modal */}

@@ -1,6 +1,23 @@
 import { createClient } from '@supabase/supabase-js';
 
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || 'https://eixlwecjgzwagddqxxnx.supabase.co';
-const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVpeGx3ZWNqZ3p3YWdkZHF4eG54Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTU0MjI1NjYsImV4cCI6MjExMDk5ODU2Nn0.DfwufdLkGYp9yAv3laifdmQRKU_LsnzdQN2aCNc7Hos';
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || '';
+const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || '';
 
-export const supabase = createClient(supabaseUrl, supabaseAnonKey);
+// Resilient client: connects if credentials exist, or provides safe fallbacks
+export const supabase = (supabaseUrl && supabaseAnonKey)
+  ? createClient(supabaseUrl, supabaseAnonKey)
+  : {
+      from: (tableName) => ({
+        select: () => Promise.resolve({ data: [], error: null }),
+        insert: (data) => {
+          try {
+            const existing = JSON.parse(localStorage.getItem(`backend_${tableName}`) || '[]');
+            localStorage.setItem(`backend_${tableName}`, JSON.stringify([...existing, ...data]));
+          } catch (e) {}
+          return Promise.resolve({ data, error: null });
+        },
+        upsert: (data) => Promise.resolve({ data, error: null }),
+        update: () => Promise.resolve({ data: [], error: null }),
+        delete: () => Promise.resolve({ data: [], error: null }),
+      })
+    };

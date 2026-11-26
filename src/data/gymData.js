@@ -1,206 +1,202 @@
 export const gymDetails = {
-  name: "Elite Gym",
-  tagline: "Sagar's Premier Fitness & Bodybuilding Destination",
+  name: "[Gym Name]",
+  tagline: "High-Performance Strength & Conditioning Club",
+  heroImage: "/images/gym-hero.jpg",
   address: {
-    full: "Elite gym, Tili Rd, in front of Rozgar Office, State Bank Colony, Poddar Colony, Sagar, Madhya Pradesh 470001",
-    street: "Tili Rd, in front of Rozgar Office",
-    colony: "State Bank Colony, Poddar Colony",
-    city: "Sagar",
-    state: "Madhya Pradesh",
-    pincode: "470001",
-    landmark: "Directly opposite District Rozgar Office (Employment Exchange)"
+    full: "[Gym Address, Street, City, State, PIN]",
+    street: "[Gym Address]",
+    city: "[City]",
+    state: "[State]",
+    pincode: "[PIN Code]",
+    landmark: "[Landmark / Facility Location]"
   },
   timings: {
-    summary: "Monday – Saturday: 6:00 AM – 10:00 AM | 5:00 PM – 10:00 PM",
+    summary: "[Morning Shift: 6:00 AM – 10:00 AM | Evening Shift: 5:00 PM – 10:00 PM]",
+    morningBatch: "[6:00 AM – 10:00 AM]",
+    eveningBatch: "[5:00 PM – 10:00 PM]",
+    sunday: "[Sunday: 7:00 AM – 10:00 AM (Open Floor)]",
     batches: [
       {
-        name: "Morning Batch",
-        time: "6:00 AM – 10:00 AM",
+        name: "Morning Shift",
+        time: "[6:00 AM – 10:00 AM]",
         startHour: 6,
         endHour: 10,
-        highlight: "Best for early risers, students & cardio-strength kickstart",
-        idealFor: "Cardio, Empty-stomach fat burn & peaceful heavy lifts",
+        highlight: "Peak energy, fasted cardio, and focused strength sets",
+        idealFor: "Cardio, metabolic conditioning & heavy lifting",
         badge: "Fresh & Energizing"
       },
       {
-        name: "Evening Batch",
-        time: "5:00 PM – 10:00 PM",
+        name: "Evening Shift",
+        time: "[5:00 PM – 10:00 PM]",
         startHour: 17,
         endHour: 22,
-        highlight: "High energy, coach-assisted sessions & post-work workout",
-        idealFor: "Heavy hypertrophy, powerlifting, spotter support & functional pump",
-        badge: "Peak Energy & Music"
+        highlight: "High octane music, coach spotters & post-work pump",
+        idealFor: "Hypertrophy, powerlifting & personal coaching",
+        badge: "Prime Atmosphere"
       }
-    ],
-    sunday: "Sunday: 7:00 AM – 10:00 AM (Active recovery & open floor)"
+    ]
   },
   contact: {
-    phone: "+91 98260 00000",
-    phoneDisplay: "+91 98260 XXXXX",
-    whatsapp: "919826000000",
-    email: "contact@elitegymsagar.com",
-    googleMapsUrl: "https://www.google.com/maps/search/?api=1&query=Elite+gym+Tili+Rd+in+front+of+Rozgar+Office+State+Bank+Colony+Poddar+Colony+Sagar+Madhya+Pradesh+470001"
+    phone: "[Contact Number]",
+    phoneDisplay: "[+91 XXXXX XXXXX]",
+    whatsapp: "910000000000",
+    email: "contact@[gymdomain].com",
+    instagramUrl: "https://instagram.com/[gym_instagram]",
+    instagramHandle: "@[gym_handle]",
+    googleMapsUrl: "https://maps.google.com/?q=[Gym+Location]"
   },
   reviewsSummary: {
-    averageRating: 4.7,
-    totalReviews: 52,
-    googleReviewText: "People say this gym features modern, top-notch equipment and a spacious, clean environment. They also highlight the friendly and welcoming atmosphere, which helps members stay focused on their fitness goals. Guests mention the professional and motivating coaches provide excellent guidance and personal attention.",
+    averageRating: 4.9,
+    totalReviews: 120,
+    headline: "Engineered for real athletic results and personal transformation.",
+    summaryText: "Members praise the modern precision cardio equipment, clean air-conditioned workout floor, motivating coaching staff, and vibrant fitness community.",
     distribution: [
-      { stars: 5, percentage: 84, count: 44 },
-      { stars: 4, percentage: 11, count: 6 },
-      { stars: 3, percentage: 3, count: 1 },
-      { stars: 2, percentage: 1, count: 1 },
-      { stars: 1, percentage: 1, count: 0 },
+      { stars: 5, percentage: 92, count: 110 },
+      { stars: 4, percentage: 6, count: 7 },
+      { stars: 3, percentage: 2, count: 3 },
+      { stars: 2, percentage: 0, count: 0 },
+      { stars: 1, percentage: 0, count: 0 },
     ],
     highlightPills: [
-      "Modern Equipment",
-      "Spacious & Clean",
-      "Motivating Coaches",
-      "Welcoming Atmosphere",
-      "Prime Tili Road Location"
+      "Precision Equipment",
+      "Spacious AC Floor",
+      "Certified Coaches",
+      "Welcoming Community",
+      "Flexible Batch Times"
     ],
     testimonials: [
       {
         id: 1,
-        author: "Aman Sharma",
-        role: "Member since 2023",
+        author: "Member Testimonial",
+        role: "Active Member",
         rating: 5,
-        time: "2 weeks ago",
-        comment: "Best gym on Tili Road, Sagar! The atmosphere is unbeatable, machines are completely smooth and well-maintained. Coaches are always on the floor guiding your posture.",
-        tag: "Muscle Building"
+        time: "Recent Member",
+        comment: "Outstanding training environment with smooth German-engineered treadmills and heavy free weights. The air-conditioned floor is always spotless.",
+        tag: "Fat Loss & Conditioning"
       },
       {
         id: 2,
-        author: "Pooja Patel",
-        role: "Morning Batch Member",
+        author: "Strength Athlete",
+        role: "Evening Batch",
         rating: 5,
-        time: "1 month ago",
-        comment: "Super safe and welcoming environment for women. The 6-10 AM morning slot is fresh, completely hygienic, and the personal training attention is wonderful.",
-        tag: "Fat Loss & Tone"
+        time: "Verified Member",
+        comment: "Best equipment in the area. Sturdy squat racks, Olympic barbells, and coaches who actively help with posture and workout form.",
+        tag: "Hypertrophy & Strength"
       },
       {
         id: 3,
-        author: "Rohit Bundela",
-        role: "Powerlifting Enthusiast",
+        author: "Morning Member",
+        role: "Morning Shift",
         rating: 5,
-        time: "3 months ago",
-        comment: "High quality Olympic barbells, sturdy squat racks and plenty of plates. You don't have to wait in line for benches. Elite Gym definitely lives up to its name.",
-        tag: "Strength Training"
-      },
-      {
-        id: 4,
-        author: "Dr. Vikas Jain",
-        role: "Evening Batch Member",
-        rating: 4.8,
-        time: "Recently",
-        comment: "Centrally located right opposite Rozgar Office in Poddar Colony. Perfect evening batch hours (5 PM to 10 PM) that fit right into my clinic schedule.",
+        time: "Regular Member",
+        comment: "Super clean and safe space. The morning batch allows me to get my full workout completed before work without waiting for machines.",
         tag: "General Fitness"
       }
     ]
   },
   features: [
     {
-      title: "Top-Notch Modern Equipment",
-      description: "Bio-mechanically engineered plate-loaded machines, Olympic racks, and imported cardio setups.",
+      title: "Precision Cardio & Treadmills",
+      description: "German-designed commercial motorized treadmills, shock-absorbing decks, and high-performance cardio theatre.",
+      icon: "Flame"
+    },
+    {
+      title: "Biomechanic Strength Floor",
+      description: "Plate-loaded machines, linear leg press, dual cable crossovers, and ergonomic movement arcs.",
       icon: "Dumbbell"
     },
     {
-      title: "Spacious & Clean Environment",
-      description: "Fully air-conditioned, sanitised daily, dust-free rubber flooring and ample natural ventilation.",
+      title: "Clean Air-Conditioned Floor",
+      description: "Sanitized daily with industrial air purification, non-slip rubber flooring, and fresh climate control.",
       icon: "Sparkles"
     },
     {
-      title: "Expert & Motivating Coaches",
-      description: "Certified trainers offering customized workout split designs, posture corrections and diet advice.",
-      icon: "Award"
-    },
-    {
-      title: "Flexible Split Batches",
-      description: "Dual convenient slots: 6–10 AM for early birds and 5–10 PM for evening power training.",
+      title: "Flexible Dual Shifts",
+      description: "Convenient morning and evening workout slots tailored for professionals, students, and athletes.",
       icon: "Clock"
     },
     {
-      title: "Prime Sagar Location",
-      description: "Located on Tili Road right in front of Rozgar Office with easy bike and car parking.",
-      icon: "MapPin"
+      title: "Certified Coaching & Form Guidance",
+      description: "Experienced trainers on the floor to advise on exercise execution, split blueprints, and progression.",
+      icon: "Award"
     },
     {
-      title: "Supportive Community",
-      description: "A friendly, zero-ego workout vibe that keeps you accountable and motivated every single day.",
-      icon: "Users"
+      title: "Lockers & Chilled Hydration",
+      description: "Secure digital member lockers, modern changing rooms, and chilled RO filtered drinking stations.",
+      icon: "ShieldCheck"
     }
   ],
   pricingPlans: [
     {
       id: "monthly",
-      name: "Monthly Pass",
-      tagline: "Great for testing the waters",
-      price: "1,199",
+      name: "Monthly Flex Pass",
+      tagline: "Total access with complete flexibility",
+      price: "[Monthly Fee]",
       period: "per month",
       popular: false,
       features: [
-        "Full access to Morning & Evening batches",
-        "Modern strength & cardio equipment",
-        "Free locker & shower facilities",
-        "Gym floor trainer assistance",
-        "Diet guide & workout chart"
+        "Full access to Morning & Evening shifts",
+        "Commercial cardio & strength equipment",
+        "Free secure locker & changing facilities",
+        "Floor trainer assistance & guidance",
+        "Customized workout chart"
       ]
     },
     {
       id: "quarterly",
       name: "3-Month Transformation",
-      tagline: "Most popular for visible muscle & fat loss",
-      price: "2,999",
-      originalPrice: "3,599",
+      tagline: "Most popular for noticeable strength & fat loss",
+      price: "[Quarterly Fee]",
+      originalPrice: "[Original Price]",
       period: "for 3 months",
       popular: true,
       badge: "Best Value",
       features: [
-        "All Monthly Pass features included",
-        "Bi-weekly body composition & BMI review",
-        "Customized AI workout split blueprint",
+        "All Monthly Flex Pass benefits included",
+        "Periodic BMI & body composition analysis",
+        "Customized AI routine & nutrition guide",
         "Priority spotter & posture checks",
-        "Save 17% compared to monthly pass"
+        "Save on multi-month registration"
       ]
     },
     {
       id: "annual",
       name: "Annual VIP Membership",
-      tagline: "For true fitness enthusiasts",
-      price: "8,999",
-      originalPrice: "14,388",
+      tagline: "Commit to year-round peak physical condition",
+      price: "[Annual Fee]",
+      originalPrice: "[Original Price]",
       period: "per year",
       popular: false,
       badge: "Maximum Savings",
       features: [
-        "Unrestricted 365-day access",
-        "Complimentary 1-on-1 personal training sessions",
-        "Complete personalized nutrition & macro chart",
-        "Free guest passes (2 per quarter)",
+        "Unrestricted 365-day floor access",
+        "Complimentary 1-on-1 coaching consultations",
+        "Personalized macro nutrition plan",
+        "Complimentary guest passes",
         "Zero registration fee"
       ]
     }
   ],
   coaches: [
     {
-      name: "Vikram Rajput",
-      role: "Head Strength & Conditioning Coach",
-      experience: "8+ Years Experience",
-      specialty: "Hypertrophy, Powerlifting & Biomechanics",
+      name: "Lead Strength Coach",
+      role: "Head Conditioning Specialist",
+      experience: "Certified Trainer",
+      specialty: "Hypertrophy, Posture & Strength",
       image: "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=600&q=80"
     },
     {
-      name: "Sunil Verma",
-      role: "Senior Fitness & Fat Loss Specialist",
-      experience: "6+ Years Experience",
-      specialty: "HIIT, Transformation & Sports Nutrition",
+      name: "Fitness Specialist",
+      role: "Cardio & Fat Loss Coach",
+      experience: "Functional Coach",
+      specialty: "HIIT, Transformation & Endurance",
       image: "https://images.unsplash.com/photo-1567013127542-490d757e51fc?auto=format&fit=crop&w=600&q=80"
     },
     {
-      name: "Anjali Dubey",
-      role: "Women's Wellness & Posture Coach",
-      experience: "5+ Years Experience",
-      specialty: "Functional Training, Core Stability & Mobility",
+      name: "Wellness Coach",
+      role: "Mobility & Core Trainer",
+      experience: "Certified Specialist",
+      specialty: "Functional Movement & Stability",
       image: "https://images.unsplash.com/photo-1518611012118-696072aa579a?auto=format&fit=crop&w=600&q=80"
     }
   ]

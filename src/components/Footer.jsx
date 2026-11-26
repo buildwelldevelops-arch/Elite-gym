@@ -1,17 +1,20 @@
 import React from 'react';
-import { Dumbbell, MapPin, Clock, Phone, Mail, MessageSquare, Star, Heart, ExternalLink, Shield } from 'lucide-react';
+import { Dumbbell, MapPin, Clock, Phone, Mail, MessageSquare, Star, Heart, ExternalLink, Shield, Instagram } from 'lucide-react';
 import { gymDetails } from '../data/gymData';
 
 export default function Footer({ onOpenTrialModal, onNavigateToQuiz, onOpenAdmin, settings }) {
-  const morningBatch = settings?.morningBatch || '6:00 AM – 10:00 AM';
-  const eveningBatch = settings?.eveningBatch || '5:00 PM – 10:00 PM';
-  const sundayTimings = settings?.sundayTimings || '7:00 AM – 10:00 AM';
-  const address = settings?.address || 'Tili Rd, in front of Rozgar Office, State Bank Colony, Poddar Colony, Sagar, MP 470001';
+  const morningBatch = settings?.morningBatch || gymDetails.timings.morningBatch;
+  const eveningBatch = settings?.eveningBatch || gymDetails.timings.eveningBatch;
+  const sundayTimings = settings?.sundayTimings || gymDetails.timings.sunday;
+  const address = settings?.address || gymDetails.address.full;
   const phone = settings?.phone || gymDetails.contact.phone;
   const whatsapp = settings?.whatsapp || gymDetails.contact.whatsapp;
-  const gymName = settings?.gymName || 'ELITE GYM';
+  const gymName = settings?.gymName || gymDetails.name;
+  const instagramUrl = settings?.instagram || gymDetails.contact.instagramUrl;
+  const googleMapsUrl = settings?.googleMaps || gymDetails.contact.googleMapsUrl;
+
   return (
-    <footer className="pt-16 pb-28 border-t border-purple-900 bg-[#250d44] text-purple-200 text-xs sm:text-sm">
+    <footer className="pt-16 pb-24 border-t border-white/10 bg-dark-950 text-slate-400 text-xs sm:text-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 mb-12">
@@ -19,16 +22,16 @@ export default function Footer({ onOpenTrialModal, onNavigateToQuiz, onOpenAdmin
           {/* Brand Info (2 Columns) */}
           <div className="lg:col-span-2 space-y-4">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-purple-700 flex items-center justify-center text-white shadow-purple-sm">
+              <div className="w-10 h-10 rounded-xl bg-red-600 flex items-center justify-center text-white shadow-glow-red">
                 <Dumbbell className="w-5 h-5 text-white" />
               </div>
-              <span className="text-2xl font-black tracking-tight font-heading text-white">
-                ELITE <span className="text-purple-300">GYM</span>
+              <span className="text-2xl font-black tracking-tight font-heading text-white uppercase">
+                {gymName}
               </span>
             </div>
 
-            <p className="text-purple-100 text-xs sm:text-sm leading-relaxed max-w-sm">
-              Sagar's premier fitness & training center featuring modern top-notch equipment, clean AC floors, and certified coaches. Rated 4.7★ by 52+ members on Google.
+            <p className="text-slate-400 text-xs sm:text-sm leading-relaxed max-w-sm">
+              High-performance strength & conditioning facility equipped with German-engineered treadmills, Olympic free weights, and certified coaches.
             </p>
 
             <div className="flex items-center gap-2 pt-1 text-amber-400">
@@ -37,14 +40,14 @@ export default function Footer({ onOpenTrialModal, onNavigateToQuiz, onOpenAdmin
                   <Star key={i} className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
                 ))}
               </div>
-              <span className="text-xs font-bold text-white">4.7 / 5.0</span>
-              <span className="text-xs text-purple-300">(52 Google Reviews)</span>
+              <span className="text-xs font-bold text-white">4.9 / 5.0</span>
+              <span className="text-xs text-slate-500">(Verified Google Reviews)</span>
             </div>
 
             <div className="pt-2">
               <button
                 onClick={onOpenTrialModal}
-                className="px-4 py-2 rounded-xl text-xs font-bold bg-white text-purple-950 hover:bg-purple-100 transition-all shadow-md inline-flex items-center gap-1.5 cursor-pointer"
+                className="px-4 py-2.5 rounded-xl text-xs font-bold bg-red-600 hover:bg-red-500 text-white transition-all shadow-glow-red inline-flex items-center gap-2 cursor-pointer uppercase tracking-wider"
               >
                 Claim Free 1-Day Trial Pass
               </button>
@@ -56,12 +59,12 @@ export default function Footer({ onOpenTrialModal, onNavigateToQuiz, onOpenAdmin
             <h4 className="text-sm font-bold text-white uppercase tracking-wider font-heading">
               Explore
             </h4>
-            <ul className="space-y-2 text-xs text-purple-200">
+            <ul className="space-y-2 text-xs text-slate-400">
               <li>
                 <a href="#hero" className="hover:text-white transition-colors">Overview</a>
               </li>
               <li>
-                <button onClick={onNavigateToQuiz} className="hover:text-white transition-colors text-left text-purple-300 font-bold">
+                <button onClick={onNavigateToQuiz} className="hover:text-white transition-colors text-left text-red-400 font-bold">
                   Personal Routine Finder
                 </button>
               </li>
@@ -69,13 +72,13 @@ export default function Footer({ onOpenTrialModal, onNavigateToQuiz, onOpenAdmin
                 <a href="#timings" className="hover:text-white transition-colors">Morning & Evening Batches</a>
               </li>
               <li>
-                <a href="#facilities" className="hover:text-white transition-colors">Equipment & Clean Floor</a>
+                <a href="#facilities" className="hover:text-white transition-colors">Cardio Deck & Floor</a>
               </li>
               <li>
-                <a href="#reviews" className="hover:text-white transition-colors">Google Reviews (4.7★)</a>
+                <a href="#reviews" className="hover:text-white transition-colors">Member Reviews (4.9★)</a>
               </li>
               <li>
-                <a href="#pricing" className="hover:text-white transition-colors">Membership Fees & Student Pass</a>
+                <a href="#pricing" className="hover:text-white transition-colors">Membership Fees</a>
               </li>
             </ul>
           </div>
@@ -83,35 +86,35 @@ export default function Footer({ onOpenTrialModal, onNavigateToQuiz, onOpenAdmin
           {/* Hours & Batches */}
           <div className="space-y-3">
             <h4 className="text-sm font-bold text-white uppercase tracking-wider font-heading">
-              Batch Timings
+              Batch Schedules
             </h4>
-            <div className="space-y-2.5 text-xs text-purple-100">
-              <div className="p-3 rounded-xl bg-purple-900/60 border border-purple-800">
-                <span className="font-bold text-purple-200 block">Morning Shift:</span>
+            <div className="space-y-2.5 text-xs text-slate-300">
+              <div className="p-3 rounded-xl bg-dark-900 border border-white/5">
+                <span className="font-bold text-red-400 block">Morning Shift:</span>
                 <span className="text-white font-bold">{morningBatch}</span>
-                <span className="text-[10px] text-purple-300 block mt-0.5">Monday to Saturday</span>
+                <span className="text-[10px] text-slate-500 block mt-0.5">Monday to Saturday</span>
               </div>
-              <div className="p-3 rounded-xl bg-purple-900/60 border border-purple-800">
-                <span className="font-bold text-purple-200 block">Evening Shift:</span>
+              <div className="p-3 rounded-xl bg-dark-900 border border-white/5">
+                <span className="font-bold text-red-400 block">Evening Shift:</span>
                 <span className="text-white font-bold">{eveningBatch}</span>
-                <span className="text-[10px] text-purple-300 block mt-0.5">Monday to Saturday</span>
+                <span className="text-[10px] text-slate-500 block mt-0.5">Monday to Saturday</span>
               </div>
-              <p className="text-[11px] text-purple-300">Sunday: {sundayTimings}</p>
+              <p className="text-[11px] text-slate-400">Sunday: {sundayTimings}</p>
             </div>
           </div>
 
           {/* Location & Contact */}
           <div className="space-y-3">
             <h4 className="text-sm font-bold text-white uppercase tracking-wider font-heading">
-              Sagar Facility
+              Facility Info
             </h4>
-            <div className="space-y-2 text-xs text-purple-200">
+            <div className="space-y-2.5 text-xs text-slate-400">
               <div className="flex items-start gap-2">
-                <MapPin className="w-4 h-4 text-purple-300 shrink-0 mt-0.5" />
+                <MapPin className="w-4 h-4 text-red-400 shrink-0 mt-0.5" />
                 <span>{address}</span>
               </div>
               <div className="flex items-center gap-2">
-                <Phone className="w-4 h-4 text-purple-300 shrink-0" />
+                <Phone className="w-4 h-4 text-cyan-400 shrink-0" />
                 <span>{phone}</span>
               </div>
               <div className="flex items-center gap-2">
@@ -125,26 +128,37 @@ export default function Footer({ onOpenTrialModal, onNavigateToQuiz, onOpenAdmin
                   WhatsApp Help Desk
                 </a>
               </div>
+              <div className="flex items-center gap-2">
+                <Instagram className="w-4 h-4 text-pink-400 shrink-0" />
+                <a 
+                  href={instagramUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:underline text-slate-300 font-medium"
+                >
+                  Instagram Channel
+                </a>
+              </div>
             </div>
           </div>
 
         </div>
 
         {/* Bottom Credits & Copyright */}
-        <div className="pt-8 border-t border-purple-900 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-purple-300">
+        <div className="pt-8 border-t border-white/5 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
           <p>
-            © {new Date().getFullYear()} Elite Gym Sagar. All rights reserved.
+            © {new Date().getFullYear()} {gymName}. All rights reserved.
           </p>
           <div className="flex flex-wrap items-center gap-4">
-            <p className="flex items-center gap-1 font-medium">
-              Elite Gym • Sagar, Madhya Pradesh 470001
+            <p className="flex items-center gap-1 font-medium text-slate-400">
+              High-Performance Fitness & Training Center
             </p>
             <button
               onClick={onOpenAdmin}
-              className="text-purple-200 hover:text-white transition-all flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-purple-900/70 hover:bg-purple-800 border border-purple-700/70 text-xs font-semibold cursor-pointer shadow-sm hover:border-purple-500"
-              title="Admin Portal - Manage Batches, Inquiries, Settings & GitHub Sync"
+              className="text-slate-300 hover:text-white transition-all flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-dark-900 hover:bg-dark-850 border border-white/10 text-xs font-semibold cursor-pointer shadow-sm hover:border-red-500/50"
+              title="Admin Portal - Manage Batches, Inquiries, Settings & Photos"
             >
-              <Shield className="w-3.5 h-3.5 text-purple-400" />
+              <Shield className="w-3.5 h-3.5 text-red-400" />
               <span>Admin Portal</span>
             </button>
           </div>

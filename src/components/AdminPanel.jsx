@@ -156,16 +156,18 @@ export default function AdminPanel({
   // Editable settings state
   const [formData, setFormData] = useState({
     gymName: currentSettings?.gymName || gymDetails.name,
-    morningBatch: currentSettings?.morningBatch || '6:00 AM – 10:00 AM',
-    eveningBatch: currentSettings?.eveningBatch || '5:00 PM – 10:00 PM',
-    sundayTimings: currentSettings?.sundayTimings || '7:00 AM – 10:00 AM',
+    morningBatch: currentSettings?.morningBatch || gymDetails.timings.morningBatch,
+    eveningBatch: currentSettings?.eveningBatch || gymDetails.timings.eveningBatch,
+    sundayTimings: currentSettings?.sundayTimings || gymDetails.timings.sunday,
     phone: currentSettings?.phone || gymDetails.contact.phone,
     whatsapp: currentSettings?.whatsapp || gymDetails.contact.whatsapp,
     address: currentSettings?.address || gymDetails.address.full,
-    announcement: currentSettings?.announcement || 'Welcome to Elite Gym Sagar! Dual batches open daily.',
-    monthlyPrice: currentSettings?.monthlyPrice || '1,199',
-    quarterlyPrice: currentSettings?.quarterlyPrice || '2,999',
-    annualPrice: currentSettings?.annualPrice || '8,999'
+    instagram: currentSettings?.instagram || gymDetails.contact.instagramUrl,
+    googleMaps: currentSettings?.googleMaps || gymDetails.contact.googleMapsUrl,
+    announcement: currentSettings?.announcement || 'Welcome to our facility! Professional athletic training and precision cardio deck.',
+    monthlyPrice: currentSettings?.monthlyPrice || '[Monthly Fee]',
+    quarterlyPrice: currentSettings?.quarterlyPrice || '[Quarterly Fee]',
+    annualPrice: currentSettings?.annualPrice || '[Annual Fee]'
   });
 
   // Sync formData whenever currentSettings changes
@@ -173,16 +175,18 @@ export default function AdminPanel({
     if (currentSettings) {
       setFormData({
         gymName: currentSettings.gymName || gymDetails.name,
-        morningBatch: currentSettings.morningBatch || '6:00 AM – 10:00 AM',
-        eveningBatch: currentSettings.eveningBatch || '5:00 PM – 10:00 PM',
-        sundayTimings: currentSettings.sundayTimings || '7:00 AM – 10:00 AM',
+        morningBatch: currentSettings.morningBatch || gymDetails.timings.morningBatch,
+        eveningBatch: currentSettings.eveningBatch || gymDetails.timings.eveningBatch,
+        sundayTimings: currentSettings.sundayTimings || gymDetails.timings.sunday,
         phone: currentSettings.phone || gymDetails.contact.phone,
         whatsapp: currentSettings.whatsapp || gymDetails.contact.whatsapp,
         address: currentSettings.address || gymDetails.address.full,
-        announcement: currentSettings.announcement || 'Welcome to Elite Gym Sagar! Dual batches open daily.',
-        monthlyPrice: currentSettings.monthlyPrice || '1,199',
-        quarterlyPrice: currentSettings.quarterlyPrice || '2,999',
-        annualPrice: currentSettings.annualPrice || '8,999'
+        instagram: currentSettings.instagram || gymDetails.contact.instagramUrl,
+        googleMaps: currentSettings.googleMaps || gymDetails.contact.googleMapsUrl,
+        announcement: currentSettings.announcement || 'Welcome to our facility! Professional athletic training and precision cardio deck.',
+        monthlyPrice: currentSettings.monthlyPrice || '[Monthly Fee]',
+        quarterlyPrice: currentSettings.quarterlyPrice || '[Quarterly Fee]',
+        annualPrice: currentSettings.annualPrice || '[Annual Fee]'
       });
     }
   }, [currentSettings]);
@@ -341,8 +345,8 @@ export default function AdminPanel({
       id: `offer-${Date.now()}`,
       title: offerForm.title,
       discount_tag: offerForm.discount_tag,
-      description: offerForm.description || 'Exclusive membership discount for Sagar athletes.',
-      promo_code: (offerForm.promo_code || 'ELITE2026').toUpperCase(),
+      description: offerForm.description || 'Exclusive membership discount for our athletes.',
+      promo_code: (offerForm.promo_code || 'PROMO2026').toUpperCase(),
       badge: offerForm.badge || 'Special Offer',
       valid_until: offerForm.valid_until || 'Limited Time',
       is_active: true,
@@ -451,7 +455,7 @@ export default function AdminPanel({
       category: photoForm.category,
       title: photoForm.title,
       image_url: photoForm.image_url,
-      tag: photoForm.tag || 'Elite Feature',
+      tag: photoForm.tag || 'Gym Feature',
       specs: photoForm.specs || 'Commercial grade fitness equipment',
       highlight: photoForm.highlight || 'Daily maintained for optimum member experience.',
       display_order: photos.length + 1
@@ -550,7 +554,7 @@ export default function AdminPanel({
     const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(exportBundle, null, 2));
     const downloadAnchor = document.createElement('a');
     downloadAnchor.setAttribute("href", dataStr);
-    downloadAnchor.setAttribute("download", `elite-gym-config-${new Date().toISOString().slice(0,10)}.json`);
+    downloadAnchor.setAttribute("download", `gym-config-${new Date().toISOString().slice(0,10)}.json`);
     document.body.appendChild(downloadAnchor);
     downloadAnchor.click();
     downloadAnchor.remove();
@@ -568,21 +572,21 @@ export default function AdminPanel({
       >
         
         {/* Header Bar */}
-        <div className="p-4 sm:p-5 bg-purple-950 text-white flex items-center justify-between shrink-0">
+        <div className="p-4 sm:p-5 bg-dark-950 text-white border-b border-white/10 flex items-center justify-between shrink-0">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-purple-700 flex items-center justify-center text-white shadow-purple-sm">
+            <div className="w-10 h-10 rounded-xl bg-red-600 flex items-center justify-center text-white shadow-glow-red">
               <Shield className="w-5 h-5" />
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <h3 className="text-base sm:text-lg font-black font-heading tracking-tight">
-                  Elite Gym Admin Portal
+                <h3 className="text-base sm:text-lg font-black font-heading tracking-tight uppercase">
+                  {formData.gymName || '[Gym Name]'} Admin Portal
                 </h3>
-                <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-purple-800 text-purple-200 border border-purple-600">
-                  Sagar, MP
+                <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-red-500/10 text-red-400 border border-red-500/20">
+                  Full Control
                 </span>
               </div>
-              <p className="text-xs text-purple-200">
+              <p className="text-xs text-slate-400">
                 100% Autonomous Control • All changes apply directly to the website without opening Supabase
               </p>
             </div>
@@ -592,14 +596,14 @@ export default function AdminPanel({
             {isAuthenticated && (
               <button
                 onClick={handleLogout}
-                className="hidden sm:inline-flex px-3 py-1.5 rounded-lg text-xs font-semibold bg-purple-900 hover:bg-purple-800 text-purple-200 transition-colors"
+                className="hidden sm:inline-flex px-3 py-1.5 rounded-lg text-xs font-semibold bg-white/5 hover:bg-white/10 text-slate-300 transition-colors"
               >
                 Log Out
               </button>
             )}
             <button
               onClick={onClose}
-              className="p-2 rounded-full bg-purple-900 hover:bg-purple-800 text-purple-200 hover:text-white transition-colors cursor-pointer"
+              className="p-2 rounded-full bg-white/5 hover:bg-white/10 text-slate-300 hover:text-white transition-colors cursor-pointer"
               aria-label="Close admin modal"
             >
               <X className="w-5 h-5" />
@@ -659,7 +663,7 @@ export default function AdminPanel({
                 </button>
 
                 <p className="text-[11px] text-slate-400">
-                  Default Passcodes: <code className="bg-slate-100 px-1.5 py-0.5 rounded text-purple-900 font-mono">admin123</code> or <code className="bg-slate-100 px-1.5 py-0.5 rounded text-purple-900 font-mono">elite2026</code>
+                  Default Passcode: <code className="bg-slate-100 px-1.5 py-0.5 rounded text-red-600 font-mono font-bold">admin123</code>
                 </p>
               </form>
             </div>
@@ -1174,7 +1178,7 @@ export default function AdminPanel({
 
                             {/* WhatsApp Preview */}
                             <a
-                              href={`https://wa.me/${formData.whatsapp || '919826000000'}?text=${encodeURIComponent(`Hi Elite Gym! Inquiring about "${offer.title}" offer (Code: ${offer.promo_code || 'N/A'})`)}`}
+                              href={`https://wa.me/${formData.whatsapp || '919876543210'}?text=${encodeURIComponent(`Hi ${formData.gymName || 'Gym'}! Inquiring about "${offer.title}" offer (Code: ${offer.promo_code || 'N/A'})`)}`}
                               target="_blank"
                               rel="noopener noreferrer"
                               className="p-2 rounded-xl bg-purple-50 hover:bg-purple-100 text-purple-700 border border-purple-200 transition-colors"
@@ -1562,7 +1566,7 @@ export default function AdminPanel({
                           {inq.phone && (
                             <div className="flex items-center gap-2 shrink-0">
                               <a
-                                href={`https://wa.me/${inq.phone.replace(/[^0-9]/g, '')}?text=Hi%20${encodeURIComponent(inq.full_name || '')},%20thank%20you%20for%20contacting%20Elite%20Gym%20Sagar!`}
+                                href={`https://wa.me/${inq.phone.replace(/[^0-9]/g, '')}?text=Hi%20${encodeURIComponent(inq.full_name || '')},%20thank%20you%20for%20contacting%20${encodeURIComponent(formData.gymName || 'our gym')}!`}
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="px-3 py-1.5 rounded-xl bg-emerald-50 hover:bg-emerald-100 text-emerald-800 text-xs font-bold flex items-center gap-1 border border-emerald-200"
@@ -1655,7 +1659,7 @@ export default function AdminPanel({
                             )}
 
                             <a
-                              href={`https://wa.me/${pass.phone.replace(/[^0-9]/g, '')}?text=Hi%20${encodeURIComponent(pass.full_name)},%20welcome%20to%20Elite%20Gym%20Sagar!%20Your%20VIP%20Trial%20Pass%20${pass.pass_code}%20is%20ready.`}
+                              href={`https://wa.me/${pass.phone.replace(/[^0-9]/g, '')}?text=Hi%20${encodeURIComponent(pass.full_name)},%20welcome%20to%20${encodeURIComponent(formData.gymName || 'our gym')}!%20Your%20VIP%20Trial%20Pass%20${pass.pass_code}%20is%20ready.`}
                               target="_blank"
                               rel="noopener noreferrer"
                               className="p-2 rounded-xl bg-purple-50 hover:bg-purple-100 text-purple-700 border border-purple-200 transition-colors"

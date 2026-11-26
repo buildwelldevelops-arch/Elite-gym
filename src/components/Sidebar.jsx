@@ -1,31 +1,26 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { 
   Dumbbell, Home, Sparkles, Clock, Star, CreditCard, 
-  MapPin, MessageSquare, ShieldCheck, ChevronRight, X, Phone, Shield, Tag
+  MapPin, MessageSquare, ShieldCheck, ChevronRight, X, Phone, Flame, Tag, Instagram
 } from 'lucide-react';
 import { gymDetails } from '../data/gymData';
 import { getGymBatchStatus } from '../utils/timeHelper';
 
 export default function Sidebar({ isOpen, onClose, onOpenTrialModal, onNavigateToQuiz, settings }) {
-  const [status, setStatus] = useState(getGymBatchStatus());
-  const [activeSection, setActiveSection] = useState('hero');
+  const status = getGymBatchStatus();
+  const gymName = settings?.gymName || gymDetails.name;
+  const address = settings?.address || gymDetails.address.full;
   const whatsapp = settings?.whatsapp || gymDetails.contact.whatsapp;
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setStatus(getGymBatchStatus());
-    }, 60000);
-    return () => clearInterval(interval);
-  }, []);
+  const phone = settings?.phone || gymDetails.contact.phone;
 
   const navItems = [
     { id: 'hero', name: 'Home / Overview', icon: Home, href: '#hero' },
     { id: 'offers', name: 'Special Offers', icon: Tag, href: '#offers', badge: 'Active Deals' },
-    { id: 'quiz', name: 'Routine Finder', icon: Sparkles, href: '#quiz', highlight: true },
-    { id: 'timings', name: 'Timings & Shifts', icon: Clock, href: '#timings', badge: '6-10 AM | 5-10 PM' },
+    { id: 'quiz', name: 'Workout Finder', icon: Flame, href: '#quiz', highlight: true },
+    { id: 'timings', name: 'Timings & Shifts', icon: Clock, href: '#timings' },
     { id: 'facilities', name: 'Equipment & AC Floor', icon: Dumbbell, href: '#facilities' },
-    { id: 'reviews', name: 'Member Reviews', icon: Star, href: '#reviews', rating: '4.7★' },
-    { id: 'pricing', name: 'Memberships & Fees', icon: CreditCard, href: '#pricing' },
+    { id: 'reviews', name: 'Member Testimonials', icon: Star, href: '#reviews', rating: '4.9★' },
+    { id: 'pricing', name: 'Membership Plans', icon: CreditCard, href: '#pricing' },
     { id: 'location', name: 'Location & Contact', icon: MapPin, href: '#location' },
   ];
 
@@ -44,56 +39,48 @@ export default function Sidebar({ isOpen, onClose, onOpenTrialModal, onNavigateT
       {isOpen && (
         <div 
           onClick={onClose}
-          className="fixed inset-0 z-40 bg-slate-900/50 backdrop-blur-sm lg:hidden transition-opacity"
+          className="fixed inset-0 z-40 bg-black/70 backdrop-blur-sm lg:hidden transition-opacity"
+          aria-hidden="true"
         />
       )}
 
-      {/* Sidebar Container */}
-      <aside className={`fixed top-0 bottom-0 left-0 z-50 w-72 bg-white border-r border-purple-100 flex flex-col justify-between transition-transform duration-300 ease-in-out shadow-sm lg:translate-x-0 ${
+      {/* Slide-over Drawer */}
+      <aside className={`fixed top-0 left-0 bottom-0 z-50 w-72 sm:w-80 bg-[#0b0f19] border-r border-white/10 flex flex-col justify-between transition-transform duration-300 ease-in-out lg:hidden ${
         isOpen ? 'translate-x-0' : '-translate-x-full'
       }`}>
         
-        {/* Top: Brand Logo & Close button on mobile */}
+        {/* Top Header */}
         <div>
-          <div className="p-5 border-b border-purple-100 flex items-center justify-between">
-            <a href="#hero" onClick={() => handleNavClick('#hero')} className="flex items-center gap-3 group">
-              <div className="w-10 h-10 rounded-xl bg-purple-700 flex items-center justify-center text-white shadow-purple-sm transition-transform group-hover:scale-105">
-                <Dumbbell className="w-5 h-5 transform -rotate-45 group-hover:rotate-0 transition-transform duration-300" />
+          <div className="p-5 border-b border-white/10 flex items-center justify-between">
+            <div className="flex items-center gap-2.5">
+              <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-red-600 to-red-500 flex items-center justify-center text-white shadow-glow-red">
+                <Dumbbell className="w-5 h-5" />
               </div>
-              <div>
-                <span className="text-xl font-black tracking-tight font-heading text-slate-900">
-                  ELITE <span className="text-purple-700">GYM</span>
-                </span>
-                <p className="text-[11px] text-purple-700 font-bold uppercase tracking-wider">Sagar, MP</p>
-              </div>
-            </a>
+              <span className="text-lg font-black font-heading text-white">
+                {gymName}
+              </span>
+            </div>
 
-            {/* Mobile close button */}
             <button
               onClick={onClose}
-              className="lg:hidden p-1.5 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-100"
-              aria-label="Close sidebar"
+              className="p-1.5 rounded-lg bg-white/5 hover:bg-white/10 text-slate-400 hover:text-white"
             >
               <X className="w-5 h-5" />
             </button>
           </div>
 
-          {/* Shift Status Pill */}
+          {/* Shift status pill */}
           <div className="px-4 pt-4">
-            <div className="p-3 rounded-2xl bg-purple-50/80 border border-purple-200 flex items-center gap-2.5">
-              <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse shrink-0"></span>
+            <div className="p-3 rounded-2xl bg-white/5 border border-white/10 flex items-center gap-2.5">
+              <span className={`w-2.5 h-2.5 rounded-full ${status.isOpen ? 'bg-emerald-400 animate-pulse' : 'bg-amber-400'}`} />
               <div className="text-xs">
-                <div className="font-extrabold text-purple-950 flex items-center gap-1.5">
-                  <span>{status.statusText}</span>
-                  <span className="text-purple-300">•</span>
-                  <span className="text-purple-800 font-semibold">{status.batchName}</span>
-                </div>
-                <p className="text-[11px] text-slate-500 mt-0.5">{status.timings}</p>
+                <span className="font-extrabold text-white block">{status.statusText}</span>
+                <span className="text-[11px] text-slate-400">{status.batchName} ({status.timings})</span>
               </div>
             </div>
           </div>
 
-          {/* Navigation Links */}
+          {/* Links */}
           <nav className="p-4 space-y-1">
             {navItems.map((item) => {
               const Icon = item.icon;
@@ -102,25 +89,24 @@ export default function Sidebar({ isOpen, onClose, onOpenTrialModal, onNavigateT
                   key={item.id}
                   href={item.href}
                   onClick={() => handleNavClick(item.href, item.id === 'quiz')}
-                  className={`w-full px-3.5 py-2.5 rounded-xl text-xs sm:text-sm font-bold flex items-center justify-between transition-all group ${
-                    item.highlight
-                      ? 'bg-purple-100 text-purple-900 hover:bg-purple-200'
-                      : 'text-slate-700 hover:bg-purple-50 hover:text-purple-800'
+                  className={`w-full px-3.5 py-2.5 rounded-xl text-xs sm:text-sm font-bold flex items-center justify-between transition-all ${
+                    item.highlight 
+                      ? 'bg-red-600/20 text-red-400 border border-red-500/30' 
+                      : 'text-slate-300 hover:bg-white/5 hover:text-white'
                   }`}
                 >
-                  <div className="flex items-center gap-3">
-                    <Icon className={`w-4 h-4 ${item.highlight ? 'text-purple-700' : 'text-slate-400 group-hover:text-purple-700'}`} />
+                  <div className="flex items-center gap-2.5">
+                    <Icon className="w-4 h-4 text-red-400" />
                     <span>{item.name}</span>
                   </div>
-
-                  {item.rating && (
-                    <span className="text-[11px] font-bold px-2 py-0.5 rounded-full bg-amber-50 text-amber-800 border border-amber-200">
-                      {item.rating}
+                  {item.badge && (
+                    <span className="text-[10px] px-2 py-0.5 rounded-full bg-red-600/30 text-red-300 font-bold">
+                      {item.badge}
                     </span>
                   )}
-                  {item.badge && (
-                    <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-white text-slate-500 border border-purple-100 hidden xl:inline">
-                      {item.badge}
+                  {item.rating && (
+                    <span className="text-[10px] px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 font-bold">
+                      {item.rating}
                     </span>
                   )}
                 </a>
@@ -129,46 +115,32 @@ export default function Sidebar({ isOpen, onClose, onOpenTrialModal, onNavigateT
           </nav>
         </div>
 
-        {/* Bottom Actions in Sidebar */}
-        <div className="p-4 border-t border-purple-100 space-y-3 bg-purple-50/40">
-          
-          {/* Trial Pass Card */}
-          <div className="p-3.5 rounded-2xl bg-white border border-purple-200 shadow-sm space-y-2">
-            <div className="flex items-center gap-2">
-              <ShieldCheck className="w-4 h-4 text-emerald-600" />
-              <span className="text-xs font-bold text-slate-900">1-Day Free VIP Pass</span>
-            </div>
-            <p className="text-[11px] text-slate-500 leading-tight">
-              Test our modern equipment and AC floor on Tili Road for free.
-            </p>
-            <button
-              onClick={() => {
-                if (onClose) onClose();
-                onOpenTrialModal();
-              }}
-              className="w-full py-2.5 rounded-xl text-xs font-bold bg-purple-700 hover:bg-purple-800 text-white shadow-purple-sm transition-all flex items-center justify-center gap-1.5 cursor-pointer"
-            >
-              <span>Claim Free Pass</span>
-              <ChevronRight className="w-3.5 h-3.5" />
-            </button>
-          </div>
+        {/* Bottom Drawer Actions */}
+        <div className="p-4 border-t border-white/10 bg-[#070a12] space-y-2.5">
+          <button
+            onClick={() => {
+              onClose();
+              onOpenTrialModal();
+            }}
+            className="w-full py-2.5 rounded-xl text-xs font-bold bg-gradient-to-r from-red-600 to-red-500 hover:from-red-500 hover:to-red-600 text-white shadow-glow-red transition-all flex items-center justify-center gap-1.5"
+          >
+            <ShieldCheck className="w-4 h-4" />
+            <span>Claim Free Day Pass</span>
+          </button>
 
-          {/* Quick WhatsApp Link */}
           <a
-            href={`https://wa.me/${whatsapp}?text=Hi%20Elite%20Gym%20Sagar,%20I%20have%20a%20question%20about%20membership.`}
+            href={`https://wa.me/${whatsapp}?text=Hello!%20I%20am%20inquiring%20about%20gym%20admission.`}
             target="_blank"
             rel="noopener noreferrer"
-            className="w-full py-2 px-3 rounded-xl bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 text-emerald-800 text-xs font-bold flex items-center justify-center gap-2 transition-colors"
+            className="w-full py-2 rounded-xl text-xs font-bold bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/30 text-emerald-400 flex items-center justify-center gap-2"
           >
-            <MessageSquare className="w-3.5 h-3.5 text-emerald-600" />
-            <span>WhatsApp Us</span>
+            <MessageSquare className="w-3.5 h-3.5" />
+            <span>WhatsApp Front Desk</span>
           </a>
 
-          {/* Location snippet */}
-          <div className="text-[11px] text-slate-500 text-center font-medium">
-            📍 Sagar, Madhya Pradesh
+          <div className="text-[11px] text-slate-500 text-center truncate pt-1">
+            📍 {address}
           </div>
-
         </div>
 
       </aside>

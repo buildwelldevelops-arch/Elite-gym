@@ -1,14 +1,17 @@
 import React, { useState } from 'react';
-import { Calculator, ArrowRight, Activity, Flame, ShieldAlert, CheckCircle2, Sparkles } from 'lucide-react';
+import { Calculator, ArrowRight, Activity, Flame, ShieldAlert, CheckCircle2, Sparkles, MessageSquare } from 'lucide-react';
 import { gymDetails } from '../data/gymData';
 
-export default function BmiCalculator({ onOpenTrialModal }) {
+export default function BmiCalculator({ onOpenTrialModal, settings }) {
   const [height, setHeight] = useState('172');
   const [weight, setWeight] = useState('68');
   const [age, setAge] = useState('24');
   const [gender, setGender] = useState('male');
   const [activity, setActivity] = useState('moderate');
   const [calculated, setCalculated] = useState(false);
+
+  const gymName = settings?.gymName || gymDetails.name;
+  const whatsappNum = settings?.whatsapp || gymDetails.contact.whatsapp;
 
   const heightM = parseFloat(height) / 100;
   const weightKg = parseFloat(weight);
@@ -28,21 +31,21 @@ export default function BmiCalculator({ onOpenTrialModal }) {
   const muscleGainCal = Math.round(tdee + 300);
 
   let bmiCategory = "Normal weight";
-  let bmiColor = "text-emerald-700";
-  let bmiBg = "bg-emerald-50 border-emerald-200 text-emerald-800";
+  let bmiColor = "text-emerald-400";
+  let bmiBg = "bg-emerald-500/10 border-emerald-500/20 text-emerald-400";
 
   if (bmi < 18.5) {
     bmiCategory = "Underweight";
-    bmiColor = "text-amber-700";
-    bmiBg = "bg-amber-50 border-amber-200 text-amber-800";
+    bmiColor = "text-amber-400";
+    bmiBg = "bg-amber-500/10 border-amber-500/20 text-amber-400";
   } else if (bmi >= 25 && bmi < 29.9) {
     bmiCategory = "Overweight";
-    bmiColor = "text-amber-700";
-    bmiBg = "bg-amber-50 border-amber-200 text-amber-800";
+    bmiColor = "text-amber-400";
+    bmiBg = "bg-amber-500/10 border-amber-500/20 text-amber-400";
   } else if (bmi >= 30) {
     bmiCategory = "Obese";
-    bmiColor = "text-rose-700";
-    bmiBg = "bg-rose-50 border-rose-200 text-rose-800";
+    bmiColor = "text-red-400";
+    bmiBg = "bg-red-500/10 border-red-500/20 text-red-400";
   }
 
   const handleCalculate = (e) => {
@@ -52,37 +55,40 @@ export default function BmiCalculator({ onOpenTrialModal }) {
 
   const getWhatsAppMessage = () => {
     const text = encodeURIComponent(
-      `Hello Elite Gym Sagar! I checked my BMI & Calorie stats on your website:\n\n` +
+      `Hello ${gymName}! I checked my BMI & Calorie stats on your website:\n\n` +
       `📏 Height: ${height} cm\n` +
       `⚖️ Weight: ${weight} kg\n` +
       `📊 BMI: ${bmi} (${bmiCategory})\n` +
       `🔥 Maintenance Calories: ${tdee} kcal\n` +
       `🎯 Fat Loss: ${fatLossCal} kcal | Muscle Gain: ${muscleGainCal} kcal\n\n` +
-      `I want to plan my workout split at your Tili Road branch!`
+      `I want to plan my training split at your gym!`
     );
-    return `https://wa.me/${gymDetails.contact.whatsapp}?text=${text}`;
+    return `https://wa.me/${whatsappNum}?text=${text}`;
   };
 
   return (
-    <section className="py-16 sm:py-24 relative overflow-hidden bg-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="py-20 sm:py-28 relative overflow-hidden bg-dark-900 border-t border-white/5">
+      {/* Background glow */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[550px] h-[550px] bg-red-600/5 rounded-full blur-[140px] pointer-events-none" />
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
         {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto mb-12">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-100 text-purple-800 text-xs font-bold tracking-wider uppercase mb-3">
-            <Calculator className="w-3.5 h-3.5 text-purple-700" />
+        <div className="text-center max-w-3xl mx-auto mb-14">
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-red-500/10 border border-red-500/20 text-red-400 text-xs font-semibold tracking-wider uppercase mb-4">
+            <Calculator className="w-3.5 h-3.5 text-red-500" />
             <span>Health & Calorie Estimator</span>
           </div>
-          <h2 className="text-3xl sm:text-5xl font-extrabold text-slate-900 tracking-tight font-heading">
-            BMI & Daily <span className="text-purple-700">Calorie Calculator</span>
+          <h2 className="text-3xl sm:text-5xl font-black text-white tracking-tight font-heading uppercase">
+            BMI & Daily <span className="text-gradient-red">Calorie Calculator</span>
           </h2>
-          <p className="mt-3 text-sm sm:text-base text-slate-600">
-            Check where your numbers stand today and calculate the daily calories needed to reach your target physique.
+          <p className="mt-3 text-sm sm:text-base text-slate-400">
+            Check where your metrics stand today and determine the daily nutrition targets needed to achieve your goals.
           </p>
         </div>
 
         {/* Bento Calculator Card */}
-        <div className="rounded-3xl bg-purple-50/40 border border-purple-200 p-6 sm:p-9 shadow-soft">
+        <div className="rounded-3xl bg-dark-950/90 border border-white/10 p-6 sm:p-10 shadow-card-dark backdrop-blur-md">
           <form onSubmit={handleCalculate} className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
             
             {/* Input Controls (7 Columns) */}
@@ -90,15 +96,15 @@ export default function BmiCalculator({ onOpenTrialModal }) {
               
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-xs font-bold text-slate-700 mb-1.5">Gender</label>
+                  <label className="block text-xs font-bold text-slate-300 mb-1.5">Gender</label>
                   <div className="grid grid-cols-2 gap-2">
                     <button
                       type="button"
                       onClick={() => setGender('male')}
-                      className={`py-2.5 rounded-xl text-xs font-bold transition-all border ${
+                      className={`py-2.5 rounded-xl text-xs font-bold transition-all border cursor-pointer ${
                         gender === 'male'
-                          ? 'bg-purple-700 text-white border-purple-700 shadow-purple-sm'
-                          : 'bg-white text-slate-700 border-slate-200 hover:bg-slate-50'
+                          ? 'bg-red-600 text-white border-red-600 shadow-glow-red'
+                          : 'bg-dark-900 text-slate-400 border-white/10 hover:border-white/20'
                       }`}
                     >
                       Male
@@ -106,10 +112,10 @@ export default function BmiCalculator({ onOpenTrialModal }) {
                     <button
                       type="button"
                       onClick={() => setGender('female')}
-                      className={`py-2.5 rounded-xl text-xs font-bold transition-all border ${
+                      className={`py-2.5 rounded-xl text-xs font-bold transition-all border cursor-pointer ${
                         gender === 'female'
-                          ? 'bg-purple-700 text-white border-purple-700 shadow-purple-sm'
-                          : 'bg-white text-slate-700 border-slate-200 hover:bg-slate-50'
+                          ? 'bg-red-600 text-white border-red-600 shadow-glow-red'
+                          : 'bg-dark-900 text-slate-400 border-white/10 hover:border-white/20'
                       }`}
                     >
                       Female
@@ -118,120 +124,99 @@ export default function BmiCalculator({ onOpenTrialModal }) {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold text-slate-700 mb-1.5">Age (Years)</label>
+                  <label className="block text-xs font-bold text-slate-300 mb-1.5">Age</label>
                   <input
                     type="number"
-                    min="14"
-                    max="80"
                     value={age}
                     onChange={(e) => setAge(e.target.value)}
-                    className="w-full px-4 py-2 rounded-xl bg-white border border-slate-200 text-slate-900 text-sm focus:outline-none focus:border-purple-600 transition-colors shadow-sm"
+                    min="14"
+                    max="80"
+                    required
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-dark-900 border border-white/10 text-white text-xs font-semibold focus:outline-none focus:border-red-500"
                   />
                 </div>
               </div>
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-xs font-bold text-slate-700 mb-1.5">Height (cm)</label>
+                  <label className="block text-xs font-bold text-slate-300 mb-1.5">Height (cm)</label>
                   <input
                     type="number"
-                    min="100"
-                    max="220"
                     value={height}
                     onChange={(e) => setHeight(e.target.value)}
-                    className="w-full px-4 py-2 rounded-xl bg-white border border-slate-200 text-slate-900 text-sm focus:outline-none focus:border-purple-600 transition-colors shadow-sm"
+                    min="120"
+                    max="220"
+                    required
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-dark-900 border border-white/10 text-white text-xs font-semibold focus:outline-none focus:border-red-500"
                   />
                 </div>
-
                 <div>
-                  <label className="block text-xs font-bold text-slate-700 mb-1.5">Current Weight (kg)</label>
+                  <label className="block text-xs font-bold text-slate-300 mb-1.5">Weight (kg)</label>
                   <input
                     type="number"
-                    min="30"
-                    max="180"
                     value={weight}
                     onChange={(e) => setWeight(e.target.value)}
-                    className="w-full px-4 py-2 rounded-xl bg-white border border-slate-200 text-slate-900 text-sm focus:outline-none focus:border-purple-600 transition-colors shadow-sm"
+                    min="35"
+                    max="200"
+                    required
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-dark-900 border border-white/10 text-white text-xs font-semibold focus:outline-none focus:border-red-500"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-slate-700 mb-1.5">Weekly Activity Level</label>
+                <label className="block text-xs font-bold text-slate-300 mb-1.5">Activity Level</label>
                 <select
                   value={activity}
                   onChange={(e) => setActivity(e.target.value)}
-                  className="w-full px-4 py-2.5 rounded-xl bg-white border border-slate-200 text-slate-900 text-xs sm:text-sm focus:outline-none focus:border-purple-600 transition-colors shadow-sm"
+                  className="w-full px-3.5 py-2.5 rounded-xl bg-dark-900 border border-white/10 text-white text-xs font-semibold focus:outline-none focus:border-red-500"
                 >
                   <option value="sedentary">Sedentary (Little or no workout)</option>
-                  <option value="light">Lightly Active (1-3 gym days/week)</option>
-                  <option value="moderate">Moderately Active (3-5 workouts/week)</option>
-                  <option value="very_active">Very Active (Heavy training 6-7 days/week)</option>
+                  <option value="light">Lightly Active (Workout 1–3 days/wk)</option>
+                  <option value="moderate">Moderately Active (Workout 3–5 days/wk)</option>
+                  <option value="very_active">Very Active (Heavy training 6–7 days/wk)</option>
                 </select>
               </div>
 
               <div className="pt-2">
                 <button
                   type="submit"
-                  className="w-full py-3.5 rounded-2xl bg-purple-700 hover:bg-purple-800 text-white font-bold text-sm shadow-purple-sm transition-all flex items-center justify-center gap-2 cursor-pointer"
+                  className="w-full py-3.5 rounded-xl bg-red-600 hover:bg-red-500 text-white text-xs font-black uppercase tracking-wider transition-all shadow-glow-red flex items-center justify-center gap-2 cursor-pointer"
                 >
-                  <Sparkles className="w-4 h-4 text-purple-200" />
-                  <span>Calculate Daily Targets</span>
+                  <Calculator className="w-4 h-4" />
+                  <span>Calculate Body Metrics</span>
                 </button>
               </div>
-
             </div>
 
             {/* Results Display (5 Columns) */}
-            <div className="lg:col-span-5 rounded-2xl bg-white border border-purple-200 p-6 space-y-4 shadow-sm">
-              
-              <div className="flex items-center justify-between pb-3 border-b border-slate-100">
-                <span className="text-xs font-bold uppercase tracking-wider text-slate-500">
-                  Your Body Metrics
+            <div className="lg:col-span-5 p-6 rounded-2xl bg-dark-900/90 border border-white/10 flex flex-col justify-between space-y-6">
+              <div>
+                <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider block mb-2">
+                  Calculated Status
                 </span>
-                <span className={`text-xs font-bold px-3 py-1 rounded-full border ${bmiBg}`}>
-                  {bmiCategory}
-                </span>
-              </div>
-
-              <div className="grid grid-cols-2 gap-3">
-                <div className="p-4 rounded-xl bg-purple-50/50 border border-purple-100">
-                  <span className="text-[11px] text-slate-500 block font-medium">BMI Score</span>
-                  <div className={`text-3xl font-black font-heading ${bmiColor}`}>
+                <div className="flex items-baseline gap-2">
+                  <span className="text-4xl sm:text-5xl font-black font-heading text-white">
                     {bmi}
-                  </div>
-                  <span className="text-[10px] text-slate-400">Normal: 18.5 – 24.9</span>
-                </div>
-
-                <div className="p-4 rounded-xl bg-purple-50/50 border border-purple-100">
-                  <span className="text-[11px] text-slate-500 block font-medium">Maintenance TDEE</span>
-                  <div className="text-3xl font-black font-heading text-slate-900">
-                    {tdee} <span className="text-xs font-normal text-slate-500">kcal</span>
-                  </div>
-                  <span className="text-[10px] text-slate-400">To maintain weight</span>
+                  </span>
+                  <span className={`text-xs font-bold px-2.5 py-0.5 rounded-full border ${bmiBg}`}>
+                    {bmiCategory}
+                  </span>
                 </div>
               </div>
 
-              {/* Target Nutrition Goals */}
-              <div className="space-y-2 pt-1">
-                <div className="p-3.5 rounded-xl bg-emerald-50 border border-emerald-200 flex items-center justify-between text-xs">
-                  <div>
-                    <span className="font-bold text-emerald-900">Fat Loss Target:</span>
-                    <p className="text-[11px] text-emerald-700">450 kcal steady deficit</p>
-                  </div>
-                  <span className="text-lg font-black text-emerald-800 font-heading">
-                    {fatLossCal} kcal
-                  </span>
+              <div className="space-y-3 pt-4 border-t border-white/5">
+                <div className="flex items-center justify-between text-xs">
+                  <span className="text-slate-400">Maintenance Calories:</span>
+                  <span className="font-bold text-white font-mono">{tdee} kcal</span>
                 </div>
-
-                <div className="p-3.5 rounded-xl bg-purple-50 border border-purple-200 flex items-center justify-between text-xs">
-                  <div>
-                    <span className="font-bold text-purple-950">Lean Muscle Building:</span>
-                    <p className="text-[11px] text-purple-700">Calorie surplus for hypertrophy</p>
-                  </div>
-                  <span className="text-lg font-black text-purple-900 font-heading">
-                    {muscleGainCal} kcal
-                  </span>
+                <div className="flex items-center justify-between text-xs">
+                  <span className="text-slate-400">Fat Loss Target:</span>
+                  <span className="font-bold text-emerald-400 font-mono">{fatLossCal} kcal</span>
+                </div>
+                <div className="flex items-center justify-between text-xs">
+                  <span className="text-slate-400">Muscle Gain Target:</span>
+                  <span className="font-bold text-red-400 font-mono">{muscleGainCal} kcal</span>
                 </div>
               </div>
 
@@ -240,13 +225,12 @@ export default function BmiCalculator({ onOpenTrialModal }) {
                   href={getWhatsAppMessage()}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-full py-2.5 rounded-xl bg-purple-50 hover:bg-purple-100 border border-purple-200 text-xs font-bold text-center text-purple-900 flex items-center justify-center gap-1.5 transition-all"
+                  className="w-full py-2.5 rounded-xl bg-white/5 hover:bg-white/10 text-white border border-white/10 text-xs font-bold flex items-center justify-center gap-2 transition-all cursor-pointer"
                 >
-                  <span>Share Numbers with Elite Gym Coach</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
+                  <MessageSquare className="w-3.5 h-3.5 text-cyan-400" />
+                  <span>Discuss With Trainer on WhatsApp</span>
                 </a>
               </div>
-
             </div>
 
           </form>
